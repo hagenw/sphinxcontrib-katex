@@ -15,7 +15,6 @@ from os import path
 
 from sphinx.errors import ExtensionError
 from sphinx.ext.mathbase import setup_math as mathbase_setup
-from sphinx.ext.mathbase import get_node_equation_number
 
 
 def html_visit_math(self, node):
@@ -35,11 +34,10 @@ def html_visit_displaymath(self, node):
 
     # necessary to e.g. set the id property correctly
     if node['number']:
-        number = get_node_equation_number(self.builder.env, node)
         self.body.append('<span class="eqno"><a class="equationlink" '
                          'href="#%s" title="Permalink to this '
                          'equation">(%s)</a></span>' %
-                         (node['ids'][0], number))
+                         (node['ids'][0], node['number']))
     self.body.append(self.builder.config.katex_display[0])
     parts = [prt for prt in node['latex'].split('\n\n') if prt.strip()]
     if len(parts) > 1:  # Add alignment if there are more than 1 equation
