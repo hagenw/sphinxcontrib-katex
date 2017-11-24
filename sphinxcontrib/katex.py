@@ -13,9 +13,7 @@
 from docutils import nodes
 from os import path
 
-import sphinx
 from sphinx.errors import ExtensionError
-from sphinx.util.osutil import copyfile
 from sphinx.ext.mathbase import setup_math as mathbase_setup
 from sphinx.ext.mathbase import get_node_equation_number
 
@@ -40,8 +38,8 @@ def html_visit_displaymath(self, node):
         number = get_node_equation_number(self.builder.env, node)
         self.body.append('<span class="eqno"><a class="equationlink" '
                          'href="#%s" title="Permalink to this '
-                         'equation">(%s)</a></span>' % (node['ids'][0],
-                             number))
+                         'equation">(%s)</a></span>' %
+                         (node['ids'][0], number))
     self.body.append(self.builder.config.katex_display[0])
     parts = [prt for prt in node['latex'].split('\n\n') if prt.strip()]
     if len(parts) > 1:  # Add alignment if there are more than 1 equation
@@ -71,22 +69,30 @@ def builder_inited(app):
     app.add_javascript('katex_autorenderer.js')
 
 
-
-# TODO: replace this function by a new one, that generates the js file without
-# reading in a template file and by adding a katex preamble with LaTeX macros.
-def copy_static(app, exception):
+def setup_autorender(app, exception):
     if app.builder.name != 'html' or exception:
         return
-    katex_js_file = 'katex_autorenderer.js'
-    dest = path.join(app.builder.outdir, '_static', katex_js_file)
-    source = path.abspath(path.dirname(__file__))
-    copyfile(path.join(source, katex_js_file), dest)
+    katex_js_file = path.join(app.builder.outdir,
+                              '_static',
+                              'katex_autorenderer.js')
+    content = 'renderMathInElement(document.body, latex_options);'
+    macros = app.config.katex_macros
+    if len(macros) > 0:
+        content = _add_macros(macros, content)
+    with open(katex_js_file, 'w') as file:
+        file.write(content)
+
+
+def _add_macros(macros, content):
+    prefix = 'latex_options = { macros: {'
+    suffix = '}}'
+    return '\n'.join([prefix, macros, suffix, content])
 
 
 def setup(app):
     try:
         mathbase_setup(app, (html_visit_math, None),
-                (html_visit_displaymath, None))
+                       (html_visit_displaymath, None))
     except ExtensionError:
         raise ExtensionError('katex: other math package is already loaded')
 
@@ -106,7 +112,8 @@ def setup(app):
                          False)
     app.add_config_value('katex_inline', [r'\(', r'\)'], 'html')
     app.add_config_value('katex_display', [r'\[', r'\]'], 'html')
+    app.add_config_value('katex_macros', '', 'html')
     app.connect('builder-inited', builder_inited)
-    app.connect('build-finished', copy_static)
+    app.connect('build-finished', setup_autorender)
 
     return {'version': 0.1, 'parallel_read_safe': True}
