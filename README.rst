@@ -13,3 +13,35 @@ in extension with sphinx
 * Download: https://pypi.python.org/pypi/sphinxcontrib-katex/#downloads
 
 * Development: https://github.com/hagenw/sphinxcontrib-katex/
+
+
+Usage
+-----
+
+Installation::
+
+    pip install sphinxcontrib-katex
+
+In your sphinx project, add the extension with:
+
+.. code-block:: python
+
+    extensions = [
+        'sphinxcontrib.katex',
+        ]
+
+If you would like to add some LaTeX macros (``\def``) you can use the
+``katex_macros`` config setting, for example:
+
+.. code-block:: python
+
+    katex_macros = r'''
+        "\\i": "\\mathrm{i}",
+        "\\e": "\\mathrm{e}^{#1}",
+        "\\w": "\\omega",
+        "\\vec": "\\mathbf{#1}",
+        "\\x": "\\vec{x}",
+        "\\d": "\\operatorname{d}\\!{}",
+        "\\dirac": "\\operatorname{\\delta}\\left(#1\\right)",
+        "\\scalarprod": "\\left\\langle#1,#2\\right\\rangle",
+        '''
