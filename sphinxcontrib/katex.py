@@ -10,8 +10,8 @@
     :license: MIT, see LICENSE for details.
 """
 
+import os
 from docutils import nodes
-from os import path
 
 from sphinx.errors import ExtensionError
 from sphinx.ext.mathbase import setup_math as mathbase_setup
@@ -52,27 +52,35 @@ def builder_inited(app):
     app.add_stylesheet(app.config.katex_css_path)
     app.add_javascript(app.config.katex_js_path)
     app.add_javascript(app.config.katex_autorender_path)
-    app.add_javascript('katex_autorenderer.js')
+    # Write custom autorenderer file
+    katex_js_name = 'katex_autorenderer.js'
+    _write_katex_js_file(app, katex_js_name)
+    app.add_javascript(katex_js_name)
 
 
-def setup_autorender(app, exception):
-    if app.builder.name != 'html' or exception:
-        return
-    katex_js_file = path.join(app.builder.outdir,
-                              '_static',
-                              'katex_autorenderer.js')
-    content = 'renderMathInElement(document.body, latex_options);'
-    macros = app.config.katex_macros
-    if len(macros) > 0:
-        content = _add_macros(macros, content)
-    with open(katex_js_file, 'w') as file:
+def _write_katex_js_file(app, js_name, static_path='_static'):
+    _setup_static_path(app, static_path)
+    js_file = os.path.join(app.builder.srcdir, static_path, js_name)
+    content = _katex_js_content(app)
+    with open(js_file, 'w') as file:
         file.write(content)
 
 
-def _add_macros(macros, content):
-    prefix = 'latex_options = { macros: {'
-    suffix = '}}'
-    return '\n'.join([prefix, macros, suffix, content])
+def _katex_js_content(app):
+    content = 'renderMathInElement(document.body, latex_options);'
+    macros = app.config.katex_macros
+    if len(macros) > 0:
+        prefix = 'latex_options = { macros: {'
+        suffix = '}}'
+        content = '\n'.join([prefix, macros, suffix, content])
+    return content
+
+
+def _setup_static_path(app, static_path):
+    if not os.path.exists(static_path):
+        os.makedirs(static_path)
+    if static_path not in app.config.html_static_path:
+        app.config.html_static_path.append(static_path)
 
 
 def setup(app):
@@ -100,6 +108,5 @@ def setup(app):
     app.add_config_value('katex_display', [r'\[', r'\]'], 'html')
     app.add_config_value('katex_macros', '', 'html')
     app.connect('builder-inited', builder_inited)
-    app.connect('build-finished', setup_autorender)
 
     return {'version': 0.1, 'parallel_read_safe': True}
