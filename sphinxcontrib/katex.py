@@ -11,7 +11,9 @@
 """
 
 import os
+import shutil
 from docutils import nodes
+from tempfile import mkdtemp
 
 from sphinx.errors import ExtensionError
 from sphinx.ext.mathbase import setup_math as mathbase_setup
@@ -61,8 +63,13 @@ def builder_inited(app):
     app.add_javascript(katex_js_name)
 
 
-def _write_katex_js_file(app, js_name, static_path='_static'):
-    _setup_static_path(app, static_path)
+def cleanup(app, exception):
+    # Delete temporary dir used for _static file
+    shutil.rmtree(app._katex_tmpdir)
+
+
+def _write_katex_js_file(app, js_name):
+    static_path = _setup_static_path(app)
     js_file = os.path.join(app.builder.srcdir, static_path, js_name)
     content = _katex_js_content(app)
     with open(js_file, 'w') as file:
@@ -79,11 +86,12 @@ def _katex_js_content(app):
     return content
 
 
-def _setup_static_path(app, static_path):
-    if not os.path.exists(static_path):
-        os.makedirs(static_path)
+def _setup_static_path(app):
+    app._katex_tmpdir = mkdtemp()
+    static_path = app._katex_tmpdir
     if static_path not in app.config.html_static_path:
         app.config.html_static_path.append(static_path)
+    return static_path
 
 
 def setup(app):
@@ -111,5 +119,6 @@ def setup(app):
     app.add_config_value('katex_display', [r'\[', r'\]'], 'html')
     app.add_config_value('katex_macros', '', 'html')
     app.connect('builder-inited', builder_inited)
+    app.connect('build-finished', cleanup)
 
     return {'version': 0.1, 'parallel_read_safe': True}
