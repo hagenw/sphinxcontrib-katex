@@ -17,6 +17,9 @@ from sphinx.errors import ExtensionError
 from sphinx.ext.mathbase import setup_math as mathbase_setup
 
 
+katex_version = '0.9.0-alpha2'
+
+
 def html_visit_math(self, node):
     self.body.append(self.starttag(node, 'span', '', CLASS='math'))
     self.body.append(self.builder.config.katex_inline[0] +
@@ -92,7 +95,7 @@ def setup(app):
 
     # Include KaTex CSS and JS files
     base_path = 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/'
-    version = '0.9.0-alpha1'
+    version = katex_version
     app.add_config_value('katex_css_path',
                          base_path + version + '/katex.min.css',
                          False)
