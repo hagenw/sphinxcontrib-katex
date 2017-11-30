@@ -15,11 +15,15 @@ import shutil
 from docutils import nodes
 from tempfile import mkdtemp
 
+from sphinx.locale import _
 from sphinx.errors import ExtensionError
+from sphinx.util.osutil import copyfile
 from sphinx.ext.mathbase import setup_math as mathbase_setup
 
 
-katex_version = '0.9.0-alpha2'
+KATEX_VERSION = '0.9.0-alpha2'
+KATEX_JS = 'katex_autorenderer.js'
+KATEX_CSS = 'katex-math.css'
 
 
 def html_visit_math(self, node):
@@ -39,10 +43,9 @@ def html_visit_displaymath(self, node):
 
     # necessary to e.g. set the id property correctly
     if node['number']:
-        self.body.append('<span class="eqno"><a class="equationlink" '
-                         'href="#%s" title="Permalink to this '
-                         'equation">(%s)</a></span>' %
-                         (node['ids'][0], node['number']))
+        self.body.append('<span class="eqno">(%s)' % node['number'])
+        self.add_permalink_ref(node, _('Permalink to this equation'))
+        self.body.append('</span>')
     self.body.append(self.builder.config.katex_display[0])
     self.body.append(node['latex'])
     self.body.append(self.builder.config.katex_display[1])
@@ -58,12 +61,17 @@ def builder_inited(app):
     app.add_javascript(app.config.katex_js_path)
     app.add_javascript(app.config.katex_autorender_path)
     # Write custom autorenderer file
-    katex_js_name = 'katex_autorenderer.js'
-    _write_katex_js_file(app, katex_js_name)
-    app.add_javascript(katex_js_name)
+    _write_katex_js_file(app, KATEX_JS)
+    app.add_javascript(KATEX_JS)
+    # Custom css
+    app.add_stylesheet(KATEX_CSS)
 
 
-def cleanup(app, exception):
+def builder_finished(app, exception):
+    # Copy custom CSS file
+    dest = os.path.join(app.builder.outdir, '_static', KATEX_CSS)
+    source = os.path.abspath(os.path.dirname(__file__))
+    copyfile(os.path.join(source, KATEX_CSS), dest)
     # Delete temporary dir used for _static file
     shutil.rmtree(app._katex_tmpdir)
 
@@ -103,7 +111,7 @@ def setup(app):
 
     # Include KaTex CSS and JS files
     base_path = 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/'
-    version = katex_version
+    version = KATEX_VERSION
     app.add_config_value('katex_css_path',
                          base_path + version + '/katex.min.css',
                          False)
@@ -119,6 +127,6 @@ def setup(app):
     app.add_config_value('katex_display', [r'\[', r'\]'], 'html')
     app.add_config_value('katex_macros', '', 'html')
     app.connect('builder-inited', builder_inited)
-    app.connect('build-finished', cleanup)
+    app.connect('build-finished', builder_finished)
 
     return {'version': 0.1, 'parallel_read_safe': True}

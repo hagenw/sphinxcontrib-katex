@@ -35,7 +35,6 @@ setup(
     platforms='any',
     packages=find_packages(),
     include_package_data=True,
-    #package_data={'sphinxcontrib': ['_static/*']},
     install_requires=requires,
     namespace_packages=['sphinxcontrib'],
 )
