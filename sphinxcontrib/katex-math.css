@@ -1,3 +1,15 @@
+/* Responsives: make equations scrollable on small screens.
+ * See: https://github.com/Khan/KaTeX/issues/327 */
+.katex-display > .katex {
+    max-width: 100%;
+}
+.katex-display > .katex > .katex-html {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-left: 2px;
+    padding-right: 2px;
+}
 /* Equation number floats to the right and shows permalink for mouse hover
    on the right side of equation number. */
 .eqno {
