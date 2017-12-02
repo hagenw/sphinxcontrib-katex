@@ -10,12 +10,25 @@
     padding-left: 2px;
     padding-right: 2px;
 }
-/* Equation number floats to the right and shows permalink for mouse hover
-   on the right side of equation number. */
+/* Equation number to the right side of equation. Mouse hover over it and a
+ * permalink will show up on the right of the number. */
+div.math {
+    position: relative;
+    padding-right: 2.5em;
+}
 .eqno {
-    float: right;
+    height: 100%;
+    position: absolute;
+    right: 0;
     padding-left: 5px;
     padding-bottom: 5px;
+}
+.eqno:before {
+    /* Force vertical alignment of number */
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    content: "";
 }
 .eqno .headerlink {
     display: none;
