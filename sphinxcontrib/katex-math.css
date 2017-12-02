@@ -10,8 +10,12 @@
     padding-left: 2px;
     padding-right: 2px;
 }
-/* Equation number to the right side of equation. Mouse hover over it and a
- * permalink will show up on the right of the number. */
+/* Increase margin around equations */
+.katex-display {
+    margin: 1.2em 0;
+}
+/* Equation number floats to the right and shows permalink for mouse hover
+   on the right side of equation number. */
 div.math {
     position: relative;
     padding-right: 2.5em;
