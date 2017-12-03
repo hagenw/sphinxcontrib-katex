@@ -64,15 +64,11 @@ def builder_inited(app):
     _write_katex_js_file(app, KATEX_JS)
     app.add_javascript(KATEX_JS)
     # Custom css
+    _copy_katex_css_file(app, KATEX_CSS)
     app.add_stylesheet(KATEX_CSS)
 
 
 def builder_finished(app, exception):
-    # Copy custom CSS file
-    pwd = os.path.abspath(os.path.dirname(__file__))
-    source = os.path.join(pwd, KATEX_CSS)
-    dest = os.path.join(app._katex_tmpdir, KATEX_CSS)
-    copyfile(source, dest)
     # Delete temporary dir used for _static file
     shutil.rmtree(app._katex_tmpdir)
 
@@ -83,6 +79,13 @@ def _write_katex_js_file(app, js_name):
     content = _katex_js_content(app)
     with open(js_file, 'w') as file:
         file.write(content)
+
+
+def _copy_katex_css_file(app, css_file_name):
+    pwd = os.path.abspath(os.path.dirname(__file__))
+    source = os.path.join(pwd, css_file_name)
+    dest = os.path.join(app._katex_tmpdir, css_file_name)
+    copyfile(source, dest)
 
 
 def _katex_js_content(app):
