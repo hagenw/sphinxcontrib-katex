@@ -69,9 +69,10 @@ def builder_inited(app):
 
 def builder_finished(app, exception):
     # Copy custom CSS file
-    dest = os.path.join(app.builder.outdir, '_static', KATEX_CSS)
-    source = os.path.abspath(os.path.dirname(__file__))
-    copyfile(os.path.join(source, KATEX_CSS), dest)
+    pwd = os.path.abspath(os.path.dirname(__file__))
+    source = os.path.join(pwd, KATEX_CSS)
+    dest = os.path.join(app._katex_tmpdir, KATEX_CSS)
+    copyfile(source, dest)
     # Delete temporary dir used for _static file
     shutil.rmtree(app._katex_tmpdir)
 
