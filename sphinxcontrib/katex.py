@@ -21,9 +21,10 @@ from sphinx.util.osutil import copyfile
 from sphinx.ext.mathbase import setup_math as mathbase_setup
 
 
-KATEX_VERSION = '0.9.0-alpha2'
-KATEX_JS = 'katex_autorenderer.js'
-KATEX_CSS = 'katex-math.css'
+__version__ = '0.1.5'
+katex_version = '0.9.0-alpha2'
+katex_js = 'katex_autorenderer.js'
+katex_css = 'katex-math.css'
 
 
 def html_visit_math(self, node):
@@ -61,11 +62,11 @@ def builder_inited(app):
     app.add_javascript(app.config.katex_js_path)
     app.add_javascript(app.config.katex_autorender_path)
     # Write custom autorenderer file
-    _write_katex_js_file(app, KATEX_JS)
-    app.add_javascript(KATEX_JS)
+    write_katex_js_file(app, katex_js)
+    app.add_javascript(katex_js)
     # Custom css
-    _copy_katex_css_file(app, KATEX_CSS)
-    app.add_stylesheet(KATEX_CSS)
+    copy_katex_css_file(app, katex_css)
+    app.add_stylesheet(katex_css)
 
 
 def builder_finished(app, exception):
@@ -73,22 +74,22 @@ def builder_finished(app, exception):
     shutil.rmtree(app._katex_tmpdir)
 
 
-def _write_katex_js_file(app, js_name):
-    static_path = _setup_static_path(app)
+def write_katex_js_file(app, js_name):
+    static_path = setup_static_path(app)
     js_file = os.path.join(app.builder.srcdir, static_path, js_name)
-    content = _katex_js_content(app)
+    content = katex_js_content(app)
     with open(js_file, 'w') as file:
         file.write(content)
 
 
-def _copy_katex_css_file(app, css_file_name):
+def copy_katex_css_file(app, css_file_name):
     pwd = os.path.abspath(os.path.dirname(__file__))
     source = os.path.join(pwd, css_file_name)
     dest = os.path.join(app._katex_tmpdir, css_file_name)
     copyfile(source, dest)
 
 
-def _katex_js_content(app):
+def katex_js_content(app):
     content = 'renderMathInElement(document.body, latex_options);'
     macros = app.config.katex_macros
     if len(macros) > 0:
@@ -98,7 +99,7 @@ def _katex_js_content(app):
     return content
 
 
-def _setup_static_path(app):
+def setup_static_path(app):
     app._katex_tmpdir = mkdtemp()
     static_path = app._katex_tmpdir
     if static_path not in app.config.html_static_path:
@@ -114,18 +115,18 @@ def setup(app):
         raise ExtensionError('katex: other math package is already loaded')
 
     # Include KaTex CSS and JS files
-    base_path = 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/'
-    version = KATEX_VERSION
+    katex_url = 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/'
+    katex_url += katex_version
     app.add_config_value('katex_css_path',
-                         base_path + version + '/katex.min.css',
+                         katex_url + '/katex.min.css',
                          False)
     app.add_config_value('katex_js_path',
-                         base_path + version + '/katex.min.js',
+                         katex_url + '/katex.min.js',
                          False)
     # KaTeX Auto-render extension
     # (github.com/Khan/KaTeX/blob/master/contrib/auto-render/README.md)
     app.add_config_value('katex_autorender_path',
-                         base_path + version + '/contrib/auto-render.min.js',
+                         katex_url + '/contrib/auto-render.min.js',
                          False)
     app.add_config_value('katex_inline', [r'\(', r'\)'], 'html')
     app.add_config_value('katex_display', [r'\[', r'\]'], 'html')
@@ -133,4 +134,4 @@ def setup(app):
     app.connect('builder-inited', builder_inited)
     app.connect('build-finished', builder_finished)
 
-    return {'version': 0.1, 'parallel_read_safe': True}
+    return {'version': __version__, 'parallel_read_safe': True}
