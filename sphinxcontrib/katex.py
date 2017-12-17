@@ -23,8 +23,8 @@ from sphinx.ext.mathbase import setup_math as mathbase_setup
 
 __version__ = '0.1.5'
 katex_version = '0.9.0-alpha2'
-katex_js = 'katex_autorenderer.js'
-katex_css = 'katex-math.css'
+filename_css = 'katex-math.css'
+filename_autorenderer = 'katex_autorenderer.js'
 
 
 def html_visit_math(self, node):
@@ -60,13 +60,14 @@ def builder_inited(app):
         raise ExtensionError('katex pathes not set')
     app.add_stylesheet(app.config.katex_css_path)
     app.add_javascript(app.config.katex_js_path)
+    # Automatic math rendering
+    # https://github.com/Khan/KaTeX/blob/master/contrib/auto-render/README.md
     app.add_javascript(app.config.katex_autorender_path)
-    # Write custom autorenderer file
-    write_katex_js_file(app, katex_js)
-    app.add_javascript(katex_js)
+    write_katex_autorenderer_file(app, filename_autorenderer)
+    app.add_javascript(filename_autorenderer)
     # Custom css
-    copy_katex_css_file(app, katex_css)
-    app.add_stylesheet(katex_css)
+    copy_katex_css_file(app, filename_css)
+    app.add_stylesheet(filename_css)
 
 
 def builder_finished(app, exception):
@@ -74,11 +75,11 @@ def builder_finished(app, exception):
     shutil.rmtree(app._katex_tmpdir)
 
 
-def write_katex_js_file(app, js_name):
+def write_katex_autorenderer_file(app, filename):
     static_path = setup_static_path(app)
-    js_file = os.path.join(app.builder.srcdir, static_path, js_name)
-    content = katex_js_content(app)
-    with open(js_file, 'w') as file:
+    filename = os.path.join(app.builder.srcdir, static_path, filename)
+    content = katex_autorenderer_content(app)
+    with open(filename, 'w') as file:
         file.write(content)
 
 
@@ -89,7 +90,7 @@ def copy_katex_css_file(app, css_file_name):
     copyfile(source, dest)
 
 
-def katex_js_content(app):
+def katex_autorenderer_content(app):
     content = 'renderMathInElement(document.body, latex_options);'
     macros = app.config.katex_macros
     if len(macros) > 0:
@@ -123,8 +124,6 @@ def setup(app):
     app.add_config_value('katex_js_path',
                          katex_url + '/katex.min.js',
                          False)
-    # KaTeX Auto-render extension
-    # (github.com/Khan/KaTeX/blob/master/contrib/auto-render/README.md)
     app.add_config_value('katex_autorender_path',
                          katex_url + '/contrib/auto-render.min.js',
                          False)
