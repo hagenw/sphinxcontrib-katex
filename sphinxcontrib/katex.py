@@ -11,6 +11,7 @@
 """
 
 import os
+import re
 import shutil
 from docutils import nodes
 from tempfile import mkdtemp
@@ -25,6 +26,45 @@ __version__ = '0.1.5'
 katex_version = '0.9.0-alpha2'
 filename_css = 'katex-math.css'
 filename_autorenderer = 'katex_autorenderer.js'
+
+
+def latex_defs_to_katex_macros(defs):
+    r'''Converts LaTeX \def statements to KaTeX macros.
+
+    This is a helper function that can be used in conf.py to translate your
+    already specified LaTeX definitions.
+
+    https://github.com/Khan/KaTeX#rendering-options, e.g.
+    `\def \e #1{\mathrm{e}^{#1}}` => `"\\e:" "\\mathrm{e}^{#1}"`'
+
+    Example
+    -------
+    import sphinxcontrib.katex as katex
+    # Get your LaTeX defs into `latex_defs` and then do
+    katex_macros = katex.import_macros_from_latex(latex_defs)
+
+    '''
+    # Remove empty lines
+    defs = defs.strip()
+    tmp = []
+    for line in defs.splitlines():
+        # Remove spaces from every line
+        line = line.strip()
+        # Remove "\def" at the beginning of line
+        line = re.sub(r'^\\def[ ]?', '', line)
+        # Remove optional #1 parameter before {} command brackets
+        line = re.sub(r'(#[0-9])+', '', line, 1)
+        # Remove outer {} command brackets with ""
+        line = re.sub(r'( {)|(}$)', '"', line)
+        # Add "": to the new command
+        line = re.sub(r'(^\\[A-Za-z]+)', r'"\1":', line, 1)
+        # Add , at end of line
+        line = re.sub(r'$', ',', line, 1)
+        # Duplicate all \
+        line = re.sub(r'\\', r'\\\\', line)
+        tmp.append(line)
+    macros = '\n'.join(tmp)
+    return macros
 
 
 def html_visit_math(self, node):
