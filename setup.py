@@ -3,6 +3,12 @@
 import io
 from setuptools import setup, find_packages
 
+__version__ = 'unknown'
+for line in open('sphinxcontrib/katex.py'):
+    if line.startswith('__version__'):
+        exec(line)
+        break
+
 
 def readfile(filename):
     with io.open(filename, encoding="utf-8") as stream:
@@ -11,11 +17,10 @@ def readfile(filename):
 
 readme = readfile("README.rst")[3:]  # skip title
 requires = readfile("requirements.txt")
-version = readfile("VERSION")[0].strip()
 
 setup(
     name='sphinxcontrib-katex',
-    version=version,
+    version=__version__,
     url='https://github.com/hagenw/sphinxcontrib-katex',
     download_url='https://pypi.python.org/pypi/sphinxcontrib-katex',
     license='MIT',
