@@ -1,6 +1,10 @@
 Version History
 ===============
 
+Version 0.1.6 (2018-04-12):
+ * Equation numbering across pages with sphinx>=1.7
+ * KaTeX version 0.9.0
+
 Version 0.1.5 (2017-12-19):
  * Improvement of code readability
  * Fix mouse over for equation numbers in Firefox
