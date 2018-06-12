@@ -135,10 +135,10 @@ def copy_katex_css_file(app, css_file_name):
 def katex_autorenderer_content(app):
     content = '''
 document.addEventListener("DOMContentLoaded", function() {
-  renderMathInElement(document.body, latex_options);
+  renderMathInElement(document.body, katex_options);
 });
 '''
-    prefix = 'latex_options = {'
+    prefix = 'katex_options = {'
     suffix = '}'
     macros = app.config.katex_macros
     if len(macros) > 0:
