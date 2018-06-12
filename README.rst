@@ -4,9 +4,9 @@ sphinxcontrib-katex
 A Sphinx extension for rendering math on HTML pages.
 
 The extension uses `KaTeX <https://khan.github.io/KaTeX/>`_ for
-rendering of math in HTML pages. Itis designed as a replacement
-for mathjax which is slower in rednering, but comes as a build
-in extension with sphinx
+rendering of math in HTML pages. It is designed as a replacement
+for MathJax which is slower in rendering, but comes as a built
+in extension with Sphinx,
 `sphinx.ext.mathjax
 <https://github.com/sphinx-doc/sphinx/blob/master/sphinx/ext/mathjax.py>`_.
 
