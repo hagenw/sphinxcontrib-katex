@@ -4,10 +4,11 @@ import io
 from setuptools import setup, find_packages
 
 __version__ = 'unknown'
-for line in open('sphinxcontrib/katex.py'):
-    if line.startswith('__version__'):
-        exec(line)
-        break
+with open('sphinxcontrib/katex.py') as katex_py:
+    for line in katex_py:
+        if line.startswith('__version__'):
+            exec(line)
+            break
 
 
 def readfile(filename):
