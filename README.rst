@@ -45,3 +45,19 @@ If you would like to add some LaTeX macros (``\def``) you can use the
         "\\dirac": "\\operatorname{\\delta}\\left(#1\\right)",
         "\\scalarprod": "\\left\\langle#1,#2\\right\\rangle",
         '''
+
+You can also add other
+`KaTeX options <https://github.com/Khan/KaTeX#rendering-options>`_ or
+`auto-rendering options <https://github.com/Khan/KaTeX/tree/master/contrib/auto-render#api>`_
+with the ``katex_options`` config setting, for example, the default delimiters
+from KaTeX for auto-rendered content are:
+
+.. code-block:: python
+
+    katex_options = r'''
+    delimiters : [
+        {left: "$$", right: "$$", display: true},
+        {left: "\\(", right: "\\)", display: false},
+        {left: "\\[", right: "\\]", display: true}
+    ]
+    '''

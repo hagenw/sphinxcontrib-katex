@@ -143,7 +143,8 @@ document.addEventListener("DOMContentLoaded", function() {
     macros = app.config.katex_macros
     if len(macros) > 0:
         macros = 'macros: {' + macros + '},'
-    return '\n'.join([prefix, macros, suffix, content])
+    options = app.config.katex_options
+    return '\n'.join([prefix, macros, options, suffix, content])
 
 
 def setup_static_path(app):
@@ -176,6 +177,7 @@ def setup(app):
     app.add_config_value('katex_inline', [r'\(', r'\)'], 'html')
     app.add_config_value('katex_display', [r'\[', r'\]'], 'html')
     app.add_config_value('katex_macros', '', 'html')
+    app.add_config_value('katex_options', '', 'html')
     app.connect('builder-inited', builder_inited)
     app.connect('build-finished', builder_finished)
 
