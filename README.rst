@@ -61,3 +61,10 @@ from KaTeX for auto-rendered content are:
         {left: "\\[", right: "\\]", display: true}
     ]
     '''
+
+The version of KaTeX used is controlled by the ``katex_version`` config setting,
+and the specific delimiters written to the HTML when math mode is encountered
+are controlled by the ``katex_inline`` and ``katex_display`` config settings.
+By default, ``katex_inline`` is ``[r'\(', r'\)']`` and ``katex_display`` is
+``[r'\[', r'\]']``. If you change these, make sure to update the ``delimiters``
+by adding the ``katex_options`` config setting.
