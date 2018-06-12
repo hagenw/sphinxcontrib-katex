@@ -24,7 +24,6 @@ from sphinx.ext.mathbase import get_node_equation_number
 
 
 __version__ = '0.1.6'
-katex_version = '0.9.0'
 filename_css = 'katex-math.css'
 filename_autorenderer = 'katex_autorenderer.js'
 
@@ -163,16 +162,18 @@ def setup(app):
         raise ExtensionError('katex: other math package is already loaded')
 
     # Include KaTex CSS and JS files
-    katex_url = 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/'
-    katex_url += katex_version
+    katex_url = 'https://cdn.jsdelivr.net/npm/katex@'
+    app.add_config_value('katex_version',
+                         '0.9.0', False)
+    katex_url += app.config.katex_version + '/'
     app.add_config_value('katex_css_path',
-                         katex_url + '/katex.min.css',
+                         katex_url + 'dist/katex.min.css',
                          False)
     app.add_config_value('katex_js_path',
-                         katex_url + '/katex.min.js',
+                         katex_url + 'dist/katex.min.js',
                          False)
     app.add_config_value('katex_autorender_path',
-                         katex_url + '/contrib/auto-render.min.js',
+                         katex_url + 'dist/contrib/auto-render.min.js',
                          False)
     app.add_config_value('katex_inline', [r'\(', r'\)'], 'html')
     app.add_config_value('katex_display', [r'\[', r'\]'], 'html')
