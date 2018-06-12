@@ -133,13 +133,17 @@ def copy_katex_css_file(app, css_file_name):
 
 
 def katex_autorenderer_content(app):
-    content = 'renderMathInElement(document.body, latex_options);'
+    content = '''
+document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, latex_options);
+});
+'''
+    prefix = 'latex_options = {'
+    suffix = '}'
     macros = app.config.katex_macros
     if len(macros) > 0:
-        prefix = 'latex_options = { macros: {'
-        suffix = '}}'
-        content = '\n'.join([prefix, macros, suffix, content])
-    return content
+        macros = 'macros: {' + macros + '},'
+    return '\n'.join([prefix, macros, suffix, content])
 
 
 def setup_static_path(app):
