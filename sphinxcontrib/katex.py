@@ -162,18 +162,18 @@ def setup(app):
         raise ExtensionError('katex: other math package is already loaded')
 
     # Include KaTex CSS and JS files
-    katex_url = 'https://cdn.jsdelivr.net/npm/katex@'
     app.add_config_value('katex_version',
                          '0.9.0', False)
-    katex_url += app.config.katex_version + '/'
+    katex_url = 'https://cdn.jsdelivr.net/npm/katex@{katex_version}/dist/'.format(
+        katex_version=app.config.katex_version)
     app.add_config_value('katex_css_path',
-                         katex_url + 'dist/katex.min.css',
+                         katex_url + 'katex.min.css',
                          False)
     app.add_config_value('katex_js_path',
-                         katex_url + 'dist/katex.min.js',
+                         katex_url + 'katex.min.js',
                          False)
     app.add_config_value('katex_autorender_path',
-                         katex_url + 'dist/contrib/auto-render.min.js',
+                         katex_url + 'contrib/auto-render.min.js',
                          False)
     app.add_config_value('katex_inline', [r'\(', r'\)'], 'html')
     app.add_config_value('katex_display', [r'\[', r'\]'], 'html')
