@@ -41,8 +41,8 @@ def latex_defs_to_katex_macros(defs):
     -------
     import sphinxcontrib.katex as katex
     # Get your LaTeX defs into `latex_defs` and then do
-    katex_macros = katex.import_macros_from_latex(latex_defs)
-
+    latex_macros = katex.import_macros_from_latex(latex_defs)
+    katex_options = 'macros: {' + latex_macros + '}'
     '''
     # Remove empty lines
     defs = defs.strip()
@@ -139,11 +139,8 @@ document.addEventListener("DOMContentLoaded", function() {
 '''
     prefix = 'katex_options = {'
     suffix = '}'
-    macros = app.config.katex_macros
-    if len(macros) > 0:
-        macros = 'macros: {' + macros + '},'
     options = app.config.katex_options
-    return '\n'.join([prefix, macros, options, suffix, content])
+    return '\n'.join([prefix, options, suffix, content])
 
 
 def setup_static_path(app):
@@ -177,7 +174,6 @@ def setup(app):
                          False)
     app.add_config_value('katex_inline', [r'\(', r'\)'], 'html')
     app.add_config_value('katex_display', [r'\[', r'\]'], 'html')
-    app.add_config_value('katex_macros', '', 'html')
     app.add_config_value('katex_options', '', 'html')
     app.connect('builder-inited', builder_inited)
     app.connect('build-finished', builder_finished)
