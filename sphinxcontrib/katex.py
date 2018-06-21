@@ -137,7 +137,17 @@ document.addEventListener("DOMContentLoaded", function() {
   renderMathInElement(document.body, katex_options);
 });
 '''
-    prefix = 'katex_options = {'
+    katex_delimiters = app.config.katex_inline + app.config.katex_display
+    # Check if we have to add extra "\" for delimiters
+    for idx, delimiter in enumerate(katex_delimiters):
+        if delimiter[0] == '\\':
+            katex_delimiters[idx] = '\\' + katex_delimiters[idx]
+    # Set chosen delimiters for the auto-rendering options of KaTeX
+    delimiters = r'''[
+        {{ left: "\{}", right: "\{}", display: false }},
+        {{ left: "\{}", right: "\{}", display: true }}
+        ],'''.format(*katex_delimiters)
+    prefix = 'katex_options = { delimiters: ' + delimiters
     suffix = '}'
     options = app.config.katex_options
     return '\n'.join([prefix, options, suffix, content])
