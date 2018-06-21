@@ -171,8 +171,8 @@ def setup(app):
     # Include KaTex CSS and JS files
     app.add_config_value('katex_version',
                          '0.9.0', False)
-    katex_url = 'https://cdn.jsdelivr.net/npm/katex@{katex_version}/dist/'.format(
-        katex_version=app.config.katex_version)
+    katex_url = 'https://cdn.jsdelivr.net/npm/katex@{version}/dist/'.format(
+        version=app.config.katex_version)
     app.add_config_value('katex_css_path',
                          katex_url + 'katex.min.css',
                          False)
