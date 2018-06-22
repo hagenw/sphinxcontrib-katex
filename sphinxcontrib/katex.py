@@ -169,7 +169,7 @@ def setup(app):
         mathbase_setup(app, (html_visit_math, None),
                        (html_visit_displaymath, None))
     except ExtensionError:
-        raise ExtensionError('katex: other math package is already loaded')
+        raise ExtensionError('KaTeX: other math package is already loaded')
 
     # Include KaTex CSS and JS files
     app.add_config_value('katex_version',
