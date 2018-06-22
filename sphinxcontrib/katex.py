@@ -143,14 +143,17 @@ document.addEventListener("DOMContentLoaded", function() {
         if delimiter[0] == '\\':
             katex_delimiters[idx] = '\\' + katex_delimiters[idx]
     # Set chosen delimiters for the auto-rendering options of KaTeX
-    delimiters = r'''[
-        {{ left: "\{}", right: "\{}", display: false }},
-        {{ left: "\{}", right: "\{}", display: true }}
+    delimiters = r'''delimiters: [
+        {{ left: "{}", right: "{}", display: false }},
+        {{ left: "{}", right: "{}", display: true }}
         ],'''.format(*katex_delimiters)
-    prefix = 'katex_options = { delimiters: ' + delimiters
+    prefix = 'katex_options = {'
     suffix = '}'
     options = app.config.katex_options
-    return '\n'.join([prefix, options, suffix, content])
+    # Ensure list of options ends with ',' to append delimiters
+    if not options[-1:] == ',':
+        options += ','
+    return '\n'.join([prefix, options, delimiters, suffix, content])
 
 
 def setup_static_path(app):
