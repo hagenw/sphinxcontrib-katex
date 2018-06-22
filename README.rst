@@ -37,18 +37,18 @@ In ``conf.py`` of your sphinx project, add the extension with:
 Configuration
 -------------
 
-The behavior of the KaTeX extension can be changed by configuration entries that
-you can add to your ``conf.py`` file of your sphinx project. In the following
-all configuration entries are listed and their default values are shown.
+The behavior of the sphinxcontrib.katex can be changed by configuration entries
+in the ``conf.py`` file of your documentation project. In the following all
+configuration entries are listed and their default values are shown.
 
 .. code-block:: python
 
     katex_version = 0.9
-    katex_css_path = 'https://cdn.jsdelivr.net/npm/katex@' +
-                     katex_version +
+    katex_css_path = 'https://cdn.jsdelivr.net/npm/katex@' + \
+                     katex_version + \
                      '/dist/katex.min.css'
-    katex_js_path = 'https://cdn.jsdelivr.net/npm/katex@' +
-                     katex_version +
+    katex_js_path = 'https://cdn.jsdelivr.net/npm/katex@' + \
+                     katex_version + \
                      '/dist/contrib/auto-render.min.js'
     katex_inline = [r'\(', r'\)']
     katex_display = [r'\[', r'\]']
@@ -60,11 +60,7 @@ CSS and JS files. The specific delimiters written to HTML when math mode is
 encountered are controlled by ``katex_inline`` and ``katex_display``.
 
 The ``katex_options`` setting allows you to change all available official 
-`KaTeX rendering options`_. For example, 
-If you would like to add some LaTeX macros (``\def``) you can use the
-``katex_macros`` config setting, for example:
-
-.. code-block:: python
+`KaTeX rendering options`_.
 
 You can also add `KaTeX auto-rendering options`_ to the ``katex_options``, but
 be aware that the ``delimiters`` entry gets always overwritten by the entries of
