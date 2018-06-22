@@ -1,6 +1,11 @@
 Version History
 ===============
 
+Version 0.2.0 (2018-06-22):
+ * Remove katex_macros option
+ * Document all configuration settings
+ * Automatic setting of delimiters for KaTeX auto-renderer
+
 Version 0.1.6 (2018-04-12):
  * Equation numbering across pages with sphinx>=1.7
  * KaTeX version 0.9.0
