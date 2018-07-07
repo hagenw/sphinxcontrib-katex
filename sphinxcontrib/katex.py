@@ -98,7 +98,7 @@ def html_visit_displaymath(self, node):
 def builder_inited(app):
     if not (app.config.katex_js_path and app.config.katex_css_path and
             app.config.katex_autorender_path):
-        raise ExtensionError('KaTeX pathes not set')
+        raise ExtensionError('KaTeX paths not set')
     app.add_stylesheet(app.config.katex_css_path)
     app.add_javascript(app.config.katex_js_path)
     # Automatic math rendering

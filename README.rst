@@ -37,7 +37,7 @@ In ``conf.py`` of your sphinx project, add the extension with:
 Configuration
 -------------
 
-The behavior of the sphinxcontrib.katex can be changed by configuration entries
+The behavior of the ``sphinxcontrib.katex`` can be changed by configuration entries
 in the ``conf.py`` file of your documentation project. In the following all
 configuration entries are listed and their default values are shown.
 
@@ -59,7 +59,7 @@ which per default is also automatically added to the URL strings for the KaTeX
 CSS and JS files. The specific delimiters written to HTML when math mode is
 encountered are controlled by ``katex_inline`` and ``katex_display``.
 
-The ``katex_options`` setting allows you to change all available official 
+The ``katex_options`` setting allows you to change all available official
 `KaTeX rendering options`_.
 
 You can also add `KaTeX auto-rendering options`_ to the ``katex_options``, but
@@ -68,21 +68,21 @@ be aware that the ``delimiters`` entry gets always overwritten by the entries of
 
 .. _KaTeX rendering options:
     https://github.com/Khan/KaTeX#rendering-options
-.. _KaTeX auto-rendering options: 
+.. _KaTeX auto-rendering options:
     https://github.com/Khan/KaTeX/tree/master/contrib/auto-render#api
 
 
 LaTeX Macros
 ------------
 
-Most probably you want to add some ogf your LaTeX math commands for the
+Most probably you want to add some of your LaTeX math commands for the
 rendering. In KaTeX this is supported by LaTeX macros (``\def``).
 You can use the ``katex_options`` configuration setting to add those:
 
 .. code-block:: python
 
     katex_options = {
-        r'''macros:  {
+        r'''macros: {
             "\\i": "\\mathrm{i}",
             "\\e": "\\mathrm{e}^{#1}",
             "\\vec": "\\mathbf{#1}",
@@ -96,7 +96,7 @@ You can use the ``katex_options`` configuration setting to add those:
 
 The disadvantage of this option is that those macros will be only available in
 the HTML based `Sphinx builders`_. If you want to use them in the LaTeX based
-builders as well you can add them in an extra file in your projet, for example
+builders as well you can add them in an extra file in your project, for example
 ``definitions.py``:
 
 .. code-block:: python
