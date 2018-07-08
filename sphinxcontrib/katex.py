@@ -133,21 +133,22 @@ def copy_katex_css_file(app, css_file_name):
 
 
 def katex_autorenderer_content(app):
-    katex_delimiters = app.config.katex_inline + app.config.katex_display
-    # Check if we have to add extra "\" for delimiters
-    for idx, delimiter in enumerate(katex_delimiters):
-        if delimiter[0] == '\\':
-            katex_delimiters[idx] = '\\' + katex_delimiters[idx]
     content = dedent('''\
         document.addEventListener("DOMContentLoaded", function() {
           renderMathInElement(document.body, katex_options);
         });
         ''')
+    katex_inline = ['\\' + d if d[0] == '\\' else d for d in app.config.katex_inline]
+    katex_display = ['\\' + d if d[0] == '\\' else d for d in app.config.katex_display]
+    katex_delimiters = {
+        'katex_inline': katex_inline,
+        'katex_display': katex_display
+    }
     # Set chosen delimiters for the auto-rendering options of KaTeX
     delimiters = r'''delimiters: [
-        {{ left: "{}", right: "{}", display: false }},
-        {{ left: "{}", right: "{}", display: true }}
-        ],'''.format(*katex_delimiters)
+        {{ left: "{katex_inline[0]}", right: "{katex_inline[1]}", display: false }},
+        {{ left: "{katex_display[0]}", right: "{katex_display[1]}", display: true }}
+        ]'''.format(**katex_delimiters)
     prefix = 'katex_options = {'
     suffix = '}'
     options = app.config.katex_options
