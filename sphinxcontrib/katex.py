@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function() {
     suffix = '}'
     options = app.config.katex_options
     # Ensure list of options ends with ',' to append delimiters
-    if not options[-1:] == ',':
+    if options and not options.endswith(','):
         options += ','
     return '\n'.join([prefix, options, delimiters, suffix, content])
 
