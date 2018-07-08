@@ -15,6 +15,7 @@ import re
 import shutil
 from docutils import nodes
 from tempfile import mkdtemp
+from textwrap import dedent
 
 from sphinx.locale import _
 from sphinx.errors import ExtensionError
@@ -132,16 +133,16 @@ def copy_katex_css_file(app, css_file_name):
 
 
 def katex_autorenderer_content(app):
-    content = '''
-document.addEventListener("DOMContentLoaded", function() {
-  renderMathInElement(document.body, katex_options);
-});
-'''
     katex_delimiters = app.config.katex_inline + app.config.katex_display
     # Check if we have to add extra "\" for delimiters
     for idx, delimiter in enumerate(katex_delimiters):
         if delimiter[0] == '\\':
             katex_delimiters[idx] = '\\' + katex_delimiters[idx]
+    content = dedent('''\
+        document.addEventListener("DOMContentLoaded", function() {
+          renderMathInElement(document.body, katex_options);
+        });
+        ''')
     # Set chosen delimiters for the auto-rendering options of KaTeX
     delimiters = r'''delimiters: [
         {{ left: "{}", right: "{}", display: false }},
