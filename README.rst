@@ -52,18 +52,28 @@ configuration entries are listed and their default values are shown.
                      '/dist/contrib/auto-render.min.js'
     katex_inline = [r'\(', r'\)']
     katex_display = [r'\[', r'\]']
-    katex_options = {}
+    katex_options = ''
 
 The version of KaTeX used is controlled by the ``katex_version`` config setting,
 which per default is also automatically added to the URL strings for the KaTeX
 CSS and JS files. The specific delimiters written to HTML when math mode is
-encountered are controlled by ``katex_inline`` and ``katex_display``.
+encountered are controlled by the two lists ``katex_inline`` and
+``katex_display``.
 
-The ``katex_options`` setting allows you to change all available official
-`KaTeX rendering options`_.
+The string variable ``katex_options`` allows you to change all available
+official `KaTeX rendering options`_, e.g.
 
-You can also add `KaTeX auto-rendering options`_ to the ``katex_options``, but
-be aware that the ``delimiters`` entry gets always overwritten by the entries of
+.. code-block:: python
+
+    katex_options = r'''{
+        displayMode: true,
+        macros: {
+            "\\RR": "\\mathbb{R}"
+        }
+    }'''
+
+You can also add `KaTeX auto-rendering options`_ to ``katex_options``, but be
+aware that the ``delimiters`` entry gets always overwritten by the entries of
 ``katex_inline`` and ``katex_display``.
 
 .. _KaTeX rendering options:
@@ -81,8 +91,7 @@ You can use the ``katex_options`` configuration setting to add those:
 
 .. code-block:: python
 
-    katex_options = {
-        r'''macros: {
+    katex_options = r'''macros: {
             "\\i": "\\mathrm{i}",
             "\\e": "\\mathrm{e}^{#1}",
             "\\vec": "\\mathbf{#1}",
@@ -90,9 +99,7 @@ You can use the ``katex_options`` configuration setting to add those:
             "\\d": "\\operatorname{d}\\!{}",
             "\\dirac": "\\operatorname{\\delta}\\left(#1\\right)",
             "\\scalarprod": "\\left\\langle#1,#2\\right\\rangle",
-        }
-        '''
-        }
+        }'''
 
 The disadvantage of this option is that those macros will be only available in
 the HTML based `Sphinx builders`_. If you want to use them in the LaTeX based
