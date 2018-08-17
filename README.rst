@@ -77,9 +77,9 @@ aware that the ``delimiters`` entry gets always overwritten by the entries of
 ``katex_inline`` and ``katex_display``.
 
 .. _KaTeX rendering options:
-    https://github.com/Khan/KaTeX#rendering-options
+    https://khan.github.io/KaTeX/docs/options.html
 .. _KaTeX auto-rendering options:
-    https://github.com/Khan/KaTeX/tree/master/contrib/auto-render#api
+    https://khan.github.io/KaTeX/docs/autorender.html
 
 
 LaTeX Macros
