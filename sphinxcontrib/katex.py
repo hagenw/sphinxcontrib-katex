@@ -155,8 +155,8 @@ def katex_rendering_delimiters(app):
     # Return if we have user defined rendering delimiters
     if 'delimiters' in app.config.katex_options:
         return ''
-    katex_inline = ['\\' + d if d[0] == '\\' else d for d in app.config.katex_inline]
-    katex_display = ['\\' + d if d[0] == '\\' else d for d in app.config.katex_display]
+    katex_inline = [d.replace('\\', '\\\\') for d in app.config.katex_inline]
+    katex_display = [d.replace('\\', '\\\\') for d in app.config.katex_display]
     katex_delimiters = {
         'katex_inline': katex_inline,
         'katex_display': katex_display
