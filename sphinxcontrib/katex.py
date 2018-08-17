@@ -138,6 +138,23 @@ def katex_autorenderer_content(app):
           renderMathInElement(document.body, katex_options);
         });
         ''')
+    prefix = 'katex_options = {'
+    suffix = '}'
+    options = katex_rendering_options(app)
+    delimiters = katex_rendering_delimiters(app)
+    return '\n'.join([prefix, options, delimiters, suffix, content])
+
+
+def katex_rendering_delimiters(app):
+    """Delimiters for rendering KaTeX math.
+
+    If no delimiters are specified in katex_options, add the
+    katex_inline and katex_display delimiters. See also
+    https://khan.github.io/KaTeX/docs/autorender.html
+    """
+    # Return if we have user defined rendering delimiters
+    if 'delimiters' in app.config.katex_options:
+        return ''
     katex_inline = ['\\' + d if d[0] == '\\' else d for d in app.config.katex_inline]
     katex_display = ['\\' + d if d[0] == '\\' else d for d in app.config.katex_display]
     katex_delimiters = {
@@ -149,10 +166,7 @@ def katex_autorenderer_content(app):
         {{ left: "{katex_inline[0]}", right: "{katex_inline[1]}", display: false }},
         {{ left: "{katex_display[0]}", right: "{katex_display[1]}", display: true }}
         ]'''.format(**katex_delimiters)
-    prefix = 'katex_options = {'
-    suffix = '}'
-    options = katex_rendering_options(app)
-    return '\n'.join([prefix, options, delimiters, suffix, content])
+    return delimiters
 
 
 def katex_rendering_options(app):
