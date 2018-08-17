@@ -151,11 +151,25 @@ def katex_autorenderer_content(app):
         ]'''.format(**katex_delimiters)
     prefix = 'katex_options = {'
     suffix = '}'
-    options = app.config.katex_options
-    # Ensure list of options ends with ',' to append delimiters
-    if options and not options.endswith(','):
-        options += ','
+    options = katex_rendering_options(app)
     return '\n'.join([prefix, options, delimiters, suffix, content])
+
+
+def katex_rendering_options(app):
+    """Strip katex_options from enclosing {} and append ,"""
+    options = trim(app.config.katex_options)
+    # Remove surrounding {}
+    if options.startswith('{') and options.endswith('}'):
+        options = trim(options[1:-1])
+    # Ensure list of options ends with ','
+    if not options.endswith(','):
+        options += ','
+    return options
+
+
+def trim(text):
+    """Remove whitespace from both sides of a string."""
+    return text.lstrip().rstrip()
 
 
 def setup_static_path(app):
