@@ -73,7 +73,7 @@ official `KaTeX rendering options`_, e.g.
     }'''
 
 You can also add `KaTeX auto-rendering options`_ to ``katex_options``, but be
-aware that the ``delimiters`` entry gets always overwritten by the entries of
+aware that the ``delimiters`` entry should contain the entries of
 ``katex_inline`` and ``katex_display``.
 
 .. _KaTeX rendering options:
