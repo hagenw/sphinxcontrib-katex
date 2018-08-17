@@ -161,8 +161,8 @@ def katex_rendering_options(app):
     # Remove surrounding {}
     if options.startswith('{') and options.endswith('}'):
         options = trim(options[1:-1])
-    # Ensure list of options ends with ','
-    if not options.endswith(','):
+    # Ensure options is empty or ends with ','
+    if options and not options.endswith(','):
         options += ','
     return options
 
