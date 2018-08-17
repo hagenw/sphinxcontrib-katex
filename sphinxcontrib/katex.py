@@ -157,14 +157,11 @@ def katex_rendering_delimiters(app):
         return ''
     katex_inline = [d.replace('\\', '\\\\') for d in app.config.katex_inline]
     katex_display = [d.replace('\\', '\\\\') for d in app.config.katex_display]
-    katex_delimiters = {
-        'katex_inline': katex_inline,
-        'katex_display': katex_display
-    }
+    katex_delimiters = {'inline': katex_inline, 'display': katex_display}
     # Set chosen delimiters for the auto-rendering options of KaTeX
     delimiters = r'''delimiters: [
-        {{ left: "{katex_inline[0]}", right: "{katex_inline[1]}", display: false }},
-        {{ left: "{katex_display[0]}", right: "{katex_display[1]}", display: true }}
+        {{ left: "{inline[0]}", right: "{inline[1]}", display: false }},
+        {{ left: "{display[0]}", right: "{display[1]}", display: true }}
         ]'''.format(**katex_delimiters)
     return delimiters
 
