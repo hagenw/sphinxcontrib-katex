@@ -1,6 +1,10 @@
 Version History
 ===============
 
+Version 0.3.0 (2018-09-06):
+ * Allow for user defined autorendering delimiters (#7)
+ * Fix bug if katex_options was blank (#5)
+
 Version 0.2.0 (2018-06-22):
  * Remove katex_macros option
  * Document all configuration settings
