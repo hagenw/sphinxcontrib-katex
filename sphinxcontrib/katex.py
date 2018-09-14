@@ -68,10 +68,17 @@ def latex_defs_to_katex_macros(defs):
     return macros
 
 
+def get_latex(node):
+    if 'latex' in node.attributes:
+        return node['latex']  # for Sphinx < 1.8.0
+    else:
+        return node.astext()  # for Sphinx >= 1.8.0
+
+
 def html_visit_math(self, node):
     self.body.append(self.starttag(node, 'span', '', CLASS='math'))
     self.body.append(self.builder.config.katex_inline[0] +
-                     self.encode(node['latex']) +
+                     self.encode(get_latex(node)) +
                      self.builder.config.katex_inline[1] + '</span>')
     raise nodes.SkipNode
 
@@ -79,7 +86,7 @@ def html_visit_math(self, node):
 def html_visit_displaymath(self, node):
     self.body.append(self.starttag(node, 'div', CLASS='math'))
     if node['nowrap']:
-        self.body.append(self.encode(node['latex']))
+        self.body.append(self.encode(get_latex(node)))
         self.body.append('</div>')
         raise nodes.SkipNode
 
@@ -90,7 +97,7 @@ def html_visit_displaymath(self, node):
         self.add_permalink_ref(node, _('Permalink to this equation'))
         self.body.append('</span>')
     self.body.append(self.builder.config.katex_display[0])
-    self.body.append(node['latex'])
+    self.body.append(get_latex(node))
     self.body.append(self.builder.config.katex_display[1])
     self.body.append('</div>\n')
     raise nodes.SkipNode
