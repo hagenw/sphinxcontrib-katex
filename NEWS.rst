@@ -1,6 +1,9 @@
 Version History
 ===============
 
+Version 0.3.1 (2018-10-08):
+ * Fix incompatibility with sphinx>=1.8 (#8)
+
 Version 0.3.0 (2018-09-06):
  * Allow for user defined autorendering delimiters (#7)
  * Fix bug if katex_options was blank (#5)
