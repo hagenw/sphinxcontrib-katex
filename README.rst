@@ -102,10 +102,14 @@ You can use the ``katex_options`` configuration setting to add those:
 
 The disadvantage of this option is that those macros will be only available in
 the HTML based `Sphinx builders`_. If you want to use them in the LaTeX based
-builders as well you can add them in an extra file in your project, for example
-``definitions.py``:
+builders as well you can add them directly in your ``conf.py``. There you can
+use proper LaTeX syntax and not the special one required for ``katex_options``.
+This is possible as ``sphinxcontrib.katex`` provides a function to translate to
+the required KaTeX syntax:
 
 .. code-block:: python
+
+    import sphinxcontrib.katex as katex
 
     latex_macros = r"""
         \def \i                {\mathrm{i}}
@@ -116,21 +120,6 @@ builders as well you can add them in an extra file in your project, for example
         \def \dirac          #1{\operatorname{\delta}\left(#1\right)}
         \def \scalarprod   #1#2{\left\langle#1,#2\right\rangle}
     """
-
-Note, that we used proper LaTeX syntax here and not the special one required for
-``katex_options``. This is fine as ``sphinxcontrib.katex`` provides a function
-to translate to the required KaTeX syntax. To use our definitions for HTML and
-LaTeX `Sphinx builders`_ add the following to your ``conf.py``.
-
-.. code-block:: python
-
-    import sys
-
-    import sphinxcontrib.katex as katex
-
-    # Allow import/extensions from current path
-    sys.path.insert(0, os.path.abspath('.'))
-    from definitions import latex_macros
 
     # Translate LaTeX macros to the required KaTeX format and add to options
     katex_macros = katex.latex_defs_to_katex_macros(latex_macros)
