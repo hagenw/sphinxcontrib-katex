@@ -37,28 +37,27 @@ In ``conf.py`` of your sphinx project, add the extension with:
 Configuration
 -------------
 
-The behavior of the ``sphinxcontrib.katex`` can be changed by configuration entries
-in the ``conf.py`` file of your documentation project. In the following all
-configuration entries are listed and their default values are shown.
+The behavior of the ``sphinxcontrib.katex`` can be changed by configuration
+entries in the ``conf.py`` file of your documentation project. In the following
+all configuration entries are listed and their default values are shown.
 
 .. code-block:: python
 
     katex_version = 0.9
-    katex_css_path = 'https://cdn.jsdelivr.net/npm/katex@' + \
-                     katex_version + \
-                     '/dist/katex.min.css'
-    katex_js_path = 'https://cdn.jsdelivr.net/npm/katex@' + \
-                     katex_version + \
-                     '/dist/contrib/auto-render.min.js'
+    katex_css_path = \
+        'https://cdn.jsdelivr.net/npm/katex@0.9/dist/katex.min.css'
+    katex_js_path = \
+        'https://cdn.jsdelivr.net/npm/katex@0.9/dist/katex.min.js'
+    katex_autorender_path = \
+        'https://cdn.jsdelivr.net/npm/katex@0.9/contrib/auto-render.min.js'
     katex_inline = [r'\(', r'\)']
     katex_display = [r'\[', r'\]']
     katex_options = ''
 
 The version of KaTeX used is controlled by the ``katex_version`` config setting,
-which per default is also automatically added to the URL strings for the KaTeX
-CSS and JS files. The specific delimiters written to HTML when math mode is
-encountered are controlled by the two lists ``katex_inline`` and
-``katex_display``.
+which is automatically changed in the URL strings for the KaTeX CSS and JS
+files. The specific delimiters written to HTML when math mode is encountered are
+controlled by the two lists ``katex_inline`` and ``katex_display``.
 
 The string variable ``katex_options`` allows you to change all available
 official `KaTeX rendering options`_, e.g.
