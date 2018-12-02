@@ -7,6 +7,8 @@ The extension uses `KaTeX`_ for rendering of math in HTML pages. It is designed
 as a replacement for the built-in extension `sphinx.ext.mathjax`_, which uses
 `MathJax`_ for rendering.
 
+* Documentation:
+
 * Download: https://pypi.python.org/pypi/sphinxcontrib-katex/#downloads
 
 * Development: https://github.com/hagenw/sphinxcontrib-katex/
@@ -37,8 +39,8 @@ In ``conf.py`` of your sphinx project, add the extension with:
 Configuration
 -------------
 
-The behavior of the ``sphinxcontrib.katex`` can be changed by configuration
-entries in the ``conf.py`` file of your documentation project. In the following
+The behavior of ``sphinxcontrib.katex`` can be changed by configuration
+entries in ``conf.py`` of your documentation project. In the following
 all configuration entries are listed and their default values are shown.
 
 .. code-block:: python
@@ -99,10 +101,10 @@ You can use the ``katex_options`` configuration setting to add those:
 
 The disadvantage of this option is that those macros will be only available in
 the HTML based `Sphinx builders`_. If you want to use them in the LaTeX based
-builders as well you can add them directly in your ``conf.py``. There you can
-use proper LaTeX syntax and not the special one required for ``katex_options``.
-This is possible as ``sphinxcontrib.katex`` provides a function to translate to
-the required KaTeX syntax:
+builders as well you have to add them as the ``latex_macros`` setting in your
+``conf.py`` and specify them using proper LaTeX syntax. Afterwards you can
+include them via the ``sphinxcontrib.katex.latex_defs_to_katex_macros``
+function into ``katex_options`` and add them to the LaTeX preamble:
 
 .. code-block:: python
 
@@ -118,8 +120,11 @@ the required KaTeX syntax:
         \def \scalarprod   #1#2{\left\langle#1,#2\right\rangle}
     """
 
-    # Translate LaTeX macros to the required KaTeX format and add to options
+    # Translate LaTeX macros to KaTeX and add to options for HTML builder
     katex_macros = katex.latex_defs_to_katex_macros(latex_macros)
     katex_options = 'macros: {' + katex_macros + '}'
+
+    # Add LaTeX macros for LATEX builder
+    latex_elements = {'preamble': latex_macros}
 
 .. _Sphinx builders: http://www.sphinx-doc.org/en/master/builders.html
