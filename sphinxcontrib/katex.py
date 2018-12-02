@@ -25,7 +25,7 @@ from sphinx.ext.mathbase import get_node_equation_number
 
 
 __version__ = '0.3.1'
-katex_version = '0.9.0'
+katex_version = '0.10.0'
 filename_css = 'katex-math.css'
 filename_autorenderer = 'katex_autorenderer.js'
 
