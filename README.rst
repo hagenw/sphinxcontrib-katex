@@ -31,9 +31,7 @@ In ``conf.py`` of your sphinx project, add the extension with:
 
 .. code-block:: python
 
-    extensions = [
-        'sphinxcontrib.katex',
-        ]
+    extensions = ['sphinxcontrib.katex']
 
 
 Configuration
