@@ -1,4 +1,4 @@
-Math rendering examples
+Math Rendering Examples
 =======================
 
 The examples start always with a code box showing the commands, which is
