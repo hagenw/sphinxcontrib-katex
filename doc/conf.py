@@ -47,8 +47,6 @@ katex_version = '0.10'
 
 # -- HTML ----------------------------------------------------------------
 
-html_theme = "sphinx_rtd_theme"
-html_theme_options = {'display_version': True}
 html_title = project
 html_short_title = ""
 htmlhelp_basename = project
