@@ -82,6 +82,9 @@ New releases are made using the following steps:
 #. Upload them to PyPI with twine_: ``twine upload dist/*``
 #. Push the commit and the tag to Github and `add release notes`_ containing a
    link to PyPI and the bullet points from ``NEWS.rst``
+#. Check that the new release was built correctly on RTD_, delete the "stable"
+   version and select the new release as default version
 
 .. _twine: https://pypi.org/project/twine/
 .. _add release notes: https://github.com/hagenw/sphinxcontrib-katex/tags
+.. _RTD: http://readthedocs.org/projects/sphinxcontrib-katex/builds/
