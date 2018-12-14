@@ -3,7 +3,7 @@ Contributing
 
 If you find errors, omissions, inconsistencies or other things that need
 improvement, please create an issue or a pull request at
-http://github.com/hagenw/sphinxcontrib-katex/.
+https://github.com/hagenw/sphinxcontrib-katex/.
 Contributions are always welcome!
 
 
@@ -17,7 +17,7 @@ newest development version from Github_::
    cd sphinxcontrib-katex
    python setup.py develop --user
 
-.. _Github: http://github.com/hagenw/sphinxcontrib-katex/
+.. _Github: https://github.com/hagenw/sphinxcontrib-katex/
 
 This way, your installation always stays up-to-date, even if you pull new
 changes from the Github repository.
@@ -83,5 +83,5 @@ New releases are made using the following steps:
 #. Push the commit and the tag to Github and `add release notes`_ containing a
    link to PyPI and the bullet points from ``NEWS.rst``
 
-.. _twine: https://pypi.python.org/pypi/twine
+.. _twine: https://pypi.org/project/twine/
 .. _add release notes: https://github.com/hagenw/sphinxcontrib-katex/tags

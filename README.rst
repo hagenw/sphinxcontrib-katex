@@ -9,7 +9,7 @@ as a replacement for the built-in extension `sphinx.ext.mathjax`_, which uses
 
 * Documentation:
 
-* Download: https://pypi.python.org/pypi/sphinxcontrib-katex/#downloads
+* Download: https://pypi.org/project/sphinxcontrib-katex/#files
 
 * Development: https://github.com/hagenw/sphinxcontrib-katex/
 
