@@ -7,7 +7,7 @@ The extension uses `KaTeX`_ for rendering of math in HTML pages. It is designed
 as a replacement for the built-in extension `sphinx.ext.mathjax`_, which uses
 `MathJax`_ for rendering.
 
-* Documentation:
+* Documentation: https://sphinxcontrib-katex.readthedocs.io/
 
 * Download: https://pypi.org/project/sphinxcontrib-katex/#files
 
