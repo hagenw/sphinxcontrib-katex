@@ -1,6 +1,13 @@
 Version History
 ===============
 
+Version 0.4.0 (2018-12-14):
+ * KaTeX version 0.10.0
+ * Remove configuration option katex_version
+ * Add Sphinx documentation and setup RTD page
+ * Add Travis-CI tests
+ * Make compatible with Sphinx>=1.6
+
 Version 0.3.1 (2018-10-08):
  * Fix incompatibility with sphinx>=1.8 (#8)
 
