@@ -23,7 +23,7 @@ from sphinx.util.osutil import copyfile
 from sphinx.ext.mathbase import setup_math as mathbase_setup
 
 
-__version__ = '0.3.1'
+__version__ = '0.4.0'
 katex_version = '0.10.0'
 filename_css = 'katex-math.css'
 filename_autorenderer = 'katex_autorenderer.js'
