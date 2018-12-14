@@ -21,7 +21,6 @@ from sphinx.locale import _
 from sphinx.errors import ExtensionError
 from sphinx.util.osutil import copyfile
 from sphinx.ext.mathbase import setup_math as mathbase_setup
-from sphinx.ext.mathbase import get_node_equation_number
 
 
 __version__ = '0.3.1'
@@ -229,3 +228,21 @@ def setup(app):
     app.connect('build-finished', builder_finished)
 
     return {'version': __version__, 'parallel_read_safe': True}
+
+
+# This function is copied from Sphinx 1.8 as it is not available in Sphinx 1.6
+def get_node_equation_number(writer, node):
+    if writer.builder.config.math_numfig and writer.builder.config.numfig:
+        figtype = 'displaymath'
+        if writer.builder.name == 'singlehtml':
+            key = u"%s/%s" % (writer.docnames[-1], figtype)
+        else:
+            key = figtype
+
+        id = node['ids'][0]
+        number = writer.builder.fignumbers.get(key, {}).get(id, ())
+        number = '.'.join(map(str, number))
+    else:
+        number = node['number']
+
+    return number
