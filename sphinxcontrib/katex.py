@@ -108,16 +108,20 @@ def builder_inited(app):
     if not (app.config.katex_js_path and app.config.katex_css_path and
             app.config.katex_autorender_path):
         raise ExtensionError('KaTeX paths not set')
-    app.add_stylesheet(app.config.katex_css_path)
-    app.add_javascript(app.config.katex_js_path)
-    # Automatic math rendering
+    # Sphinx 1.8 renamed `add_stylesheet` to `add_css_file` and
+    # `add_javascript` to `add_js_file`.
+    add_css = getattr(app, 'add_css_file', getattr(app, 'add_stylesheet'))
+    add_js = getattr(app, 'add_js_file', getattr(app, 'add_javascript'))
+    add_css(app.config.katex_css_path)
+    add_js(app.config.katex_js_path)
+    # Automatic math rendering and custom CSS
     # https://github.com/Khan/KaTeX/blob/master/contrib/auto-render/README.md
-    app.add_javascript(app.config.katex_autorender_path)
+    add_js(app.config.katex_autorender_path)
     write_katex_autorenderer_file(app, filename_autorenderer)
-    app.add_javascript(filename_autorenderer)
-    # Custom css
+    add_js(filename_autorenderer)
+    # sphinxcontrib.katex custom CSS
     copy_katex_css_file(app, filename_css)
-    app.add_stylesheet(filename_css)
+    add_css(filename_css)
 
 
 def builder_finished(app, exception):
