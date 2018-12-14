@@ -11,7 +11,7 @@ project = 'sphinxcontrib-katex'
 author = 'Hagen Wierstorf'
 copyright = '2017-2018, ' + author
 
-needs_sphinx = '1.3'   # minimal sphinx version
+needs_sphinx = '1.6'   # minimal sphinx version
 extensions = [
         'sphinx.ext.autodoc',
         'sphinx.ext.viewcode',
