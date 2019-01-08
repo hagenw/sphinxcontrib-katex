@@ -19,8 +19,7 @@ followed by text.
 Macros
 ------
 
-You can define macros directly in your document, or in ``conf.py`` as part of
-the ``katex_options``, see :ref:`macros`.
+You can define macros directly in your math directive.
 
 .. code-block:: rst
 
@@ -30,18 +29,19 @@ the ``katex_options``, see :ref:`macros`.
         \def \w {\omega}
         \def \d {\operatorname{d}\!}
 
-Afterwards, you can use them in every ``:math:`` directive.
-
-.. code-block:: rst
-
-    .. math::
-
         P(\x,\w) = \oint_{\partial V} D(\x_0,\w) G(\x-\x_0,\w) \d A(\x_0)
 
 .. math::
 
+    \def \x {\mathbf{x}}
+    \def \w {\omega}
+    \def \d {\operatorname{d}\!}
+
     P(\x,\w) = \oint_{\partial V} D(\x_0,\w) G(\x-\x_0,\w) \d A(\x_0)
 
+If you want to use them in the whole document, the best is to define them in
+:file:`conf.py` as part of the ``katex_options``, see :ref:`macros`.
+Afterwards, you can use them in every math directive.
 
 Aligned environment
 -------------------
@@ -130,7 +130,7 @@ A simple matrix defined with the ``pmatrix`` environment:
 
 
 The ``pmatrix*`` environment is not available, but you can use the ``array``
-environment for more complex matrics:
+environment for more complex matrices:
 
 .. code-block:: rst
 
