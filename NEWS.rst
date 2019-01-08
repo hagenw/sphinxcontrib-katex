@@ -1,6 +1,9 @@
 Version History
 ===============
 
+Version 0.4.1 (2019-01-08):
+ * Fix macros example in documentation
+
 Version 0.4.0 (2018-12-14):
  * KaTeX version 0.10.0
  * Remove configuration option katex_version
