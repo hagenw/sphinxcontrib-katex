@@ -21,7 +21,6 @@ from sphinx.locale import _
 from sphinx.errors import ExtensionError
 from sphinx.util.osutil import copyfile
 from sphinx import add_html_math_renderer
-#from sphinx.ext.mathbase import setup_math as mathbase_setup
 
 
 __version__ = '0.4.1'
