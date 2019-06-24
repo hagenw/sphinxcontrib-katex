@@ -20,7 +20,6 @@ from textwrap import dedent
 from sphinx.locale import _
 from sphinx.errors import ExtensionError
 from sphinx.util.osutil import copyfile
-from sphinx.ext.mathbase import setup_math as mathbase_setup
 
 
 __version__ = '0.4.1'
@@ -204,10 +203,16 @@ def setup_static_path(app):
 
 def setup(app):
     try:
-        mathbase_setup(app, (html_visit_math, None),
-                       (html_visit_displaymath, None))
-    except ExtensionError:
-        raise ExtensionError('KaTeX: other math package is already loaded')
+        app.add_html_math_renderer(
+            'katex',
+            inline_renderers=(html_visit_math, None),
+            block_renderers=(html_visit_displaymath, None)
+        )
+    except AttributeError:
+        # Versions of sphinx<1.8 require setup_math instead
+        from sphinx.ext.mathbase import setup_math
+        setup_math(app, (html_visit_math, None),
+                   (html_visit_displaymath, None))
 
     # Include KaTex CSS and JS files
     katex_url = 'https://cdn.jsdelivr.net/npm/katex@{version}/dist/'.format(
