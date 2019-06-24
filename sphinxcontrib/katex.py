@@ -20,7 +20,8 @@ from textwrap import dedent
 from sphinx.locale import _
 from sphinx.errors import ExtensionError
 from sphinx.util.osutil import copyfile
-from sphinx.ext.mathbase import setup_math as mathbase_setup
+from sphinx import add_html_math_renderer
+#from sphinx.ext.mathbase import setup_math as mathbase_setup
 
 
 __version__ = '0.4.1'
@@ -204,8 +205,8 @@ def setup_static_path(app):
 
 def setup(app):
     try:
-        mathbase_setup(app, (html_visit_math, None),
-                       (html_visit_displaymath, None))
+        app.add_html_math_renderer((html_visit_math, None),
+                                   (html_visit_displaymath, None))
     except ExtensionError:
         raise ExtensionError('KaTeX: other math package is already loaded')
 
