@@ -208,8 +208,11 @@ def setup(app):
             inline_renderers=(html_visit_math, None),
             block_renderers=(html_visit_displaymath, None)
         )
-    except ExtensionError:
-        raise ExtensionError('KaTeX: other math package is already loaded')
+    except AttributeError:
+        # Versions of sphinx<1.8 require setup_math instead
+        from sphinx.ext.mathbase import setup_math
+        setup_math(app, (html_visit_math, None),
+                   (html_visit_displaymath, None))
 
     # Include KaTex CSS and JS files
     katex_url = 'https://cdn.jsdelivr.net/npm/katex@{version}/dist/'.format(
