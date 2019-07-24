@@ -21,6 +21,8 @@ addons:
   apt:
     packages:
       - pandoc
+before_install:
+  - npm install katex
 install:
   - pip install sphinx$SPHINX
   - python setup.py install
