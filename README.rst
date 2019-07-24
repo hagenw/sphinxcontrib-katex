@@ -52,6 +52,11 @@ all configuration entries are listed and their default values are shown.
     katex_inline = [r'\(', r'\)']
     katex_display = [r'\[', r'\]']
     katex_options = ''
+    katex_prerender = False
+
+To use ``katex_prerender``, you must have a ``katex`` executable
+installed and in your PATH.  You can install it using
+``yarn global add katex`` or ``npm install -g katex``.
 
 The specific delimiters written to HTML when math mode is encountered are
 controlled by the two lists ``katex_inline`` and ``katex_display``.

@@ -76,7 +76,11 @@ def get_latex(node):
 
 
 def run_katex(latex, *options):
-    p = subprocess.Popen(('katex', ) + options, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+    p = subprocess.Popen(
+        ('katex', ) + options,
+        stdout=subprocess.PIPE,
+        stdin=subprocess.PIPE
+    )
     stdout, stderr = p.communicate(latex.encode('utf-8'))
     return stdout.decode('utf-8')
 
@@ -131,7 +135,8 @@ def builder_inited(app):
     add_css = getattr(app, 'add_css_file', getattr(app, 'add_stylesheet'))
     add_js = getattr(app, 'add_js_file', getattr(app, 'add_javascript'))
     add_css(app.config.katex_css_path)
-    static_path = setup_static_path(app)
+    # Ensure the static path is setup; we need it for some later steps
+    setup_static_path(app)
     if not app.config.katex_prerender:
         add_js(app.config.katex_js_path)
         # Automatic math rendering and custom CSS
