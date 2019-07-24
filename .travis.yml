@@ -32,6 +32,7 @@ script:
   - ./node_modules/.bin/katex -V
   - npx katex -V
   - pwd
+  - ln -s ./node_modules/.bin/katex katex
   - katex -V
   - python -m sphinx doc/ doc/_build/ -b html
   - python -m sphinx doc/ doc/_build/ -b latex
