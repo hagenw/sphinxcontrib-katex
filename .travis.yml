@@ -27,6 +27,8 @@ install:
   - pip install sphinx$SPHINX
   - python setup.py install
 script:
+  - ./node_modules/.bin/katex -V
+  - npx katex -V
   - python -m sphinx doc/ doc/_build/ -b html
   - python -m sphinx doc/ doc/_build/ -b latex
   - python -m sphinx doc/ doc/_build/ -b linkcheck
