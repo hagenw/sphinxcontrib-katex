@@ -16,6 +16,7 @@ import shutil
 from docutils import nodes
 from tempfile import mkdtemp
 from textwrap import dedent
+import subprocess
 
 from sphinx.locale import _
 from sphinx.errors import ExtensionError
@@ -74,8 +75,19 @@ def get_latex(node):
         return node.astext()  # for Sphinx >= 1.8.0
 
 
+def run_katex(latex, *options):
+    p = subprocess.Popen(('katex', ) + options, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+    stdout, stderr = p.communicate(latex.encode('utf-8'))
+    return stdout.decode('utf-8')
+
+
 def html_visit_math(self, node):
     self.body.append(self.starttag(node, 'span', '', CLASS='math'))
+    if self.builder.config.katex_prerender:
+        self.body.append(run_katex(get_latex(node)))
+        self.body.append('</span>')
+        raise nodes.SkipNode
+
     self.body.append(self.builder.config.katex_inline[0] +
                      self.encode(get_latex(node)) +
                      self.builder.config.katex_inline[1] + '</span>')
@@ -84,10 +96,6 @@ def html_visit_math(self, node):
 
 def html_visit_displaymath(self, node):
     self.body.append(self.starttag(node, 'div', CLASS='math'))
-    if node['nowrap']:
-        self.body.append(self.encode(get_latex(node)))
-        self.body.append('</div>')
-        raise nodes.SkipNode
 
     # necessary to e.g. set the id property correctly
     if node['number']:
@@ -95,6 +103,18 @@ def html_visit_displaymath(self, node):
         self.body.append('<span class="eqno">(%s)' % number)
         self.add_permalink_ref(node, _('Permalink to this equation'))
         self.body.append('</span>')
+
+    if self.builder.config.katex_prerender:
+        # NB: nowrap is always "on" when using prerendering
+        self.body.append(run_katex(get_latex(node), '--display-mode'))
+        self.body.append('</div>')
+        raise nodes.SkipNode
+
+    if node['nowrap']:
+        self.body.append(self.encode(get_latex(node)))
+        self.body.append('</div>')
+        raise nodes.SkipNode
+
     self.body.append(self.builder.config.katex_display[0])
     self.body.append(get_latex(node))
     self.body.append(self.builder.config.katex_display[1])
@@ -111,12 +131,14 @@ def builder_inited(app):
     add_css = getattr(app, 'add_css_file', getattr(app, 'add_stylesheet'))
     add_js = getattr(app, 'add_js_file', getattr(app, 'add_javascript'))
     add_css(app.config.katex_css_path)
-    add_js(app.config.katex_js_path)
-    # Automatic math rendering and custom CSS
-    # https://github.com/Khan/KaTeX/blob/master/contrib/auto-render/README.md
-    add_js(app.config.katex_autorender_path)
-    write_katex_autorenderer_file(app, filename_autorenderer)
-    add_js(filename_autorenderer)
+    static_path = setup_static_path(app)
+    if not app.config.katex_prerender:
+        add_js(app.config.katex_js_path)
+        # Automatic math rendering and custom CSS
+        # https://github.com/Khan/KaTeX/blob/master/contrib/auto-render/README.md
+        add_js(app.config.katex_autorender_path)
+        write_katex_autorenderer_file(app, filename_autorenderer)
+        add_js(filename_autorenderer)
     # sphinxcontrib.katex custom CSS
     copy_katex_css_file(app, filename_css)
     add_css(filename_css)
@@ -229,6 +251,7 @@ def setup(app):
     app.add_config_value('katex_inline', [r'\(', r'\)'], 'html')
     app.add_config_value('katex_display', [r'\[', r'\]'], 'html')
     app.add_config_value('katex_options', '', 'html')
+    app.add_config_value('katex_prerender', False, 'html')
     app.connect('builder-inited', builder_inited)
     app.connect('build-finished', builder_finished)
 
