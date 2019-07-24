@@ -23,8 +23,8 @@ addons:
       - pandoc
 before_install:
   - npm install katex
-  - ln -s ./node_modules/.bin/katex katex
-  - pwd
+  - PATH="${PATH}:$(pwd)/node_modules/.bin"
+  - echo $PATH
 install:
   - pip install sphinx$SPHINX
   - python setup.py install
@@ -32,7 +32,6 @@ script:
   - ./node_modules/.bin/katex -V
   - npx katex -V
   - pwd
-  - ln -s ./node_modules/.bin/katex katex
   - katex -V
   - python -m sphinx doc/ doc/_build/ -b html
   - python -m sphinx doc/ doc/_build/ -b latex
