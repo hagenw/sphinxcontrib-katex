@@ -51,21 +51,6 @@ It is also possible to automatically check if all links are still valid::
 .. _Sphinx: http://sphinx-doc.org/
 
 
-Running the Tests
-^^^^^^^^^^^^^^^^^
-
-You'll need pytest_ for that.
-It can be installed with::
-
-   pip install -r tests/requirements.txt --user
-
-To execute the tests, simply run::
-
-   python -m pytest
-
-.. _pytest: https://pytest.org/
-
-
 Creating a New Release
 ^^^^^^^^^^^^^^^^^^^^^^
 
