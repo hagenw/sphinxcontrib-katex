@@ -48,6 +48,11 @@ It is also possible to automatically check if all links are still valid::
 
    python setup.py build_sphinx -b linkcheck
 
+If you have ``katex`` installed, you can also check the prerendered
+version of the documentation with::
+
+    SPHINXCONTRIB_KATEX_PRERENDER=1 python setup.py build_sphinx
+
 .. _Sphinx: http://sphinx-doc.org/
 
 
