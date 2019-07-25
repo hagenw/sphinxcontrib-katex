@@ -33,4 +33,4 @@ script:
   - python -m sphinx doc/ doc/_build/ -b linkcheck -W
   # Test server side prerendering
   - katex -V
-  - SPHINXCONTRIB_KATEX_PRERENDER=1 python -m sphinx doc/ doc/_build/ -b html -W
+  - python -m sphinx doc/ doc/_build/ -b html -D katex_prerender=1 -W
