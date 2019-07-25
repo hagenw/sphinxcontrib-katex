@@ -87,14 +87,15 @@ def run_katex(latex, *options):
 
 def html_visit_math(self, node):
     self.body.append(self.starttag(node, 'span', '', CLASS='math'))
+
     if self.builder.config.katex_prerender:
         self.body.append(run_katex(get_latex(node)))
-        self.body.append('</span>')
-        raise nodes.SkipNode
+    else:
+        self.body.append(self.builder.config.katex_inline[0] +
+                         self.encode(get_latex(node)) +
+                         self.builder.config.katex_inline[1])
 
-    self.body.append(self.builder.config.katex_inline[0] +
-                     self.encode(get_latex(node)) +
-                     self.builder.config.katex_inline[1] + '</span>')
+    self.body.append('</span>')
     raise nodes.SkipNode
 
 
@@ -112,17 +113,15 @@ def html_visit_displaymath(self, node):
         # NB: nowrap is always "on" when using prerendering
         self.body.append(run_katex(get_latex(node), '--display-mode'))
         self.body.append('</div>')
-        raise nodes.SkipNode
-
-    if node['nowrap']:
+    elif node['nowrap']:
         self.body.append(self.encode(get_latex(node)))
         self.body.append('</div>')
-        raise nodes.SkipNode
+    else:
+        self.body.append(self.builder.config.katex_display[0])
+        self.body.append(get_latex(node))
+        self.body.append(self.builder.config.katex_display[1])
+        self.body.append('</div>\n')
 
-    self.body.append(self.builder.config.katex_display[0])
-    self.body.append(get_latex(node))
-    self.body.append(self.builder.config.katex_display[1])
-    self.body.append('</div>\n')
     raise nodes.SkipNode
 
 
