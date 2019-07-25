@@ -28,9 +28,9 @@ install:
   - pip install sphinx$SPHINX
   - python setup.py install
 script:
-  - python -m sphinx doc/ doc/_build/ -b html
-  - python -m sphinx doc/ doc/_build/ -b latex
-  - python -m sphinx doc/ doc/_build/ -b linkcheck
+  - python -m sphinx doc/ doc/_build/ -b html -W
+  - python -m sphinx doc/ doc/_build/ -b latex -W
+  - python -m sphinx doc/ doc/_build/ -b linkcheck -W
   # Test server side prerendering
   - katex -V
-  - SPHINXCONTRIB_KATEX_PRERENDER=1 python -m sphinx doc/ doc/_build/ -b html
+  - SPHINXCONTRIB_KATEX_PRERENDER=1 python -m sphinx doc/ doc/_build/ -b html -W
