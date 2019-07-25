@@ -21,6 +21,9 @@ addons:
   apt:
     packages:
       - pandoc
+before_install:
+  - npm install katex
+  - PATH="${PATH}:$(pwd)/node_modules/.bin"
 install:
   - pip install sphinx$SPHINX
   - python setup.py install
@@ -28,3 +31,6 @@ script:
   - python -m sphinx doc/ doc/_build/ -b html
   - python -m sphinx doc/ doc/_build/ -b latex
   - python -m sphinx doc/ doc/_build/ -b linkcheck
+  # Test server side prerendering
+  - katex -V
+  - SPHINXCONTRIB_KATEX_PRERENDER=1 python -m sphinx doc/ doc/_build/ -b html
