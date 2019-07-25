@@ -16,6 +16,7 @@ import shutil
 from docutils import nodes
 from tempfile import mkdtemp
 from textwrap import dedent
+import subprocess
 
 from sphinx.locale import _
 from sphinx.errors import ExtensionError
@@ -74,20 +75,32 @@ def get_latex(node):
         return node.astext()  # for Sphinx >= 1.8.0
 
 
+def run_katex(latex, *options):
+    p = subprocess.Popen(
+        ('katex', ) + options,
+        stdout=subprocess.PIPE,
+        stdin=subprocess.PIPE
+    )
+    stdout, stderr = p.communicate(latex.encode('utf-8'))
+    return stdout.decode('utf-8')
+
+
 def html_visit_math(self, node):
     self.body.append(self.starttag(node, 'span', '', CLASS='math'))
-    self.body.append(self.builder.config.katex_inline[0] +
-                     self.encode(get_latex(node)) +
-                     self.builder.config.katex_inline[1] + '</span>')
+
+    if self.builder.config.katex_prerender:
+        self.body.append(run_katex(get_latex(node)))
+    else:
+        self.body.append(self.builder.config.katex_inline[0] +
+                         self.encode(get_latex(node)) +
+                         self.builder.config.katex_inline[1])
+
+    self.body.append('</span>')
     raise nodes.SkipNode
 
 
 def html_visit_displaymath(self, node):
     self.body.append(self.starttag(node, 'div', CLASS='math'))
-    if node['nowrap']:
-        self.body.append(self.encode(get_latex(node)))
-        self.body.append('</div>')
-        raise nodes.SkipNode
 
     # necessary to e.g. set the id property correctly
     if node['number']:
@@ -95,10 +108,20 @@ def html_visit_displaymath(self, node):
         self.body.append('<span class="eqno">(%s)' % number)
         self.add_permalink_ref(node, _('Permalink to this equation'))
         self.body.append('</span>')
-    self.body.append(self.builder.config.katex_display[0])
-    self.body.append(get_latex(node))
-    self.body.append(self.builder.config.katex_display[1])
-    self.body.append('</div>\n')
+
+    if self.builder.config.katex_prerender:
+        # NB: nowrap is always "on" when using prerendering
+        self.body.append(run_katex(get_latex(node), '--display-mode'))
+        self.body.append('</div>')
+    elif node['nowrap']:
+        self.body.append(self.encode(get_latex(node)))
+        self.body.append('</div>')
+    else:
+        self.body.append(self.builder.config.katex_display[0])
+        self.body.append(get_latex(node))
+        self.body.append(self.builder.config.katex_display[1])
+        self.body.append('</div>\n')
+
     raise nodes.SkipNode
 
 
@@ -111,12 +134,15 @@ def builder_inited(app):
     add_css = getattr(app, 'add_css_file', getattr(app, 'add_stylesheet'))
     add_js = getattr(app, 'add_js_file', getattr(app, 'add_javascript'))
     add_css(app.config.katex_css_path)
-    add_js(app.config.katex_js_path)
-    # Automatic math rendering and custom CSS
-    # https://github.com/Khan/KaTeX/blob/master/contrib/auto-render/README.md
-    add_js(app.config.katex_autorender_path)
-    write_katex_autorenderer_file(app, filename_autorenderer)
-    add_js(filename_autorenderer)
+    # Ensure the static path is setup to hold KaTeX CSS and autorender files
+    setup_static_path(app)
+    if not app.config.katex_prerender:
+        add_js(app.config.katex_js_path)
+        # Automatic math rendering and custom CSS
+        # https://github.com/Khan/KaTeX/blob/master/contrib/auto-render/README.md
+        add_js(app.config.katex_autorender_path)
+        write_katex_autorenderer_file(app, filename_autorenderer)
+        add_js(filename_autorenderer)
     # sphinxcontrib.katex custom CSS
     copy_katex_css_file(app, filename_css)
     add_css(filename_css)
@@ -124,12 +150,13 @@ def builder_inited(app):
 
 def builder_finished(app, exception):
     # Delete temporary dir used for _static file
-    shutil.rmtree(app._katex_tmpdir)
+    shutil.rmtree(app._katex_static_path)
 
 
 def write_katex_autorenderer_file(app, filename):
-    static_path = setup_static_path(app)
-    filename = os.path.join(app.builder.srcdir, static_path, filename)
+    filename = os.path.join(
+        app.builder.srcdir, app._katex_static_path, filename
+    )
     content = katex_autorenderer_content(app)
     with open(filename, 'w') as file:
         file.write(content)
@@ -138,7 +165,7 @@ def write_katex_autorenderer_file(app, filename):
 def copy_katex_css_file(app, css_file_name):
     pwd = os.path.abspath(os.path.dirname(__file__))
     source = os.path.join(pwd, css_file_name)
-    dest = os.path.join(app._katex_tmpdir, css_file_name)
+    dest = os.path.join(app._katex_static_path, css_file_name)
     copyfile(source, dest)
 
 
@@ -194,11 +221,9 @@ def trim(text):
 
 
 def setup_static_path(app):
-    app._katex_tmpdir = mkdtemp()
-    static_path = app._katex_tmpdir
-    if static_path not in app.config.html_static_path:
-        app.config.html_static_path.append(static_path)
-    return static_path
+    app._katex_static_path = mkdtemp()
+    if app._katex_static_path not in app.config.html_static_path:
+        app.config.html_static_path.append(app._katex_static_path)
 
 
 def setup(app):
@@ -229,6 +254,7 @@ def setup(app):
     app.add_config_value('katex_inline', [r'\(', r'\)'], 'html')
     app.add_config_value('katex_display', [r'\[', r'\]'], 'html')
     app.add_config_value('katex_options', '', 'html')
+    app.add_config_value('katex_prerender', False, 'html')
     app.connect('builder-inited', builder_inited)
     app.connect('build-finished', builder_finished)
 

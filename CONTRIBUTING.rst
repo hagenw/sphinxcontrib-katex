@@ -15,7 +15,8 @@ newest development version from Github_::
 
    git clone https://github.com/hagenw/sphinxcontrib-katex.git
    cd sphinxcontrib-katex
-   python setup.py develop --user
+   # Create virtual environment
+   python setup.py develop
 
 .. _Github: https://github.com/hagenw/sphinxcontrib-katex/
 
@@ -24,7 +25,7 @@ changes from the Github repository.
 
 If you prefer, you can also replace the last command with::
 
-   pip install --user -e .
+   pip install -e .
 
 ... where ``-e`` stands for ``--editable``.
 
@@ -36,17 +37,17 @@ If you make changes to the documentation, you can re-create the HTML pages
 using Sphinx_.
 You can install it and a few other necessary packages with::
 
-   pip install -r doc/requirements.txt --user
+   pip install -r doc/requirements.txt
 
 To create the HTML pages, use::
 
-   python setup.py build_sphinx
+   python -m sphinx doc/ build/sphinx/ -b html
 
-The generated files will be available in the directory ``build/sphinx/html/``.
+The generated files will be available in the directory ``build/sphinx/``.
 
 It is also possible to automatically check if all links are still valid::
 
-   python setup.py build_sphinx -b linkcheck
+   python -m sphinx doc/ build/sphinx/ -b linkcheck
 
 .. _Sphinx: http://sphinx-doc.org/
 

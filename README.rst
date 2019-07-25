@@ -51,10 +51,16 @@ all configuration entries are listed and their default values are shown.
         'https://cdn.jsdelivr.net/npm/katex@0.10/contrib/auto-render.min.js'
     katex_inline = [r'\(', r'\)']
     katex_display = [r'\[', r'\]']
+    katex_prerender = False
     katex_options = ''
 
 The specific delimiters written to HTML when math mode is encountered are
 controlled by the two lists ``katex_inline`` and ``katex_display``.
+
+If ``katex_prerender`` is set to ``True`` the equations will be pre-rendered on
+the server and loading of the page in the browser will be faster.
+On your server you must have a ``katex`` executable installed and in your PATH.
+You can install it using ``yarn global add katex`` or ``npm install -g katex``.
 
 The string variable ``katex_options`` allows you to change all available
 official `KaTeX rendering options`_, e.g.
