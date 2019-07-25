@@ -1,6 +1,11 @@
 Version History
 ===============
 
+Version 0.5.0 (2019-07-25):
+ * Switch to Katex 0.10.2 (#17)
+ * Add katex server side pre-rendering (#15)
+ * Remove deprecated Sphinx setup_math (#10)
+
 Version 0.4.1 (2019-01-08):
  * Fix macros example in documentation
 
