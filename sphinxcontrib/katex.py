@@ -134,7 +134,7 @@ def builder_inited(app):
     add_css = getattr(app, 'add_css_file', getattr(app, 'add_stylesheet'))
     add_js = getattr(app, 'add_js_file', getattr(app, 'add_javascript'))
     add_css(app.config.katex_css_path)
-    # Ensure the static path is setup; we need it for some later steps
+    # Ensure the static path is setup to hold KaTeX CSS and autorender files
     setup_static_path(app)
     if not app.config.katex_prerender:
         add_js(app.config.katex_js_path)
@@ -150,12 +150,13 @@ def builder_inited(app):
 
 def builder_finished(app, exception):
     # Delete temporary dir used for _static file
-    shutil.rmtree(app._katex_tmpdir)
+    shutil.rmtree(app._katex_static_path)
 
 
 def write_katex_autorenderer_file(app, filename):
-    static_path = setup_static_path(app)
-    filename = os.path.join(app.builder.srcdir, static_path, filename)
+    filename = os.path.join(
+        app.builder.srcdir, app._katex_static_path, filename
+    )
     content = katex_autorenderer_content(app)
     with open(filename, 'w') as file:
         file.write(content)
@@ -164,7 +165,7 @@ def write_katex_autorenderer_file(app, filename):
 def copy_katex_css_file(app, css_file_name):
     pwd = os.path.abspath(os.path.dirname(__file__))
     source = os.path.join(pwd, css_file_name)
-    dest = os.path.join(app._katex_tmpdir, css_file_name)
+    dest = os.path.join(app._katex_static_path, css_file_name)
     copyfile(source, dest)
 
 
@@ -220,11 +221,9 @@ def trim(text):
 
 
 def setup_static_path(app):
-    app._katex_tmpdir = mkdtemp()
-    static_path = app._katex_tmpdir
-    if static_path not in app.config.html_static_path:
-        app.config.html_static_path.append(static_path)
-    return static_path
+    app._katex_static_path = mkdtemp()
+    if app._katex_static_path not in app.config.html_static_path:
+        app.config.html_static_path.append(app._katex_static_path)
 
 
 def setup(app):
