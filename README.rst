@@ -20,18 +20,41 @@ as a replacement for the built-in extension `sphinx.ext.mathjax`_, which uses
     https://github.com/sphinx-doc/sphinx/blob/master/sphinx/ext/mathjax.py
 
 
+Installation
+------------
+
+To install ``sphinxcontrib.katex`` into your Python virtual environment run:
+
+.. code-block:: bash
+
+    $ pip install sphinxcontrib-katex
+
+If you want to pre-render the math by running Javascript on your server instead
+of running it in the browsers of the users, you have to install ``katex`` on
+your server and add it to your path:
+
+.. code-block:: bash
+
+    $ npm install katex
+    $ PATH="${PATH}:$(pwd)/node_modules/.bin"
+
+
 Usage
 -----
 
-Installation::
-
-    pip install sphinxcontrib-katex
-
-In ``conf.py`` of your sphinx project, add the extension with:
+In ``conf.py`` of your Sphinx project, add the extension with:
 
 .. code-block:: python
 
     extensions = ['sphinxcontrib.katex']
+
+For enable server side pre-rendering add in addition:
+
+.. code-block:: python
+
+    katex_prerender = True
+
+See the Configuration section for all availble settings.
 
 
 Configuration
@@ -59,8 +82,8 @@ controlled by the two lists ``katex_inline`` and ``katex_display``.
 
 If ``katex_prerender`` is set to ``True`` the equations will be pre-rendered on
 the server and loading of the page in the browser will be faster.
-On your server you must have a ``katex`` executable installed and in your PATH.
-You can install it using ``yarn global add katex`` or ``npm install -g katex``.
+On your server you must have a ``katex`` executable installed and in your PATH
+as described in the Installation section.
 
 The string variable ``katex_options`` allows you to change all available
 official `KaTeX rendering options`_, e.g.

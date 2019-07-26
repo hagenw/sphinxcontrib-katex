@@ -1,3 +1,3 @@
 .. include:: ../README.rst
-    :start-line: 20
-    :end-line: 36
+    :start-line: 40
+    :end-line: 58
