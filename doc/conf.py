@@ -41,7 +41,7 @@ latex_macros = r"""
     \def \d                {\operatorname{d}\!}
 """
 katex_macros = katex.latex_defs_to_katex_macros(latex_macros)
-katex_options = 'macros: {' + katex_macros + '}'
+katex_options = '{macros: {' + katex_macros + '}, strict: false}'
 katex_prerender = False
 
 
