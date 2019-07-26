@@ -1,10 +1,11 @@
 .. include:: ../README.rst
-    :end-line: 19
+    :end-line: 21
 
 .. toctree::
     :hidden:
     :maxdepth: 2
 
+    installation
     usage
     configuration
     macros
