@@ -50,6 +50,9 @@ katex_prerender = False
 html_title = project
 html_short_title = ""
 htmlhelp_basename = project
+html_theme_options = {
+    'code_font_size': '0.8em',
+}
 
 
 # -- LATEX ---------------------------------------------------------------
