@@ -2,6 +2,8 @@
     :end-line: 19
 
 .. toctree::
+    :hidden:
+
     usage
     configuration
     macros
