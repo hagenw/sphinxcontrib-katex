@@ -3,6 +3,7 @@
 
 .. toctree::
     :hidden:
+    :maxdepth: 2
 
     usage
     configuration
