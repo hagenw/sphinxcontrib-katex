@@ -13,6 +13,12 @@
     contributing
     version-history
 
+
+.. Add extra vertical space
+
+|
+
+
 .. code-block:: rst
 
     .. math::
