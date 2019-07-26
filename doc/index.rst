@@ -10,3 +10,25 @@
     examples
     contributing
     version-history
+
+.. code-block:: rst
+
+    .. math::
+
+        \text{Rendered with \KaTeX} \\[18pt]
+
+        \gdef \f #1 {f(#1)}
+
+        \f{x} = \int_{-\infty}^\infty
+            \hat \f\xi\,e^{2 \pi i \xi x}
+            \,d\xi
+
+.. math::
+
+    \text{Rendered with \KaTeX} \\[18pt]
+
+    \gdef \f #1 {f(#1)}
+
+    \f{x} = \int_{-\infty}^\infty
+        \hat \f\xi\,e^{2 \pi i \xi x}
+        \,d\xi
