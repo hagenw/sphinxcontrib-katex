@@ -4,13 +4,17 @@ python:
 matrix:
   include:
 
-  # a few older Sphinx releases using default Python version
-  - env: SPHINX="==1.6.2"
-  - env: SPHINX="==1.6.7"
-  - env: SPHINX="==1.7.5"
-  - env: SPHINX="==1.8.2"
+  # Default Python + latest Sphinx + check for broken links
+  - env: ADDITIONAL_COMMAND="python -m sphinx doc/ doc/_build/ -b linkcheck -W"
 
-  # a few Python versions using latest Sphinx release
+  # A few older Sphinx releases using default Python version and stripped down
+  # example from tests/
+  - env: SPHINX="==1.6.2" FOLDER="tests"
+  - env: SPHINX="==1.6.7" FOLDER="tests"
+  - env: SPHINX="==1.7.5" FOLDER="tests"
+  - env: SPHINX="==1.8.2" FOLDER="tests"
+
+  # A few Python versions using latest Sphinx release
   - python: "2.7"
   - python: "3.4"
   - python: "3.5"
@@ -28,9 +32,9 @@ install:
   - pip install sphinx$SPHINX
   - python setup.py install
 script:
-  - python -m sphinx doc/ doc/_build/ -b html -W
-  - python -m sphinx doc/ doc/_build/ -b latex -W
-  - python -m sphinx doc/ doc/_build/ -b linkcheck -W
+  - python -m sphinx ${FOLDER:-doc} ${FOLDER:-doc}/_build/ -c doc/ -b html -W
+  - python -m sphinx ${FOLDER:-doc} ${FOLDER:-doc}/_build/ -c doc/ -b latex -W
   # Test server side prerendering
   - katex -V
-  - python -m sphinx doc/ doc/_build/ -b html -D katex_prerender=1 -W
+  - python -m sphinx ${FOLDER:-doc} ${FOLDER:-doc}/_build/ -c doc/ -b html -D katex_prerender=1 -W
+  - $ADDITIONAL_COMMAND
