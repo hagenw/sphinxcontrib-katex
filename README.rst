@@ -1,6 +1,9 @@
 sphinxcontrib-katex
 ===================
 
+|tests| |docs| |license|
+
+
 A `Sphinx extension`_ for rendering math in HTML pages.
 
 The extension uses `KaTeX`_ for rendering of math in HTML pages. It is designed
@@ -18,6 +21,16 @@ as a replacement for the built-in extension `sphinx.ext.mathjax`_, which uses
 .. _KaTeX: https://khan.github.io/KaTeX/
 .. _sphinx.ext.mathjax:
     https://github.com/sphinx-doc/sphinx/blob/master/sphinx/ext/mathjax.py
+
+.. |tests| image:: https://travis-ci.org/hagenw/sphinxcontrib-katex.svg?branch=master
+    :target: https://travis-ci.org/hagenw/sphinxcontrib-katex/
+    :alt: sphinxcontrib.katex on TravisCI
+.. |docs| image:: https://readthedocs.org/projects/sphinxcontrib-katex/badge/
+    :target: https://sphinxcontrib-katex.readthedocs.io/
+    :alt: sphinxcontrib.katex's documentation on Read the Docs
+.. |license| image:: https://img.shields.io/badge/license-MIT-green.svg
+    :target: https://github.com/hagenw/sphinxcontrib-katex/blob/master/LICENSE
+    :alt: sphinxcontrib.katex's MIT license
 
 
 Installation
