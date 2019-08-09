@@ -7,7 +7,7 @@ matrix:
   include:
 
   # Default Python + latest Sphinx + check for broken links
-  - env: ADDITIONAL_COMMAND="python -m sphinx docs/ docs/_build/ -b linkcheck -W"
+  - env: ADDITIONAL_COMMAND="python -m sphinx docs/ docs/_build/ -b linkcheck -W" FOLDER="docs"
 
   # A few older Sphinx releases using default Python version and stripped down
   # example from tests/
