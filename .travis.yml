@@ -5,7 +5,7 @@ matrix:
   include:
 
   # Default Python + latest Sphinx + check for broken links
-  - env: ADDITIONAL_COMMAND="python -m sphinx doc/ doc/_build/ -b linkcheck -W"
+  - env: ADDITIONAL_COMMAND="python -m sphinx docs/ docs/_build/ -b linkcheck -W"
 
   # A few older Sphinx releases using default Python version and stripped down
   # example from tests/
@@ -32,9 +32,9 @@ install:
   - pip install sphinx$SPHINX
   - python setup.py install
 script:
-  - python -m sphinx ${FOLDER:-doc} ${FOLDER:-doc}/_build/ -c doc/ -b html -W
-  - python -m sphinx ${FOLDER:-doc} ${FOLDER:-doc}/_build/ -c doc/ -b latex -W
+  - python -m sphinx ${FOLDER:-docs} ${FOLDER:-docs}/_build/ -c docs/ -b html -W
+  - python -m sphinx ${FOLDER:-docs} ${FOLDER:-docs}/_build/ -c docs/ -b latex -W
   # Test server side prerendering
   - katex -V
-  - python -m sphinx ${FOLDER:-doc} ${FOLDER:-doc}/_build/ -c doc/ -b html -D katex_prerender=1 -W
+  - python -m sphinx ${FOLDER:-docs} ${FOLDER:-docs}/_build/ -c docs/ -b html -D katex_prerender=1 -W
   - $ADDITIONAL_COMMAND

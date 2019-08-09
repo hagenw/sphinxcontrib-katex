@@ -37,17 +37,17 @@ If you make changes to the documentation, you can re-create the HTML pages
 using Sphinx_.
 You can install it and a few other necessary packages with::
 
-   pip install -r doc/requirements.txt
+   pip install -r docs/requirements.txt
 
 To create the HTML pages, use::
 
-   python -m sphinx doc/ build/sphinx/ -b html
+   python -m sphinx docs/ build/sphinx/ -b html
 
 The generated files will be available in the directory ``build/sphinx/``.
 
 It is also possible to automatically check if all links are still valid::
 
-   python -m sphinx doc/ build/sphinx/ -b linkcheck
+   python -m sphinx docs/ build/sphinx/ -b linkcheck
 
 .. _Sphinx: http://sphinx-doc.org/
 
@@ -57,15 +57,15 @@ Running Tests
 
 ``sphinxcontrib.katex`` is supposed to work for all versions ``sphinx>=1.6``.
 To test that you have to use a stripped down version of the documentation that
-is provided in the ``tests/`` folder, as the documentation under ``doc/`` uses
+is provided in the ``tests/`` folder, as the documentation under ``docs/`` uses
 features that are only supported by ``sphinx>=1.8``.
 
 To test that everything works as expected, please execute:
 
 .. code-block:: bash
 
-   python -m sphinx tests/ tests/_build/ -c doc/ -b html -W
-   python -m sphinx tests/ tests/_build/ -c doc/ -b latex -W
+   python -m sphinx tests/ tests/_build/ -c docs/ -b html -W
+   python -m sphinx tests/ tests/_build/ -c docs/ -b latex -W
 
 The same tests are automatically performed by Travis_ once you create a pull
 request on Github_.
