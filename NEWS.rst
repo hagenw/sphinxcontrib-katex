@@ -7,6 +7,14 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.5.1 (2019-08-13)
+--------------------------
+
+* Added: equation numbers in documentation (#16)
+* Changed: subset of tests for sphinx<=1.6 (#23)
+* Changed: several improvements to documentation
+
+
 Version 0.5.0 (2019-07-25)
 --------------------------
 
