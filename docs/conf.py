@@ -9,7 +9,7 @@ import sphinxcontrib.katex as katex
 
 project = 'sphinxcontrib-katex'
 author = 'Hagen Wierstorf'
-copyright = '2017-2019, ' + author
+copyright = '2017-2020, ' + author
 
 needs_sphinx = '1.6'   # minimal sphinx version
 extensions = [
