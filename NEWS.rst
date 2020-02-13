@@ -7,6 +7,13 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.6.0 (2020-02-13)
+--------------------------
+
+* Changed: switch to Katex 0.11.1
+* Changed: add tests for Python 3.7 and 3.8
+
+
 Version 0.5.1 (2019-08-13)
 --------------------------
 
