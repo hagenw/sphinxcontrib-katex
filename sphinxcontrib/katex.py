@@ -79,7 +79,8 @@ def run_katex(latex, *options):
     p = subprocess.Popen(
         ('katex', ) + options,
         stdout=subprocess.PIPE,
-        stdin=subprocess.PIPE
+        stdin=subprocess.PIPE,
+        env=os.environ.copy()
     )
     stdout, stderr = p.communicate(latex.encode('utf-8'))
     return stdout.decode('utf-8')
