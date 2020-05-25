@@ -11,6 +11,7 @@
 """
 
 import os
+import platform
 import re
 import shutil
 from docutils import nodes
@@ -76,8 +77,12 @@ def get_latex(node):
 
 
 def run_katex(latex, *options):
+    if platform.system() == 'Windows':
+        cmd = 'katex.cmd'
+    else:
+        cmd = 'katex'
     p = subprocess.Popen(
-        ('katex', ) + options,
+        (cmd, ) + options,
         stdout=subprocess.PIPE,
         stdin=subprocess.PIPE,
         env=os.environ.copy()
