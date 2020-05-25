@@ -26,6 +26,10 @@ matrix:
   - python: "nightly"
   - python: "pypy3"
 
+  # Test on different operating systems
+  - os: linux
+  - os: windows
+
 addons:
   apt:
     packages:
