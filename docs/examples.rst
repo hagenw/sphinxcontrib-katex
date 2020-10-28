@@ -196,3 +196,24 @@ Some of Maxwell's equations are given in :eq:`gauss-law`,
     :label: maxwell-faraday-equation
 
     \nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}
+
+
+Fraction
+--------
+
+.. code-block:: rst
+
+        1 - 2 \phi_{i,j} = \frac{4 N^{AA,aa}_{i,j}
+                                 + N^{Aa}_{i}
+                                 + N^{Aa}_{j}
+                                 - 2 N^{Aa,Aa}_{i,j}}
+                                {\sum_{s \in S_{i,j}} 4 p_s (1 - p_s)}
+
+.. math::
+	:label: long fraction line
+
+        1 - 2 \phi_{i,j} = \frac{4 N^{AA,aa}_{i,j}
+                                 + N^{Aa}_{i}
+                                 + N^{Aa}_{j}
+                                 - 2 N^{Aa,Aa}_{i,j}}
+                                {\sum_{s \in S_{i,j}} 4 p_s (1 - p_s)}
