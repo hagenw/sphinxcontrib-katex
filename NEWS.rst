@@ -7,6 +7,12 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.7.1 (2020-10-29)
+--------------------------
+
+* Fixed: label of fraction example in docs
+
+
 Version 0.7.0 (2020-10-29)
 --------------------------
 
