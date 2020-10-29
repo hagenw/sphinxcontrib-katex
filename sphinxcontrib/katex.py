@@ -25,7 +25,7 @@ from sphinx.util.osutil import copyfile
 
 
 __version__ = '0.6.1'
-katex_version = '0.11.1'
+katex_version = '0.12.0'
 filename_css = 'katex-math.css'
 filename_autorenderer = 'katex_autorenderer.js'
 
