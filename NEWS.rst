@@ -7,6 +7,14 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.7.0 (2020-10-29)
+--------------------------
+
+* Added: fraction example to docs
+* Changed: switch to KaTeX 0.12.0
+* Changed: add small top and bottom padding to equations
+
+
 Version 0.6.1 (2020-05-25)
 --------------------------
 
