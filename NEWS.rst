@@ -7,6 +7,12 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.7.2 (2021-04-28)
+--------------------------
+
+* Fixed: Sphinx>=4.0.0 is not supported at the moment
+
+
 Version 0.7.1 (2020-10-29)
 --------------------------
 
