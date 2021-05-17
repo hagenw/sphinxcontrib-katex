@@ -11,7 +11,7 @@
     macros
     examples
     contributing
-    version-history
+    changelog
 
 
 .. Add extra vertical space
