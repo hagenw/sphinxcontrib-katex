@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       node-version: 10.7
+      python-version: 3.6
 
     steps:
     - uses: actions/checkout@v2
@@ -20,6 +21,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.node-version }}
+
+    - name: Set up Python ${{ env.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ env.python-version }}
 
     - name: Prepare KaTeX server
       run: |
