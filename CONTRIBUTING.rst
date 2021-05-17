@@ -16,18 +16,12 @@ newest development version from Github_::
    git clone https://github.com/hagenw/sphinxcontrib-katex.git
    cd sphinxcontrib-katex
    # Create virtual environment
-   python setup.py develop
+   pip install -r requirements.txt
 
 .. _Github: https://github.com/hagenw/sphinxcontrib-katex/
 
 This way, your installation always stays up-to-date, even if you pull new
 changes from the Github repository.
-
-If you prefer, you can also replace the last command with::
-
-   pip install -e .
-
-... where ``-e`` stands for ``--editable``.
 
 
 Building the Documentation
