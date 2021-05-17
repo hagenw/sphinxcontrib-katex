@@ -14,9 +14,9 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         python-version: [ 3.6 ]
-        sphinx-version: [ '4.*' ]
+        sphinx-version: [ 4.* ]
         include:
-          # A few Python versions using latest Sphinx release
+          # A few Python versions
           - os: ubuntu-latest
             python-version: 3.7
             sphinx-version: 4.*
@@ -26,6 +26,19 @@ jobs:
           - os: ubuntu-latest
             python-version: 3.9
             sphinx-version: 4.*
+          # A few Sphinx versions
+          - os: ubuntu-latest
+            python-version: 3.6
+            sphinx-version: 1.6.2
+          - os: ubuntu-latest
+            python-version: 3.6
+            sphinx-version: 1.8.5
+          - os: ubuntu-latest
+            python-version: 3.6
+            sphinx-version: 2.4.4
+          - os: ubuntu-latest
+            python-version: 3.6
+            sphinx-version: 3.5.4
 
     steps:
     - uses: actions/checkout@v2
@@ -35,13 +48,11 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
+    - name: Set up Sphinx {{ matrix.sphinx-version }}
       run: |
         python -V
         python -m pip install --upgrade pip
-        echo ${{ matrix.sphinx-version }}
         pip install "sphinx=="${{ matrix.sphinx-version }}
-        pip install -r requirements.txt
 
     - name: Tests
       run: |
@@ -51,4 +62,4 @@ jobs:
     - name: Test for broken links
       run: |
         python -m sphinx docs/ docs/_build/ -b linkcheck -W
-      if: matrix.os == 'ubuntu-latest' && matrix.python-version == 3.6
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == 3.6 && matrix.sphinx-version == 4.*
