@@ -62,4 +62,4 @@ jobs:
     - name: Test for broken links
       run: |
         python -m sphinx docs/ docs/_build/ -b linkcheck -W
-      if: matrix.os == 'ubuntu-latest' && matrix.python-version == 3.6 && matrix.sphinx-version == 4.*
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.6' && matrix.sphinx-version == '4.*'
