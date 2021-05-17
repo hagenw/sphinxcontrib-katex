@@ -36,7 +36,8 @@ jobs:
       run: |
         python -V
         python -m pip install --upgrade pip
-        pip install "sphinx==${{ env.sphinx-version }}"
+        echo ${{ env.sphinx-version }}
+        pip install "sphinx=="${{ env.sphinx-version }}
         pip install -r requirements.txt
 
     - name: Tests
