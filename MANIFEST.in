@@ -1,5 +1,0 @@
-include LICENSE
-include *.rst
-global-include requirements.txt
-recursive-include sphinxcontrib *.css
-recursive-include docs *.rst *.py
