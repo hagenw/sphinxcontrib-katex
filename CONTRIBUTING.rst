@@ -16,18 +16,12 @@ newest development version from Github_::
    git clone https://github.com/hagenw/sphinxcontrib-katex.git
    cd sphinxcontrib-katex
    # Create virtual environment
-   python setup.py develop
+   pip install -r requirements.txt
 
 .. _Github: https://github.com/hagenw/sphinxcontrib-katex/
 
 This way, your installation always stays up-to-date, even if you pull new
 changes from the Github repository.
-
-If you prefer, you can also replace the last command with::
-
-   pip install -e .
-
-... where ``-e`` stands for ``--editable``.
 
 
 Building the Documentation
@@ -79,7 +73,7 @@ Creating a New Release
 New releases are made using the following steps:
 
 #. Bump version number in ``sphinxcontrib/katex.py``
-#. Update ``NEWS.rst``
+#. Update ``CHANGELOG.rst``
 #. Commit those changes as "Release x.y.z"
 #. Create an (annotated) tag with ``git tag -a x.y.z``
 #. Clear the ``dist/`` directory
@@ -88,7 +82,7 @@ New releases are made using the following steps:
 #. Check that both files have the correct content
 #. Upload them to PyPI with twine_: ``twine upload dist/*``
 #. Push the commit and the tag to Github and `add release notes`_ containing a
-   link to PyPI and the bullet points from ``NEWS.rst``
+   link to PyPI and the bullet points from ``CHANGELOG.rst``
 #. Check that the new release was built correctly on RTD_, delete the "stable"
    version and select the new release as default version
 
