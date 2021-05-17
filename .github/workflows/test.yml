@@ -19,10 +19,13 @@ jobs:
           # A few Python versions using latest Sphinx release
           - os: ubuntu-latest
             python-version: 3.7
+            sphinx-version: 4.*
           - os: ubuntu-latest
             python-version: 3.8
+            sphinx-version: 4.*
           - os: ubuntu-latest
             python-version: 3.9
+            sphinx-version: 4.*
 
     steps:
     - uses: actions/checkout@v2
