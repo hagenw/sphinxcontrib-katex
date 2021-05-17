@@ -29,7 +29,7 @@ jobs:
 
     - name: Prepare KaTeX server
       run: |
-        yarn gloabl add katex
+        npm install --global katex
         # PATH="${PATH}:$(pwd)/node_modules/.bin"
         katex -V
 
