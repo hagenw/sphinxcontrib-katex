@@ -1,0 +1,63 @@
+name: Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-18.04 ]
+        python-version: [ 3.6 ]
+        env: FOLDER="docs"
+        include:
+          # A few Python versions using latest Sphinx release
+          - python-version: 2.7
+          - python-version: 3.5
+          - python-version: 3.7
+          - python-version: 3.8
+          - python-version: 3.9
+          # A few older Sphinx releases using default Python version
+          # and stripped down example from tests/
+          - env: SPHINX="==1.6.2" FOLDER="tests"
+          - env: SPHINX="==1.8.5" FOLDER="tests"
+          - env: SPHINX="==2.4.4" FOLDER="tests"
+          - env: SPHINX="==3.5.4" FOLDER="tests"
+          # Default Python + latest Sphinx + check for broken links
+          - env: ADDITIONAL_COMMAND="python -m sphinx docs/ docs/_build/ -b linkcheck -W" FOLDER="docs"
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Prepare KaTeX server
+      run: |
+        npm install katex
+        PATH="${PATH}:$(pwd)/node_modules/.bin"
+
+    - name: Install dependencies
+      run: |
+        python -V
+        python -m pip install --upgrade pip
+        pip install sphinx$SPHINX
+        pip install -r requirements.txt
+
+    - name: Tests
+      run: |
+        python -m sphinx $FOLDER $FOLDER/_build/ -c docs/ -b html -W
+        python -m sphinx $FOLDER $FOLDER/_build/ -c docs/ -b latex -W
+        $ADDITIONAL_COMMAND
+    
+    - name: Test server side pre-rendering
+      run: |
+        katex -V
+        python -m sphinx $FOLDER $FOLDER/_build/ -c docs/ -b html -D katex_prerender=1 -W 
