@@ -29,8 +29,8 @@ jobs:
 
     - name: Prepare KaTeX server
       run: |
-        npm install katex
-        PATH="${PATH}:$(pwd)/node_modules/.bin"
+        yarn install katex
+        # PATH="${PATH}:$(pwd)/node_modules/.bin"
 
     - name: Install dependencies
       run: |
