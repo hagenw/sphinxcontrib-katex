@@ -85,9 +85,13 @@ def run_katex(latex, *options):
         (cmd, ) + options,
         stdout=subprocess.PIPE,
         stdin=subprocess.PIPE,
+        stderr=subprocess.PIPE,
         env=os.environ.copy()
     )
     stdout, stderr = p.communicate(latex.encode('utf-8'))
+    if p.returncode:
+        msg = 'KaTeX failed with\n: ' + stderr.decode('utf-8')
+        raise RuntimeError(msg)
     return stdout.decode('utf-8')
 
 
