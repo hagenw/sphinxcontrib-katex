@@ -36,7 +36,7 @@ jobs:
       run: |
         python -V
         python -m pip install --upgrade pip
-        pip install "sphinx==${{ sphinx-version }}"
+        pip install "sphinx==${{ env.sphinx-version }}"
 
     - name: Tests
       run: |
