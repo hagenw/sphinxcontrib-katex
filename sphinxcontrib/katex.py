@@ -137,8 +137,10 @@ def builder_inited(app):
         raise ExtensionError('KaTeX paths not set')
     # Sphinx 1.8 renamed `add_stylesheet` to `add_css_file` and
     # `add_javascript` to `add_js_file`.
-    add_css = getattr(app, 'add_css_file', getattr(app, 'add_stylesheet'))
-    add_js = getattr(app, 'add_js_file', getattr(app, 'add_javascript'))
+    # add_css = getattr(app, 'add_css_file', getattr(app, 'add_stylesheet'))
+    # add_js = getattr(app, 'add_js_file', getattr(app, 'add_javascript'))
+    add_css = getattr(app, 'add_css_file')
+    add_js = getattr(app, 'add_js_file')
     add_css(app.config.katex_css_path)
     # Ensure the static path is setup to hold KaTeX CSS and autorender files
     setup_static_path(app)
