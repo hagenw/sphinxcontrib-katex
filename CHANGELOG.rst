@@ -7,6 +7,19 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.8.0 (2021-05-18)
+--------------------------
+
+* Added: support for Python 3.9
+* Added: support for Sphinx>=4.0.0
+* Added: tests for Windows and macOS
+* Changed: switch to KaTeX 0.13.11
+* Changed: switched CI tests from Travis to Github Actions
+* Changed: running sphinx will now fail in pre-render mode
+  if KaTeX fails
+* Removed: support for Python 2.7, 3.4, 3.5
+
+
 Version 0.7.2 (2021-04-28)
 --------------------------
 
