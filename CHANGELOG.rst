@@ -7,6 +7,12 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.8.3 (2021-05-18)
+--------------------------
+
+* Fixed: building of documentation on RTD
+
+
 Version 0.8.2 (2021-05-18)
 --------------------------
 
