@@ -76,16 +76,8 @@ New releases are made using the following steps:
 #. Update ``CHANGELOG.rst``
 #. Commit those changes as "Release x.y.z"
 #. Create an (annotated) tag with ``git tag -a x.y.z``
-#. Clear the ``dist/`` directory
-#. Create a source distribution with ``python setup.py sdist``
-#. Create a wheel distribution with ``python setup.py bdist_wheel --universal``
-#. Check that both files have the correct content
-#. Upload them to PyPI with twine_: ``twine upload dist/*``
-#. Push the commit and the tag to Github and `add release notes`_ containing a
-   link to PyPI and the bullet points from ``CHANGELOG.rst``
+#. Push the commit and the tag to Github
 #. Check that the new release was built correctly on RTD_, delete the "stable"
    version and select the new release as default version
 
-.. _twine: https://pypi.org/project/twine/
-.. _add release notes: https://github.com/hagenw/sphinxcontrib-katex/tags
 .. _RTD: http://readthedocs.org/projects/sphinxcontrib-katex/builds/
