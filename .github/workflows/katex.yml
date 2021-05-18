@@ -1,4 +1,4 @@
-name: Test KaTeX server side pre-rendering
+name: KaTeX pre-rendering
 
 on:
   push:
@@ -30,8 +30,6 @@ jobs:
     - name: Prepare KaTeX server
       run: |
         npm install --global katex
-        # PATH="${PATH}:$(pwd)/node_modules/.bin"
-        katex -V
 
     - name: Install dependencies
       run: |
