@@ -162,31 +162,40 @@ environment for more complex matrices:
 Equation numbers
 ----------------
 
-Some of Maxwell's equations:
+Some of Maxwell's equations are given
+in :eq:`gauss-law`,
+:eq:`gauss-law-magnetism`,
+and :eq:`maxwell-faraday-equation`.
 
 .. code-block:: rst
 
     .. math::
+        :label: gauss-law
 
         \nabla \cdot \mathbf{E} = 4 \pi \rho
 
     .. math::
+        :label: gauss-law-magnetism
 
         \nabla \cdot \mathbf{B} = 0
 
     .. math::
+        :label: maxwell-faraday-equation
 
         \nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}
 
 .. math::
+    :label: gauss-law
 
     \nabla \cdot \mathbf{E} = 4 \pi \rho
 
 .. math::
+    :label: gauss-law-magnetism
 
     \nabla \cdot \mathbf{B} = 0
 
 .. math::
+    :label: maxwell-faraday-equation
 
     \nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}
 
