@@ -1,4 +1,4 @@
-name: KaTeX pre-rendering
+name: OS
 
 on:
   push:
@@ -9,36 +9,29 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     env:
-      node-version: 10.7
-      python-version: 3.6
       sphinx-version: '3.*'
+      python-version: 3.6
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Use Node.js ${{ env.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ env.node-version }}
 
     - name: Set up Python ${{ env.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ env.python-version }}
 
-    - name: Prepare KaTeX server
-      run: |
-        npm install --global katex
-
     - name: Set up Sphinx ${{ env.sphinx-version }}
       run: |
         python -V
         python -m pip install --upgrade pip
-        pip install "sphinx==${{ sphinx-version }}"
+        pip install "sphinx==${{ env.sphinx-version }}"
 
     - name: Tests
       run: |
-        katex -V
-        python -m sphinx docs docs/_build/ -c docs/ -b html -D katex_prerender=1 -W 
+        python -m sphinx docs docs/_build/ -c docs/ -b html -W
+        python -m sphinx docs docs/_build/ -c docs/ -b latex -W

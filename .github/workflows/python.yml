@@ -1,0 +1,36 @@
+name: Python
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    env:
+      sphinx-version: '3.*'
+    strategy:
+      matrix:
+        python-version: [ 3.7, 3.8, 3.9 ]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set up Sphinx ${{ env.sphinx-version }}
+      run: |
+        python -V
+        python -m pip install --upgrade pip
+        pip install "sphinx==${{ env.sphinx-version }}"
+
+    - name: Tests
+      run: |
+        python -m sphinx docs docs/_build/ -c docs/ -b html -W
+        python -m sphinx docs docs/_build/ -c docs/ -b latex -W
