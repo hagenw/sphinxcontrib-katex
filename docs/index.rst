@@ -28,7 +28,7 @@
         \gdef \f #1 {f(#1)}
 
         \f{x} = \int_{-\infty}^\infty
-            \hat \f \xi \,e^{2 \pi i \xi x}
+            \expandafter \hat\f{\xi} \,e^{2 \pi i \xi x}
             \,d\xi
 
 .. math::
@@ -38,5 +38,5 @@
     \gdef \f #1 {f(#1)}
 
     \f{x} = \int_{-\infty}^\infty
-        \hat \f \xi \,e^{2 \pi i \xi x}
+        \expandafter \hat\f{\xi} \,e^{2 \pi i \xi x}
         \,d\xi
