@@ -24,7 +24,7 @@ jobs:
       with:
         python-version: ${{ env.python-version }}
 
-    - name: Set up ${{ matrix.sphinx-version }}
+    - name: Set up Sphinx ${{ matrix.sphinx-version }}
       run: |
         python -V
         python -m pip install --upgrade pip
@@ -32,5 +32,5 @@ jobs:
 
     - name: Tests
       run: |
-        python -m sphinx tests tests/_build/ -c tests/ -b html -W
-        python -m sphinx tests tests/_build/ -c tests/ -b latex -W
+        python -m sphinx tests tests/_build/ -c docs/ -b html -W
+        python -m sphinx tests tests/_build/ -c docs/ -b latex -W

@@ -13,6 +13,7 @@ jobs:
     env:
       node-version: 10.7
       python-version: 3.6
+      sphinx-version: '3.*'
 
     steps:
     - uses: actions/checkout@v2
@@ -31,11 +32,11 @@ jobs:
       run: |
         npm install --global katex
 
-    - name: Install dependencies
+    - name: Set up Sphinx ${{ env.sphinx-version }}
       run: |
         python -V
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install "sphinx==${{ sphinx-version }}"
 
     - name: Tests
       run: |

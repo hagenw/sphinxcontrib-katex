@@ -25,11 +25,11 @@ jobs:
       with:
         python-version: ${{ env.python-version }}
 
-    - name: Set up ${{ env.sphinx-version }}
+    - name: Set up Sphinx ${{ env.sphinx-version }}
       run: |
         python -V
         python -m pip install --upgrade pip
-        pip install "${{ env.sphinx-version }}"
+        pip install "sphinx==${{ env.sphinx-version }}"
 
     - name: Tests
       run: |
