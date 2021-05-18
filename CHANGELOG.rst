@@ -7,6 +7,12 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.8.1 (2021-05-18)
+--------------------------
+
+* Fixed: PyPI package had wrong version number
+
+
 Version 0.8.0 (2021-05-18)
 --------------------------
 
