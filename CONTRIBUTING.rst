@@ -74,8 +74,8 @@ New releases are made using the following steps:
 
 #. Bump version number in ``sphinxcontrib/katex.py``
 #. Update ``CHANGELOG.rst``
-#. Commit those changes as "Release x.y.z"
-#. Create an (annotated) tag with ``git tag -a x.y.z``
+#. Commit those changes as "Release X.Y.Z"
+#. Create an (annotated) tag with ``git tag -a vX.Y.Z``
 #. Push the commit and the tag to Github
 #. Check that the new release was built correctly on RTD_, delete the "stable"
    version and select the new release as default version
