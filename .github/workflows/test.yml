@@ -1,0 +1,62 @@
+name: Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        python-version: [ 3.6 ]
+        sphinx-version: [ sphinx==3.* ]
+        include:
+          # A few Python versions
+          - os: ubuntu-latest
+            python-version: 3.7
+            sphinx-version: sphinx==3.*
+          - os: ubuntu-latest
+            python-version: 3.8
+            sphinx-version: sphinx==3.*
+          - os: ubuntu-latest
+            python-version: 3.9
+            sphinx-version: sphinx==3.*
+          # A few Sphinx versions
+          - os: ubuntu-latest
+            python-version: 3.6
+            sphinx-version: sphinx==1.6.2
+          - os: ubuntu-latest
+            python-version: 3.6
+            sphinx-version: sphinx==1.8.5
+          - os: ubuntu-latest
+            python-version: 3.6
+            sphinx-version: sphinx==2.4.4
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set up ${{ matrix.sphinx-version }}
+      run: |
+        python -V
+        python -m pip install --upgrade pip
+        pip install "${{ matrix.sphinx-version }}"
+
+    - name: Tests
+      run: |
+        python -m sphinx docs docs/_build/ -c docs/ -b html -W
+        python -m sphinx docs docs/_build/ -c docs/ -b latex -W
+    
+    - name: Test for broken links
+      run: |
+        python -m sphinx docs/ docs/_build/ -b linkcheck -W
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.6' && matrix.sphinx-version == '4.*'
