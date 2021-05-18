@@ -7,6 +7,12 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.8.4 (2021-05-18)
+--------------------------
+
+* Changed: increase top padding of equations by 2px
+
+
 Version 0.8.3 (2021-05-18)
 --------------------------
 
