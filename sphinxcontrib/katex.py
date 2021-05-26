@@ -92,7 +92,7 @@ def run_katex(latex, *options):
     if p.returncode:
         msg = 'KaTeX failed with\n: ' + stderr.decode('utf-8')
         raise RuntimeError(msg)
-    return stdout.decode('utf-8')
+    return stdout.decode('utf-8').rstrip('\r\n')
 
 
 def html_visit_math(self, node):
