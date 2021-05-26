@@ -7,6 +7,12 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.8.5 (2021-05-26)
+--------------------------
+
+* Fixed: remove extra space after inline math when using pre-rendering
+
+
 Version 0.8.4 (2021-05-18)
 --------------------------
 
