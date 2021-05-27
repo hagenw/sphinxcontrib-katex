@@ -7,6 +7,12 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.8.6 (2021-05-27)
+--------------------------
+
+* Fixed: allow to work with Sphinx>=4.0.0
+
+
 Version 0.8.5 (2021-05-26)
 --------------------------
 
