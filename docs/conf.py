@@ -42,7 +42,7 @@ latex_macros = r"""
 """
 katex_macros = katex.latex_defs_to_katex_macros(latex_macros)
 katex_options = '{macros: {' + katex_macros + '}, strict: false}'
-katex_prerender = False
+katex_prerender = True
 
 
 # -- HTML ----------------------------------------------------------------

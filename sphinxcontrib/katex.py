@@ -30,6 +30,45 @@ filename_css = 'katex-math.css'
 filename_autorenderer = 'katex_autorenderer.js'
 
 
+class KatexRenderer:
+
+    def __init__(self, display_mode=False):
+        if platform.system() == 'Windows':
+            cmd = 'katex.cmd'
+        else:
+            cmd = 'katex'
+        if display_mode:
+            cmd = (cmd, '--display-mode')
+        else:
+            cmd = (cmd, )
+        self.process = subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            stdin=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            env=os.environ.copy()
+        )
+
+    def run(self, latex):
+        stdout, stderr = self.process.communicate(latex.encode('utf-8'))
+        self.process.wait()
+        if self.process.returncode:
+            msg = 'KaTeX failed with\n: ' + stderr.decode('utf-8')
+            raise RuntimeError(msg)
+        return stdout.decode('utf-8').rstrip('\r\n')
+
+
+inline_renderer = KatexRenderer()
+block_renderer = KatexRenderer(display_mode=True)
+
+
+# def init_katex_render(app, env, docnames):
+#     r'''Initialize katex render object.'''
+#     if app.config.katex_prerender:
+#         env.inline_renderer = KatexRenderer()
+#         env.block_renderer = KatexRenderer(display_mode=True)
+
+
 def latex_defs_to_katex_macros(defs):
     r'''Converts LaTeX \def statements to KaTeX macros.
 
@@ -76,34 +115,15 @@ def get_latex(node):
         return node.astext()  # for Sphinx >= 1.8.0
 
 
-def run_katex(latex, *options):
-    if platform.system() == 'Windows':
-        cmd = 'katex.cmd'
-    else:
-        cmd = 'katex'
-    p = subprocess.Popen(
-        (cmd, ) + options,
-        stdout=subprocess.PIPE,
-        stdin=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        env=os.environ.copy()
-    )
-    stdout, stderr = p.communicate(latex.encode('utf-8'))
-    if p.returncode:
-        msg = 'KaTeX failed with\n: ' + stderr.decode('utf-8')
-        raise RuntimeError(msg)
-    return stdout.decode('utf-8').rstrip('\r\n')
-
-
 def html_visit_math(self, node):
     self.body.append(self.starttag(node, 'span', '', CLASS='math'))
 
     if self.builder.config.katex_prerender:
-        self.body.append(run_katex(get_latex(node)))
+        self.body.append(inline_renderer.run(get_latex(node)))
     else:
-        self.body.append(self.builder.config.katex_inline[0] +
-                         self.encode(get_latex(node)) +
-                         self.builder.config.katex_inline[1])
+        self.body.append(self.builder.config.katex_inline[0]
+                         + self.encode(get_latex(node))
+                         + self.builder.config.katex_inline[1])
 
     self.body.append('</span>')
     raise nodes.SkipNode
@@ -121,7 +141,7 @@ def html_visit_displaymath(self, node):
 
     if self.builder.config.katex_prerender:
         # NB: nowrap is always "on" when using prerendering
-        self.body.append(run_katex(get_latex(node), '--display-mode'))
+        self.body.append(block_renderer.run(get_latex(node)))
         self.body.append('</div>')
     elif node['nowrap']:
         self.body.append(self.encode(get_latex(node)))
@@ -136,8 +156,9 @@ def html_visit_displaymath(self, node):
 
 
 def builder_inited(app):
-    if not (app.config.katex_js_path and app.config.katex_css_path and
-            app.config.katex_autorender_path):
+    if not (app.config.katex_js_path
+            and app.config.katex_css_path
+            and app.config.katex_autorender_path):
         raise ExtensionError('KaTeX paths not set')
     # Sphinx 1.8 renamed `add_stylesheet` to `add_css_file`
     # and `add_javascript` to `add_js_file`.
