@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import datetime
 import subprocess
 
 import sphinxcontrib.katex as katex
@@ -9,7 +9,8 @@ import sphinxcontrib.katex as katex
 
 project = 'sphinxcontrib-katex'
 author = 'Hagen Wierstorf'
-copyright = '2017-2021, ' + author
+year = str(datetime.date.today().year)
+copyright = '2017-' + year + ' ' + author
 
 needs_sphinx = '1.6'   # minimal sphinx version
 extensions = [
