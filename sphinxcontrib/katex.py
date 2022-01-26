@@ -6,7 +6,7 @@
     Allow `KaTeX <khan.github.io/KaTeX/>`_ to be used to display math in
     Sphinx's HTML writer.
 
-    :copyright: Copyright 2017-2021 by Hagen Wierstorf.
+    :copyright: Copyright 2017-2022 by Hagen Wierstorf.
     :license: MIT, see LICENSE for details.
 """
 
