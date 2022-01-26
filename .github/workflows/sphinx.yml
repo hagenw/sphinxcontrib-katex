@@ -29,6 +29,7 @@ jobs:
         python -V
         python -m pip install --upgrade pip
         pip install "sphinx==${{ matrix.sphinx-version }}"
+        pip install "docutils<0.17"
 
     - name: Tests
       run: |
