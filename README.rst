@@ -167,4 +167,5 @@ function into ``katex_options`` and add them to the LaTeX preamble:
     # Add LaTeX macros for LATEX builder
     latex_elements = {'preamble': latex_macros}
 
+
 .. _Sphinx builders: http://www.sphinx-doc.org/en/master/builders.html
