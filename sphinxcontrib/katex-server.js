@@ -7,6 +7,7 @@ let socket = null;
 let port = null;
 // this is the downloaded katex javascript library.
 // need to keep it updated
+// path to the downloaded katex javascript library `katex.js`.
 let katex_path = "./katex";
 process.argv.forEach(function(arg) {
     if (value == "katex_path") {
@@ -138,3 +139,4 @@ function sendMessage(client, message) {
     // Send the actual message
     client.write(msgBuffer);
 }
+

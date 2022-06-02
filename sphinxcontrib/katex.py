@@ -446,7 +446,7 @@ class KaTeXServer:
         else:
             # Non-unix systems (i.e. Windows) do not support unix
             # domain sockets for IPC, so we use network sockets.
-            process, sock = cls.start_network_socket(rundir, KATEX_STARTUP_TIMEOUT)
+            process, sock = cls.start_network_socket(rundir, STARTUP_TIMEOUT)
 
         server = KaTeXServer(rundir, process, sock)
 
@@ -558,3 +558,4 @@ def render_latex(latex, options=None):
             raise KaTeXError("Unknown response from KaTeX renderer")
     except socket.timeout:
         raise KaTeXError(TIMEOUT_EXPIRED_TEMPLATE.format(latex))
+
