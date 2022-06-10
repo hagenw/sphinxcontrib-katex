@@ -1,8 +1,7 @@
 sphinxcontrib-katex
 ===================
 
-|tests| |docs| |license|
-
+|tests| |docs| |python-versions| |license|
 
 A `Sphinx extension`_ for rendering math in HTML pages.
 
@@ -31,6 +30,9 @@ as a replacement for the built-in extension `sphinx.ext.mathjax`_, which uses
 .. |license| image:: https://img.shields.io/badge/license-MIT-green.svg
     :target: https://github.com/hagenw/sphinxcontrib-katex/blob/master/LICENSE
     :alt: sphinxcontrib.katex's MIT license
+.. |python-versions| image:: https://img.shields.io/pypi/pyversions/sphinxcontrib-katex.svg
+    :target: https://pypi.org/project/sphinxcontrib-katex/
+    :alt: sphinxcontrib-katex's supported Python versions
 
 
 Installation

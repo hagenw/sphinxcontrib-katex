@@ -1,5 +1,5 @@
 .. include:: ../README.rst
-    :end-line: 35
+    :end-line: 37
 
 .. toctree::
     :hidden:
