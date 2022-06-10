@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       sphinx-version: '3.*'
-      python-version: 3.6
+      python-version: 3.8
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macOS-latest ]
@@ -30,6 +30,7 @@ jobs:
         python -V
         python -m pip install --upgrade pip
         pip install "sphinx==${{ env.sphinx-version }}"
+        pip install "jinja2<3.1"
 
     - name: Tests
       run: |

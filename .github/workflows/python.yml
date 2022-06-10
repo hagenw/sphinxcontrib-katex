@@ -11,7 +11,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      sphinx-version: '3.*'
+      sphinx-version: '5.*'
     strategy:
       matrix:
         python-version: [ 3.7, 3.8, 3.9 ]

@@ -11,10 +11,10 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      python-version: 3.6
+      python-version: 3.8
     strategy:
       matrix:
-        sphinx-version: [ 1.6.2, 1.8.5, 2.4.4 ]
+        sphinx-version: [ 1.6.7, 1.8.6, 2.4.5, 3.5.4, 4.5.0 ]
 
     steps:
     - uses: actions/checkout@v2

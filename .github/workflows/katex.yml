@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       node-version: 10.7
-      python-version: 3.6
+      python-version: 3.8
       sphinx-version: '3.*'
       katex-version: '0.13.11'
     strategy:
@@ -41,6 +41,7 @@ jobs:
         python -V
         python -m pip install --upgrade pip
         pip install "sphinx==${{ env.sphinx-version }}"
+        pip install "jinja2<3.1"
 
     - name: Tests
       run: |
