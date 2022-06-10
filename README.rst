@@ -69,7 +69,7 @@ For enable server side pre-rendering add in addition:
 
     katex_prerender = True
 
-See the Configuration section for all availble settings.
+See the Configuration section for all available settings.
 
 
 Configuration
