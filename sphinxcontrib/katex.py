@@ -119,7 +119,6 @@ def html_visit_math(self, node):
     self.body.append(self.starttag(node, 'span', '', CLASS='math'))
 
     if self.builder.config.katex_prerender:
-        # self.body.append(run_katex(get_latex(node)))
         self.body.append(render_latex(get_latex(node)))
     else:
         self.body.append(self.builder.config.katex_inline[0] +
