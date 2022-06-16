@@ -38,7 +38,7 @@ const katex = require(katex_path);
 let listen_options = {};
 if (socket !== null) {
     listen_options["path"] = socket;
-} else if (socket_port !== null) {
+} else if (port !== null) {
     listen_options["port"] = port;
     // Do not expose the rendering server on the network
     listen_options["host"] = "127.0.0.1";
