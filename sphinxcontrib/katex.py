@@ -438,7 +438,7 @@ class KaTeXServer:
 
     @classmethod
     def start(cls):
-        rundir = Path(tempfile.mkdtemp(prefix="pelican_katex"))
+        rundir = Path(tempfile.mkdtemp(prefix="sphinxcontrib_katex"))
 
         if os.name == "posix":
             process, sock = cls.start_server_process(rundir, STARTUP_TIMEOUT)
