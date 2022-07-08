@@ -7,8 +7,8 @@ let socket = null;
 let port = null;
 // this is the downloaded katex javascript library.
 // need to keep it updated
-// path to the downloaded katex javascript library `katex.js`.
-let katex_path = "./katex";
+// path to the downloaded katex javascript library `katex.min.js`.
+let katex_path = "./katex.min";
 process.argv.forEach(function(arg) {
     if (value == "katex_path") {
         katex_path = arg;
