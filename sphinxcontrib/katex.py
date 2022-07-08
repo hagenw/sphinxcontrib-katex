@@ -450,8 +450,8 @@ class KaTeXServer:
 
         server = KaTeXServer(rundir, process, sock)
 
-        # Clean up after ourselves when skphinx is done. I don't want to register
-        # signal handlers here.
+        # Clean up after ourselves when skphinx is done.
+        # I don't want to register signal handlers here.
         atexit.register(KaTeXServer.terminate, server)
 
         return server
