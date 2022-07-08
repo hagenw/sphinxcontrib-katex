@@ -559,4 +559,3 @@ def render_latex(latex, options=None):
             raise KaTeXError("Unknown response from KaTeX renderer")
     except socket.timeout:
         raise KaTeXError(TIMEOUT_EXPIRED_TEMPLATE.format(latex))
-
