@@ -311,6 +311,7 @@ def get_node_equation_number(writer, node):
 
     return number
 
+
 @contextmanager
 def socket_timeout(sock, timeout):
     """Set the timeout on a socket for a context and restore it afterwards"""
