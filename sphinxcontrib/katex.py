@@ -497,7 +497,8 @@ class KaTeXServer:
         self.sock.sendall(request_bytes)
 
         # Read the amount of bytes we are about to receive
-        length = self.LENGTH_STRUCT.unpack(self.sock.recv(self.LENGTH_STRUCT.size))[0]
+        size = self.sock.recv(self.LENGTH_STRUCT.size)
+        length = self.LENGTH_STRUCT.unpack(size)[0]
 
         # Ensure that the buffer is large enough
         if len(self.buffer) < length:
