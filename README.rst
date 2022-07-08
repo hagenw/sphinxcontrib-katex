@@ -63,7 +63,7 @@ In ``conf.py`` of your Sphinx project, add the extension with:
 
     extensions = ['sphinxcontrib.katex']
 
-For enable server side pre-rendering add in addition:
+For enable server side pre-rendering add in addition (node js installation needed):
 
 .. code-block:: python
 

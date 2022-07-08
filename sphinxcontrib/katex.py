@@ -10,6 +10,8 @@
     :license: MIT, see LICENSE for details.
 """
 
+import atexit
+import json
 import os
 import platform
 import re
@@ -18,6 +20,14 @@ from docutils import nodes
 from tempfile import mkdtemp
 from textwrap import dedent
 import subprocess
+import socket
+import struct
+import tempfile
+import time
+
+from contextlib import closing, contextmanager
+from pathlib import Path
+from subprocess import PIPE, Popen, TimeoutExpired
 
 from sphinx.locale import _
 from sphinx.errors import ExtensionError
@@ -28,6 +38,35 @@ __version__ = '0.8.6'
 katex_version = '0.16.0'
 filename_css = 'katex-math.css'
 filename_autorenderer = 'katex_autorenderer.js'
+SRC_DIR = Path(__file__).parent
+SCRIPT_PATH = str(SRC_DIR / "katex-server.js")
+
+ONE_MILLISECOND = 0.001
+
+TIMEOUT_EXPIRED_TEMPLATE = (
+    "Rendering {} is taking too long. Try increasing RENDER_TIMEOUT"
+)
+
+STARTUP_TIMEOUT_EXPIRED = (
+    "KaTeX server did not came up after {} seconds. "
+    "Try increasing STARTUP_TIMEOUT."
+)
+
+KATEX_DEFAULT_OPTIONS = {
+    # Prefer KaTeX's debug coloring by default. This will not raise exceptions.
+    "throwOnError": False
+}
+
+KATEX_PATH = None
+
+# How long to wait for the render server to start in seconds
+STARTUP_TIMEOUT = 5.0
+
+# Timeout per rendering request in seconds
+RENDER_TIMEOUT = 5.0
+
+# nodejs binary to run javascript
+NODEJS_BINARY = "node"
 
 
 def latex_defs_to_katex_macros(defs):
@@ -76,30 +115,11 @@ def get_latex(node):
         return node.astext()  # for Sphinx >= 1.8.0
 
 
-def run_katex(latex, *options):
-    if platform.system() == 'Windows':
-        cmd = 'katex.cmd'
-    else:
-        cmd = 'katex'
-    p = subprocess.Popen(
-        (cmd, ) + options,
-        stdout=subprocess.PIPE,
-        stdin=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        env=os.environ.copy()
-    )
-    stdout, stderr = p.communicate(latex.encode('utf-8'))
-    if p.returncode:
-        msg = 'KaTeX failed with\n: ' + stderr.decode('utf-8')
-        raise RuntimeError(msg)
-    return stdout.decode('utf-8').rstrip('\r\n')
-
-
 def html_visit_math(self, node):
     self.body.append(self.starttag(node, 'span', '', CLASS='math'))
 
     if self.builder.config.katex_prerender:
-        self.body.append(run_katex(get_latex(node)))
+        self.body.append(render_latex(get_latex(node)))
     else:
         self.body.append(self.builder.config.katex_inline[0] +
                          self.encode(get_latex(node)) +
@@ -121,7 +141,7 @@ def html_visit_displaymath(self, node):
 
     if self.builder.config.katex_prerender:
         # NB: nowrap is always "on" when using prerendering
-        self.body.append(run_katex(get_latex(node), '--display-mode'))
+        self.body.append(render_latex(get_latex(node), {"displayMode": True}))
         self.body.append('</div>')
     elif node['nowrap']:
         self.body.append(self.encode(get_latex(node)))
@@ -290,3 +310,252 @@ def get_node_equation_number(writer, node):
         number = node['number']
 
     return number
+
+
+@contextmanager
+def socket_timeout(sock, timeout):
+    """Set the timeout on a socket for a context and restore it afterwards"""
+
+    original = sock.gettimeout()
+    try:
+        sock.settimeout(timeout)
+
+        yield
+    finally:
+        sock.settimeout(original)
+
+
+def random_free_port():
+    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
+        # reuse sockets
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+        # choose port=0 for random port
+        sock.bind(("127.0.0.1", 0))
+
+        # return port
+        _, p = sock.getsockname()
+        return p
+
+
+class KaTeXError(Exception):
+    pass
+
+
+class KaTeXServer:
+    """Manages and communicates with an instance of the render server"""
+
+    # Message length is 32-bit little-endian integer
+    LENGTH_STRUCT = struct.Struct("<i")
+
+    # global instance
+    KATEX_SERVER = None
+
+    # wait for the server to stop in seconds
+    STOP_TIMEOUT = 0.1
+
+    @staticmethod
+    def timeout_error(self, timeout):
+        message = STARTUP_TIMEOUT_EXPIRED.format(timeout)
+        return KaTeXError(message)
+
+    @staticmethod
+    def build_command(socket=None, port=None):
+        cmd = [NODEJS_BINARY, SCRIPT_PATH]
+
+        if socket is not None:
+            cmd.extend(["--socket", str(socket)])
+
+        if port is not None:
+            cmd.extend(["--port", str(port)])
+
+        if KATEX_PATH:
+            cmd.extend(["--katex", str(KATEX_PATH)])
+
+        return cmd
+
+    @classmethod
+    def start_server_process(cls, rundir, timeout):
+        socket_path = rundir / "katex.sock"
+
+        # Start the server process
+        cmd = cls.build_command(socket=socket_path)
+        process = Popen(cmd, stdin=PIPE, stdout=PIPE, cwd=rundir)
+
+        # Wait for the server to come up and create the socket.
+        startup_start = time.monotonic()
+        while not socket_path.is_socket():
+            time.sleep(ONE_MILLISECOND)
+            if time.monotonic() - startup_start > timeout:
+                raise cls.timeout_error(timeout)
+
+        # Connect to the server through a unix socket
+        try:
+            sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+            remaining = startup_start + timeout - time.monotonic()
+            with socket_timeout(sock, remaining):
+                sock.connect(str(socket_path))
+        except socket.timeout:
+            raise cls.timeout_error(timeout)
+
+        return process, sock
+
+    @classmethod
+    def start_network_socket(cls, rundir, timeout):
+        # Start the server on a random free port and connect to it.
+        # The port may become unavailable in between the check and usage.
+        host = "127.0.0.1"
+        port = random_free_port()
+
+        # Start the server process
+        cmd = cls.build_command(port=port)
+        process = Popen(cmd, stdin=PIPE, stdout=PIPE, cwd=rundir)
+
+        # Connect to the server through a network socket. We need to wait for
+        # the server to create the server socket. A nicer solution which would
+        # also side-step the race condition would be for the server to select
+        # the random port and then print it to stdout. Then python could
+        # select() on stdout to wait for the port/socket path without resorting
+        # to polling. However, select() is not supported for pipes on Windows.
+        startup_start = time.monotonic()
+        while True:
+            try:
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                remaining = startup_start + timeout - time.monotonic()
+                if remaining <= 0.0:
+                    raise cls.timeout_error(timeout)
+
+                with socket_timeout(sock, remaining):
+                    sock.connect((host, port))
+
+                break
+            except ConnectionRefusedError:
+                # The server is not up yet. Try again.
+                time.sleep(ONE_MILLISECOND)
+            except socket.timeout:
+                raise cls.timeout_error(timeout)
+
+        return process, sock
+
+    @classmethod
+    def start(cls):
+        rundir = Path(tempfile.mkdtemp(prefix="sphinxcontrib_katex"))
+
+        if os.name == "posix":
+            process, sock = cls.start_server_process(rundir, STARTUP_TIMEOUT)
+        else:
+            # Non-unix systems (i.e. Windows) do not support unix
+            # domain sockets for IPC, so we use network sockets.
+            process, sock = cls.start_network_socket(rundir, STARTUP_TIMEOUT)
+
+        server = KaTeXServer(rundir, process, sock)
+
+        # Clean up after ourselves when skphinx is done.
+        # I don't want to register signal handlers here.
+        atexit.register(KaTeXServer.terminate, server)
+
+        return server
+
+    @classmethod
+    def get(cls):
+        """Get the current render server or start one"""
+        if cls.KATEX_SERVER is None:
+            cls.KATEX_SERVER = KaTeXServer.start()
+
+        return cls.KATEX_SERVER
+
+    def __init__(self, rundir, process, sock):
+        self.rundir = rundir
+        self.process = process
+        self.sock = sock
+
+        # 100KB should be large enough even for big equations
+        self.buffer = bytearray(100 * 1024)
+
+    def terminate(self):
+        """Terminate the render server and clean up"""
+        self.sock.close()
+        try:
+            self.process.terminate()
+            self.process.wait(timeout=self.STOP_TIMEOUT)
+        except TimeoutExpired:
+            self.process.kill()
+        shutil.rmtree(self.rundir)
+
+    def render(self, request, timeout=None):
+        # Configure timeouts
+        if timeout is not None:
+            start_time = time.monotonic()
+            self.sock.settimeout(timeout)
+        else:
+            self.sock.settimeout(None)
+
+        # Send the request
+        request_bytes = json.dumps(request).encode("utf-8")
+        length = len(request_bytes)
+        self.sock.sendall(self.LENGTH_STRUCT.pack(length))
+        self.sock.sendall(request_bytes)
+
+        # Read the amount of bytes we are about to receive
+        size = self.sock.recv(self.LENGTH_STRUCT.size)
+        length = self.LENGTH_STRUCT.unpack(size)[0]
+
+        # Ensure that the buffer is large enough
+        if len(self.buffer) < length:
+            self.buffer = bytearray(length)
+
+        with memoryview(self.buffer) as view:
+            # Keep reading from the socket until we have received all bytes
+            received = 0
+            remaining = length
+            while remaining > 0:
+                # Abort if we are not done yet but the timeout has expired
+                if timeout is not None:
+                    elapsed = time.monotonic() - start_time
+                    if elapsed >= timeout:
+                        raise socket.timeout()
+                    else:
+                        # Subsequent recvs only get the remaining time instead
+                        # of the whole timeout again
+                        self.sock.settimeout(timeout - elapsed)
+
+                n_received = self.sock.recv_into(view[received:length], remaining)
+                received += n_received
+                remaining -= n_received
+
+            # Decode the response
+            serialized = view[:length].tobytes().decode("utf-8")
+            return json.loads(serialized)
+
+
+def render_latex(latex, options=None):
+    """Ask the KaTeX server to render some LaTeX.
+
+    Parameters
+    ----------
+    latex : str
+        LaTeX to render
+    options : optional dict
+        KaTeX options such as displayMode
+    """
+
+    # Combine caller-defined options with the default options
+    katex_options = KATEX_DEFAULT_OPTIONS
+    if options is not None:
+        katex_options = katex_options.copy()
+        katex_options.update(options)
+
+    server = KaTeXServer.get()
+    request = {"latex": latex, "katex_options": katex_options}
+
+    try:
+        response = server.render(request, RENDER_TIMEOUT)
+
+        if "html" in response:
+            return response["html"]
+        elif "error" in response:
+            raise KaTeXError(response["error"])
+        else:
+            raise KaTeXError("Unknown response from KaTeX renderer")
+    except socket.timeout:
+        raise KaTeXError(TIMEOUT_EXPIRED_TEMPLATE.format(latex))
