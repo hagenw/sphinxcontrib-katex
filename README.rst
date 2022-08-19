@@ -83,10 +83,8 @@ all configuration entries are listed and their default values are shown.
 
     katex_css_path = \
         'https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css'
-    katex_js_path = \
-        'https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js'
-    katex_autorender_path = \
-        'https://cdn.jsdelivr.net/npm/katex@0.16.0/contrib/auto-render.min.js'
+    katex_js_path = 'katex.min.js'
+    katex_autorender_path = 'auto-render.min.js'
     katex_inline = [r'\(', r'\)']
     katex_display = [r'\[', r'\]']
     katex_prerender = False
