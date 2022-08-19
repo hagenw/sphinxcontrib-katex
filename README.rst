@@ -44,14 +44,12 @@ To install ``sphinxcontrib.katex`` into your Python virtual environment run:
 
     $ pip install sphinxcontrib-katex
 
-If you want to pre-render the math by running Javascript on your server instead
-of running it in the browsers of the users, you have to install ``katex`` on
-your server and add it to your path:
+If you want to pre-render the math
+by running Javascript on your server
+instead of running it in the browsers of the users,
+you have to install nodejs_.
 
-.. code-block:: bash
-
-    $ npm install katex
-    $ PATH="${PATH}:$(pwd)/node_modules/.bin"
+.. _nodejs: https://nodejs.org/
 
 
 Usage
@@ -63,13 +61,17 @@ In ``conf.py`` of your Sphinx project, add the extension with:
 
     extensions = ['sphinxcontrib.katex']
 
-For enable server side pre-rendering add in addition (node js installation needed):
+For enable server side pre-rendering
+add in addition
+(nodejs_ installation needed):
 
 .. code-block:: python
 
     katex_prerender = True
 
 See the Configuration section for all available settings.
+
+.. _nodejs: https://nodejs.org/
 
 
 Configuration
