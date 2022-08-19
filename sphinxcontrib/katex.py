@@ -176,8 +176,8 @@ def builder_inited(app):
         add_js(app.config.katex_js_path)
         copy_katex_css_file(app, app.config.katex_js_path)
         # KaTeX auto-renderer
-        # add_js(app.config.katex_autorender_path)
-        # copy_katex_css_file(app, app.config.katex_autorender_path)
+        add_js(app.config.katex_autorender_path)
+        copy_katex_css_file(app, app.config.katex_autorender_path)
         # Automatic math rendering and custom CSS
         # https://github.com/Khan/KaTeX/blob/master/contrib/auto-render/README.md
         write_katex_autorenderer_file(app, filename_autorenderer)
