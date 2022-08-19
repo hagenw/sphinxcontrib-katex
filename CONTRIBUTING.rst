@@ -67,6 +67,20 @@ request on Github_.
 .. _Travis: https://travis-ci.org/hagenw/sphinxcontrib-katex/
 
 
+Updating to a new KaTeX version
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``sphinxcontrib.katex`` is bond to fixed KaTeX versions.
+To update the package to a new KaTeX version,
+execute:
+
+.. code-block:: bash
+
+    bash update-katex-version.sh
+
+and commit the resulting changes.
+
+
 Creating a New Release
 ^^^^^^^^^^^^^^^^^^^^^^
 
