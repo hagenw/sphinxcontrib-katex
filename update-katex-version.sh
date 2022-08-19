@@ -30,7 +30,7 @@ KATEX_URL="https://cdn.jsdelivr.net/npm/katex@${NEW_VERSION}/dist"
 echo "Updating katex.min.js"
 curl -s ${KATEX_URL}/katex.min.js --output sphinxcontrib/katex.min.js
 echo "Updating auto-render.min.js"
-curl -s ${KATEX_URL}/auto-render.min.js --output sphinxcontrib/auto-render.min.js
+curl -s ${KATEX_URL}/contrib/auto-render.min.js --output sphinxcontrib/auto-render.min.js
 
 # Update Python file
 sed -i "/katex_version = '${CURRENT_VERSION}'/c\\katex_version = '${NEW_VERSION}'" sphinxcontrib/katex.py
