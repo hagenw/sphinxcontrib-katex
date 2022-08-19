@@ -10,12 +10,16 @@ CURRENT_VERSION=${CURRENT_VERSION//\'/}
 echo "Current KaTeX version: ${CURRENT_VERSION}"
 echo "New KaTeX version: ${NEW_VERSION}"
 
-if [ ${NEW_VERSION} -lt ${CURRENT_VERSION} ]; then
+# Function to compare version numbers,
+# https://www.baeldung.com/linux/compare-dot-separated-version-string
+function version { printf "%03d%03d%03d" $(echo "$1" | tr '.' ' '); }
+
+if [ $(version ${NEW_VERSION}) -lt $(version ${CURRENT_VERSION}) ]; then
     echo "Something went wrong as current version is newer"
     exit 1
 fi
 
-if [ ${NEW_VERSION} -eq ${CURRENT_VERSION} ]; then
+if [ $(version ${NEW_VERSION}) -eq $(version ${CURRENT_VERSION}) ]; then
     echo "Versions are the same."
     exit 0
 fi
