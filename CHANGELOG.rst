@@ -7,6 +7,18 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.9.0 (2022-08-19)
+--------------------------
+
+* Added: local KaTeX server
+  to dramatically speed up pre-rendering
+* Added: ``katex.min.js`` and ``auto-render.min.js``
+  are now included in the Python package
+* Added: support for Python 3.10
+* Changed: use KaTeX 0.16.0
+* Removed: support for Python 3.6
+
+
 Version 0.8.6 (2021-05-27)
 --------------------------
 
