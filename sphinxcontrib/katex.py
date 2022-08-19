@@ -166,18 +166,23 @@ def builder_inited(app):
     old_js_add = getattr(app, 'add_javascript', None)
     add_css = getattr(app, 'add_css_file', old_css_add)
     add_js = getattr(app, 'add_js_file', old_js_add)
-    add_css(app.config.katex_css_path)
     # Ensure the static path is setup to hold KaTeX CSS and autorender files
     setup_static_path(app)
+    # KaTeX CSS
+    add_css(app.config.katex_css_path)
     if not app.config.katex_prerender:
+        # KaTeX JS
         add_js(app.config.katex_js_path)
+        copy_file(app, app.config.katex_js_path)
+        # KaTeX auto-renderer
+        add_js(app.config.katex_autorender_path)
+        copy_file(app, app.config.katex_autorender_path)
         # Automatic math rendering and custom CSS
         # https://github.com/Khan/KaTeX/blob/master/contrib/auto-render/README.md
-        add_js(app.config.katex_autorender_path)
         write_katex_autorenderer_file(app, filename_autorenderer)
         add_js(filename_autorenderer)
     # sphinxcontrib.katex custom CSS
-    copy_katex_css_file(app, filename_css)
+    copy_file(app, filename_css)
     add_css(filename_css)
 
 
@@ -195,10 +200,11 @@ def write_katex_autorenderer_file(app, filename):
         file.write(content)
 
 
-def copy_katex_css_file(app, css_file_name):
+def copy_file(app, file_name):
+    r"""Copy file to statis path."""
     pwd = os.path.abspath(os.path.dirname(__file__))
-    source = os.path.join(pwd, css_file_name)
-    dest = os.path.join(app._katex_static_path, css_file_name)
+    source = os.path.join(pwd, file_name)
+    dest = os.path.join(app._katex_static_path, file_name)
     copyfile(source, dest)
 
 
@@ -274,16 +280,15 @@ def setup(app):
 
     # Include KaTex CSS and JS files
     katex_url = 'https://cdn.jsdelivr.net/npm/katex@{version}/dist/'.format(
-        version=katex_version)
-    app.add_config_value('katex_css_path',
-                         katex_url + 'katex.min.css',
-                         False)
-    app.add_config_value('katex_js_path',
-                         katex_url + 'katex.min.js',
-                         False)
-    app.add_config_value('katex_autorender_path',
-                         katex_url + 'contrib/auto-render.min.js',
-                         False)
+        version=katex_version
+    )
+    app.add_config_value(
+        'katex_css_path',
+        katex_url + 'katex.min.css',
+        False,
+    )
+    app.add_config_value('katex_js_path', 'katex.min.js', False)
+    app.add_config_value('katex_autorender_path', 'auto-render.min.js', False)
     app.add_config_value('katex_inline', [r'\(', r'\)'], 'html')
     app.add_config_value('katex_display', [r'\[', r'\]'], 'html')
     app.add_config_value('katex_options', '', 'html')
