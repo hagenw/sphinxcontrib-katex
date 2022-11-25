@@ -2,6 +2,8 @@
  * See: https://github.com/Khan/KaTeX/issues/327 */
 .katex-display > .katex {
     max-width: 100%;
+    /* Ensure we use same font-size as rest of document */
+    font-size: 100%;
 }
 .katex-display > .katex > .katex-html {
     max-width: 100%;
