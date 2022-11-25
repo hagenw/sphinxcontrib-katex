@@ -7,6 +7,15 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.9.1 (2022-11-25)
+--------------------------
+
+* Added: support for Python 3.11
+* Changed: use KaTeX 0.16.3
+* Changed: enforce 100% of document font-size
+  for HTML
+
+
 Version 0.9.0 (2022-08-19)
 --------------------------
 
