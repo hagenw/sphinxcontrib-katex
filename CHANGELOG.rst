@@ -7,6 +7,14 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.9.3 (2022-11-25)
+--------------------------
+
+* Changed: reverted enforcement of 100% font scale
+  as a larger scaling of 1.21em
+  is the expected KaTeX default behavior
+
+
 Version 0.9.2 (2022-11-25)
 --------------------------
 
