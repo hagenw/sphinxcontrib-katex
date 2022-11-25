@@ -1,7 +1,3 @@
-/* Ensure we use same font-size as rest of document */
-.katex {
-    font-size: 100%;
-}
 /* Responsives: make equations scrollable on small screens.
  * See: https://github.com/Khan/KaTeX/issues/327 */
 .katex-display > .katex {
