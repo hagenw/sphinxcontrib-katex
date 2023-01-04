@@ -13,13 +13,11 @@
 import atexit
 import json
 import os
-import platform
 import re
 import shutil
 from docutils import nodes
 from tempfile import mkdtemp
 from textwrap import dedent
-import subprocess
 import socket
 import struct
 import tempfile
@@ -121,9 +119,11 @@ def html_visit_math(self, node):
     if self.builder.config.katex_prerender:
         self.body.append(render_latex(get_latex(node)))
     else:
-        self.body.append(self.builder.config.katex_inline[0] +
-                         self.encode(get_latex(node)) +
-                         self.builder.config.katex_inline[1])
+        self.body.append(
+            self.builder.config.katex_inline[0]
+            + self.encode(get_latex(node))
+            + self.builder.config.katex_inline[1]
+        )
 
     self.body.append('</span>')
     raise nodes.SkipNode
@@ -156,8 +156,11 @@ def html_visit_displaymath(self, node):
 
 
 def builder_inited(app):
-    if not (app.config.katex_js_path and app.config.katex_css_path and
-            app.config.katex_autorender_path):
+    if not (
+            app.config.katex_js_path
+            and app.config.katex_css_path
+            and app.config.katex_autorender_path
+    ):
         raise ExtensionError('KaTeX paths not set')
     # Sphinx 1.8 renamed `add_stylesheet` to `add_css_file`
     # and `add_javascript` to `add_js_file`.
@@ -524,7 +527,10 @@ class KaTeXServer:
                         # of the whole timeout again
                         self.sock.settimeout(timeout - elapsed)
 
-                n_received = self.sock.recv_into(view[received:length], remaining)
+                n_received = self.sock.recv_into(
+                    view[received:length],
+                    remaining,
+                )
                 received += n_received
                 remaining -= n_received
 
