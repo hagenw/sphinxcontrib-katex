@@ -14,9 +14,9 @@ copyright = '2017-' + year + ' ' + author
 
 needs_sphinx = '1.6'   # minimal sphinx version
 extensions = [
-        'sphinx.ext.autodoc',
-        'sphinx.ext.viewcode',
-        'sphinxcontrib.katex',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.viewcode',
+    'sphinxcontrib.katex',
 ]
 master_doc = 'index'
 source_suffix = '.rst'
@@ -26,7 +26,8 @@ exclude_patterns = ['_build']
 # release = version
 try:
     release = subprocess.check_output(
-            ['git', 'describe', '--tags', '--always'])
+        ['git', 'describe', '--tags', '--always']
+    )
     release = release.decode().strip()
 except Exception:
     release = '<unknown>'
@@ -62,13 +63,15 @@ html_theme_options = {
 latex_macros += r'\usepackage{arydshln}'
 
 latex_elements = {
-        'papersize': 'a4paper',
-        'pointsize': '10pt',
-        'preamble': latex_macros,  # command definitions
-        'figure_align': 'htbp',
-        'sphinxsetup': ('TitleColor={rgb}{0,0,0}, '
-                        'verbatimwithframe=false, '
-                        'VerbatimColor={rgb}{.96,.96,.96}'),
+    'papersize': 'a4paper',
+    'pointsize': '10pt',
+    'preamble': latex_macros,  # command definitions
+    'figure_align': 'htbp',
+    'sphinxsetup': (
+        'TitleColor={rgb}{0,0,0}, '
+        'verbatimwithframe=false, '
+        'VerbatimColor={rgb}{.96,.96,.96}'
+    ),
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
