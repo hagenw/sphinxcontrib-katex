@@ -7,6 +7,12 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.9.4 (2023-01-04)
+--------------------------
+
+* Changed: use KaTeX 0.16.4
+
+
 Version 0.9.3 (2022-11-25)
 --------------------------
 
