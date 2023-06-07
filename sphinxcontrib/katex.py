@@ -362,7 +362,7 @@ class KaTeXServer:
     # wait for the server to stop in seconds
     STOP_TIMEOUT = 0.1
 
-    @staticmethod
+    @classmethod
     def timeout_error(self, timeout):
         message = STARTUP_TIMEOUT_EXPIRED.format(timeout)
         return KaTeXError(message)
