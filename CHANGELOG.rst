@@ -7,6 +7,14 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.9.5 (2023-06-07)
+--------------------------
+
+* Changed: use KaTeX 0.16.7
+* Fixed: convert ``KaTeXServer.timeout_error()``
+  to class method
+
+
 Version 0.9.4 (2023-01-04)
 --------------------------
 
