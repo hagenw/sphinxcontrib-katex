@@ -21,6 +21,7 @@ extensions = [
 master_doc = 'index'
 source_suffix = '.rst'
 exclude_patterns = ['_build']
+templates_path = ['_templates']
 
 # The full version, including alpha/beta/rc tags.
 # release = version
@@ -52,9 +53,11 @@ katex_prerender = False
 html_title = project
 html_short_title = ""
 htmlhelp_basename = project
-html_theme_options = {
-    'code_font_size': '0.8em',
-}
+html_theme = 'insipid'
+
+# html_theme_options = {
+#     'code_font_size': '0.8em',
+# }
 
 
 # -- LATEX ---------------------------------------------------------------
