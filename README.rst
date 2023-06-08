@@ -61,7 +61,7 @@ In ``conf.py`` of your Sphinx project, add the extension with:
 
     extensions = ['sphinxcontrib.katex']
 
-For enable server side pre-rendering
+To enable server side pre-rendering
 add in addition
 (nodejs_ installation needed):
 
