@@ -1,0 +1,34 @@
+name: Documentation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    env:
+      python-version: '3.10'
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python ${{ env.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.python-version }}
+
+    - name: Install requirements
+      run: |
+        python -V
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r docs/requirements.txt
+
+    - name: Tests
+      run: |
+        python -m sphinx docs docs/_build/ -b html -W
+        python -m sphinx docs docs/_build/ -b latex -W
