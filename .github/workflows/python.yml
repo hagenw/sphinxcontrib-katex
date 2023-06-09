@@ -33,5 +33,5 @@ jobs:
 
     - name: Tests
       run: |
-        python -m sphinx docs docs/_build/ -c docs/ -b html -W -D html_theme="alabaster"
+        python -m sphinx docs docs/_build/ -c docs/ -b html -W -D html_theme="alabaster" -D html_theme_options={}
         python -m sphinx docs docs/_build/ -c docs/ -b latex -W

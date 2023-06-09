@@ -46,4 +46,4 @@ jobs:
     - name: Tests
       run: |
         katex -V
-        python -m sphinx docs docs/_build/ -c docs/ -b html -W -D katex_prerender=1 -D html_theme="alabaster"
+        python -m sphinx docs docs/_build/ -c docs/ -b html -W -D katex_prerender=1 -D html_theme="alabaster" -D html_theme_options={}
