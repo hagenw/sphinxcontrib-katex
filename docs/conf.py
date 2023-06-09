@@ -21,7 +21,6 @@ extensions = [
 master_doc = 'index'
 source_suffix = '.rst'
 exclude_patterns = ['_build']
-templates_path = ['_templates']
 
 # The full version, including alpha/beta/rc tags.
 # release = version
@@ -35,7 +34,6 @@ except Exception:
 
 # Code syntax highlighting style
 pygments_style = 'tango'
-
 
 # -- ACRONYMS AND MATH ---------------------------------------------------
 latex_macros = r"""
@@ -53,11 +51,29 @@ katex_prerender = False
 html_title = project
 html_short_title = ""
 htmlhelp_basename = project
-html_theme = 'insipid'
 
-# html_theme_options = {
-#     'code_font_size': '0.8em',
-# }
+# Theme settings,
+# see https://insipid-sphinx-theme.readthedocs.io/configuration.html
+html_theme = 'insipid'
+html_permalinks_icon = '#'
+html_copy_source = False
+html_theme_options = {
+    'right_buttons': [
+        'fullscreen-button.html',
+        'pdf-button.html',
+        'repo-button.html',
+    ],
+}
+html_context = {
+    'display_github': True,
+    'github_user': 'hagenw',
+    'github_repo': 'sphinxcontrib-katex',
+}
+
+# Extending theme
+templates_path = ['_templates']
+html_static_path = ['_static']
+html_css_files = ['custom.css']
 
 
 # -- LATEX ---------------------------------------------------------------
