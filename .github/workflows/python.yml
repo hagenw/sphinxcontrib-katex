@@ -33,5 +33,5 @@ jobs:
 
     - name: Tests
       run: |
-        python -m sphinx docs docs/_build/ -c docs/ -b html -W
-        python -m sphinx docs docs/_build/ -c docs/ -b latex -W
+        python -m sphinx docs docs/_build/ -b html -W -C
+        python -m sphinx docs docs/_build/ -b latex -W
