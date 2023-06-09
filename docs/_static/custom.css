@@ -1,7 +1,35 @@
+/* Reduce saturation of main text color */
 body {
     color: #313131;
 }
 
+/* Reduce saturation of horizontal separation lines */
+#topbar {
+    border-bottom: #f1f1f1 solid 1px;
+}
+footer, div.articleComments {
+    border-top: #f1f1f1 solid 1px;
+}
+hr.docutils {
+    border-top: #f1f1f1 solid 1px;
+}
+
+/* Reduce saturation of footer color */
+footer {
+    color: #888;
+}
+
+/* Reduce saturation of code highlight background */
+.highlight {
+    background: #f6f8fa;
+}
+
+/* Reduce saturation of sidebar background */
+div.sphinxsidebar {
+    background-color: #fbfbfb;
+}
+
+/* Remove underline from external links */
 a.external {
     text-decoration: none;
 }
