@@ -57,6 +57,8 @@ htmlhelp_basename = project
 html_theme = 'insipid'
 html_permalinks_icon = '#'
 html_copy_source = False
+html_show_sourcelink = False
+html_use_index = False
 html_theme_options = {
     'right_buttons': [
         'fullscreen-button.html',
