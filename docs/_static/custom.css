@@ -108,11 +108,13 @@ footer {
     z-index: 500;
 }
 
-/* Use white on dark-blud colors for footer */
+/* Use white on dark-blue colors for footer */
 footer {
     color: #eceef0;
     background-color: #2c3544;
     border-top: none;
+    line-height: 2;
+    font-size: 16px;
 }
 footer a {
     color: #eceef0;
