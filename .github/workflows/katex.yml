@@ -46,4 +46,4 @@ jobs:
     - name: Tests
       run: |
         katex -V
-        python -m sphinx docs docs/_build/ -c docs/ -b html -W -C -D katex_prerender=1
+        python -m sphinx docs docs/_build/ -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex -D katex_prerender=1
