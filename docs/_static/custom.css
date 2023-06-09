@@ -33,3 +33,6 @@ div.sphinxsidebar {
 a.external {
     text-decoration: none;
 }
+a.external:hover {
+    text-decoration: underline;
+}
