@@ -24,6 +24,12 @@ a.external:hover {
     text-decoration: underline;
 }
 
+/* Increase visibility of anchor # links */
+a.headerlink {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
 /* Reduce saturation of horizontal separation lines */
 #topbar {
     border-bottom: none;
