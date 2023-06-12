@@ -3,30 +3,17 @@ body {
     color: #313131;
 }
 
-/* Reduce saturation of horizontal separation lines */
-#topbar {
-    border-bottom: #f1f1f1 solid 1px;
-}
-footer, div.articleComments {
-    border-top: #f1f1f1 solid 1px;
-}
-hr.docutils {
-    border-top: #f1f1f1 solid 1px;
+/* Increase space between footer and content */
+div.body {
+    margin-bottom: 30px;
 }
 
-/* Reduce saturation of footer color */
-footer {
-    color: #888;
+/* Select different color for links */
+a {
+    color: #8ab9ce;
 }
-
-/* Reduce saturation of code highlight background */
-.highlight {
-    background: #f6f8fa;
-}
-
-/* Reduce saturation of sidebar background */
-div.sphinxsidebar {
-    background-color: #fbfbfb;
+a:visited {
+    color: #8ab9ce;
 }
 
 /* Remove underline from external links */
@@ -35,4 +22,112 @@ a.external {
 }
 a.external:hover {
     text-decoration: underline;
+}
+
+/* Increase visibility of anchor # links */
+a.headerlink {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+/* Reduce saturation of horizontal separation lines */
+#topbar {
+    border-bottom: none;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
+}
+
+/* Reduce saturation of code highlight background */
+.highlight {
+    background: #f6f8fa;
+}
+
+
+/***** SIDEBAR *****/
+
+/* Hide vertical line below sidebar menu */
+hr.docutils {
+    visibility: hidden;
+}
+
+/* No background and right border */
+div.sphinxsidebar {
+    background-color: transparent;
+    border-right: 1px solid #dadde1;
+}
+
+/* Highlight links in sidebar by a light box,
+ * write them all in grey,
+ * highlight selected and visible ones
+ * by <a> color */
+div.sphinxsidebar {
+    font-weight: 500;
+}
+div.sphinxsidebar ul {
+    margin-left: 0px;
+}
+
+div.sphinxsidebar a {
+    display: flex;
+    padding: 0.375rem 1rem;
+    border-radius: 0.25rem;
+    transition: background 200ms cubic-bezier(0.08,0.52,0.52,1);
+    line-height: 1.25;
+    font-size: 16px;
+    color: #606771;
+}
+div.sphinxsidebar a:hover {
+    background-color: #f2f2f2;
+    text-decoration: none;
+}
+div.sphinxsidebar li.toctree-l1 a.current {
+    background-color: #f2f2f2;
+    color: #8ab9ce;
+}
+div.sphinxsidebar li.toctree-l1 a.in-view {
+    color: #8ab9ce;
+}
+div.sphinxsidebar a.in-view {
+    letter-spacing: 0;
+}
+/* "Table of Contens" always bold */
+div.sphinxsidebar h3 {
+    font-weight: 600;
+}
+
+/* Reduce space between sidebar entries */
+div.sphinxsidebar li {
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+div.sphinxsidebar li li:first-child {
+    margin-top: 0.1em;
+}
+
+
+/***** FOOTER *****/
+
+/* Make footer stay on top of sidebar */
+#sidebar-checkbox:checked ~ footer {
+    margin-left: 0;
+}
+footer {
+    z-index: 500;
+}
+
+/* Use white on dark-blue colors for footer */
+footer {
+    color: #eceef0;
+    background-color: #2c3544;
+    border-top: none;
+    line-height: 2;
+    font-size: 16px;
+}
+footer a {
+    color: #eceef0;
+}
+footer a:visited {
+    color: #eceef0;
+}
+footer a:hover {
+    color: #8ab9ce;
 }
