@@ -131,6 +131,11 @@ div.sphinxsidebar li li:first-child {
     padding-top: 0;
 }
 
+/* Ensure vertical space between version numbers */
+.rst-versions .rst-other-versions dd {
+    margin: 1px 0;
+}
+
 /* Selected version */
 .rst-versions dd.rtd-current-item a {
     background-color: #f2f2f2;
@@ -175,6 +180,11 @@ div.sphinxsidebar form {
     color: #606771;
     font-size: 12px;
     font-weight: 500;
+}
+.rst-versions small a:hover {
+    color: #8ab9ce;
+    background-color: transparent;
+    text-decoration: underline;
 }
 
 /***** FOOTER *****/
