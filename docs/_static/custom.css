@@ -66,7 +66,7 @@ div.sphinxsidebar ul {
     margin-left: 0px;
 }
 
-div.sphinxsidebar a {
+div.sphinxsidebar a:not(.ethical-sidebar a):not(small a) {
     display: flex;
     padding: 0.375rem 1rem;
     border-radius: 0.25rem;
@@ -103,6 +103,89 @@ div.sphinxsidebar li li:first-child {
     margin-top: 0.1em;
 }
 
+/* RTD sidebar */
+
+/* Hide batch at bottom to select version */
+#duplicated-readthedocs-versions {
+    visibility: hidden;
+}
+
+.rst-versions {
+    background: transparent;
+}
+
+/* Increase margin below ad */
+#ethical-ad-placement {
+    margin-bottom: 20px;
+}
+
+/* Add "Read the Docs" header after ad */
+.rst-other-versions:before {
+    content: "Read the Docs";
+    color: #606771;
+    font-size: 16px;
+    font-weight: 600;
+    padding-left: 6px;
+}
+.rst-versions .rst-other-versions {
+    padding-top: 0;
+}
+
+/* Ensure vertical space between version numbers */
+.rst-versions .rst-other-versions dd {
+    margin: 1px 0;
+}
+
+/* Selected version */
+.rst-versions dd.rtd-current-item a {
+    background-color: #f2f2f2;
+    color: #8ab9ce;
+}
+.rst-versions dd.rtd-current-item a:visited {
+    background-color: #f2f2f2;
+    color: #8ab9ce;
+}
+
+/* Subsections in RTD block */
+.rst-versions dt {
+    font-weight: 600;
+    padding: 0.375rem 1rem;
+    font-size: 16px;
+    color: #606771;
+    line-height: 1.25;
+    margin-top: 20px;
+    padding-left: 6px;
+}
+
+/* Search */
+div.sphinxsidebar form {
+    margin-top: 0;
+}
+#flyout-search-form input {
+    height: 20px;
+    margin-left: 6px;
+}
+
+/* Hide separation line in RST sidebar */
+.rst-versions .rst-other-versions hr {
+    border-top: 0;
+    margin: 15px 0;
+}
+
+/* RST sidebar footer */
+.rst-versions small {
+    padding-left: 6px;
+}
+.rst-versions small a {
+    color: #606771;
+    font-size: 12px;
+    font-weight: 500;
+}
+.rst-versions small a:hover {
+    color: #8ab9ce;
+    background-color: transparent;
+    text-decoration: underline;
+}
 
 /***** FOOTER *****/
 
