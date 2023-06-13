@@ -32,7 +32,7 @@ from sphinx.errors import ExtensionError
 from sphinx.util.osutil import copyfile
 
 
-__version__ = '0.9.5'
+__version__ = '0.9.6'
 katex_version = '0.16.7'
 filename_css = 'katex-math.css'
 filename_autorenderer = 'katex_autorenderer.js'

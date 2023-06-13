@@ -7,6 +7,14 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.9.6 (2023-06-13)
+--------------------------
+
+* Changed: use custom sphinx theme
+  based on ``insipid``
+  for HTML documentation pages
+
+
 Version 0.9.5 (2023-06-07)
 --------------------------
 
