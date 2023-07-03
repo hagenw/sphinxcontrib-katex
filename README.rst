@@ -1,7 +1,7 @@
 sphinxcontrib-katex
 ===================
 
-|tests| |docs| |python-versions| |license|
+|docs| |python-versions| |license|
 
 A `Sphinx extension`_ for rendering math in HTML pages.
 
@@ -21,9 +21,6 @@ as a replacement for the built-in extension `sphinx.ext.mathjax`_, which uses
 .. _sphinx.ext.mathjax:
     https://github.com/sphinx-doc/sphinx/blob/master/sphinx/ext/mathjax.py
 
-.. |tests| image:: https://github.com/hagenw/sphinxcontrib-katex/workflows/Test/badge.svg
-    :target: https://github.com/hagenw/sphinxcontrib-katex/actions?query=workflow%3ATest
-    :alt: Test status
 .. |docs| image:: https://readthedocs.org/projects/sphinxcontrib-katex/badge/
     :target: https://sphinxcontrib-katex.readthedocs.io/
     :alt: sphinxcontrib.katex's documentation on Read the Docs
