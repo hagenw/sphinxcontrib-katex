@@ -33,7 +33,13 @@ echo "Updating auto-render.min.js"
 curl -s ${KATEX_URL}/contrib/auto-render.min.js --output sphinxcontrib/auto-render.min.js
 
 # Update Python file
+echo "Updating katex.py"
 sed -i "/katex_version = '${CURRENT_VERSION}'/c\\katex_version = '${NEW_VERSION}'" sphinxcontrib/katex.py
 
 # Update README
+echo "Updating README.rst"
 sed -i "s/${CURRENT_VERSION}/${NEW_VERSION}/" README.rst
+
+# Update github Action for pre-rendering
+echo "Updating .github/workflows/katex.yml"
+sed -i "s/katex-version: '${CURRENT_VERSION}'/katex-version: '${NEW_VERSION}'/" .github/workflows/katex.yml
