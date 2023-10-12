@@ -160,9 +160,6 @@ convention = 'google'
 #
 # Find all (sub-)modules of the Python package
 [tool.setuptools.packages.find]
-where = ['.']
-# include = ["sphinxcontrib", "sphinxcontrib.katex"]
-# find = {namespaces = false}  # Disable implicit namespaces
 
 [tool.setuptools.dynamic]
 version = {attr = 'sphinxcontrib.katex.__version__'}
