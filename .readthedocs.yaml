@@ -1,0 +1,27 @@
+# Read the Docs configuration file for Sphinx projects
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+
+# Required
+version: 2
+
+# Set the OS, Python version and other tools you might need
+build:
+  os: ubuntu-22.04
+  tools:
+    python: "3.10"
+    nodejs: "20"
+  commands:
+    - npm install --global "katex@0.16.9"
+    - python -m sphinx docs $READTHEDOCS_OUTPUT -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex -D katex_prerender=1
+
+sphinx:
+  configuration: docs/conf.py
+  # Fail on all warnings to avoid broken references
+  fail_on_warning: true
+
+formats:
+   - pdf
+
+python:
+   install:
+   - requirements: docs/requirements.txt
