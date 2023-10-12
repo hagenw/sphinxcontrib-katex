@@ -81,7 +81,7 @@ all configuration entries are listed and their default values are shown.
 .. code-block:: python
 
     katex_css_path = \
-        'https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css'
+        'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css'
     katex_js_path = 'katex.min.js'
     katex_autorender_path = 'auto-render.min.js'
     katex_inline = [r'\(', r'\)']
