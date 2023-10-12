@@ -12,7 +12,9 @@ build:
     nodejs: "20"
   commands:
     - npm install --global "katex@0.16.9"
-    - python -m sphinx docs $READTHEDOCS_OUTPUT -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex -D katex_prerender=1
+    - pip install .
+    - pip install -r docs/requirements.txt
+    - python -m sphinx docs $READTHEDOCS_OUTPUT/html -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex -D katex_prerender=1
 
 sphinx:
   configuration: docs/conf.py
@@ -21,7 +23,3 @@ sphinx:
 
 formats:
    - pdf
-
-python:
-   install:
-   - requirements: docs/requirements.txt
