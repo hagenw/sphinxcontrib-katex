@@ -7,6 +7,13 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.9.8 (2023-10-12)
+--------------------------
+
+* Added: support for Python 3.12
+* Changed: use KaTeX 0.16.9
+
+
 Version 0.9.7 (2023-07-03)
 --------------------------
 
