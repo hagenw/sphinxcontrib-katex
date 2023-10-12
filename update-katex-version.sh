@@ -43,3 +43,7 @@ sed -i "s/${CURRENT_VERSION}/${NEW_VERSION}/" README.rst
 # Update github Action for pre-rendering
 echo "Updating .github/workflows/katex.yml"
 sed -i "s/katex-version: '${CURRENT_VERSION}'/katex-version: '${NEW_VERSION}'/" .github/workflows/katex.yml
+
+# Update Read The Docs configuration
+echo "Updating .readthedocs.yaml"
+sed -i "s/katex@${CURRENT_VERSION}/katex@${NEW_VERSION}/" .readthedocs.yaml
