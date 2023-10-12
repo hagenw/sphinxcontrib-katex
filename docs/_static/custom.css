@@ -89,7 +89,7 @@ div.sphinxsidebar li.toctree-l1 a.in-view {
 div.sphinxsidebar a.in-view {
     letter-spacing: 0;
 }
-/* "Table of Contens" always bold */
+/* "Table of Content" always bold */
 div.sphinxsidebar h3 {
     font-weight: 600;
 }

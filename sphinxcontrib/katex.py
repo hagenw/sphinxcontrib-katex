@@ -1,34 +1,35 @@
 # -*- coding: utf-8 -*-
-"""
-    sphinxcontrib.katex
-    ~~~~~~~~~~~~~~~~~~~
+"""sphinxcontrib.katex
+~~~~~~~~~~~~~~~~~~~.
 
-    Allow `KaTeX <khan.github.io/KaTeX/>`_ to be used to display math in
-    Sphinx's HTML writer.
+Allow `KaTeX <khan.github.io/KaTeX/>`_ to be used to display math in
+Sphinx's HTML writer.
 
-    :copyright: Copyright 2017-2022 by Hagen Wierstorf.
-    :license: MIT, see LICENSE for details.
-"""
+:copyright: Copyright 2017-2022 by Hagen Wierstorf.
+:license: MIT, see LICENSE for details.
+"""  # noqa: D205
 
 import atexit
+from contextlib import closing
+from contextlib import contextmanager
 import json
 import os
+from pathlib import Path
 import re
 import shutil
-from docutils import nodes
-from tempfile import mkdtemp
-from textwrap import dedent
 import socket
 import struct
+from subprocess import PIPE
+from subprocess import Popen
+from subprocess import TimeoutExpired
 import tempfile
+from tempfile import mkdtemp
+from textwrap import dedent
 import time
 
-from contextlib import closing, contextmanager
-from pathlib import Path
-from subprocess import PIPE, Popen, TimeoutExpired
-
-from sphinx.locale import _
+from docutils import nodes
 from sphinx.errors import ExtensionError
+from sphinx.locale import _
 from sphinx.util.osutil import copyfile
 
 
@@ -68,7 +69,7 @@ NODEJS_BINARY = "node"
 
 
 def latex_defs_to_katex_macros(defs):
-    r'''Converts LaTeX \def statements to KaTeX macros.
+    r"""Converts LaTeX \def statements to KaTeX macros.
 
     This is a helper function that can be used in conf.py to translate your
     already specified LaTeX definitions.
@@ -76,13 +77,14 @@ def latex_defs_to_katex_macros(defs):
     https://github.com/Khan/KaTeX#rendering-options, e.g.
     `\def \e #1{\mathrm{e}^{#1}}` => `"\\e:" "\\mathrm{e}^{#1}"`'
 
-    Example
-    -------
+    Example:
+    --------
     import sphinxcontrib.katex as katex
     # Get your LaTeX defs into `latex_defs` and then do
     latex_macros = katex.import_macros_from_latex(latex_defs)
     katex_options = 'macros: {' + latex_macros + '}'
-    '''
+
+    """
     # Remove empty lines
     defs = defs.strip()
     tmp = []
@@ -181,7 +183,7 @@ def builder_inited(app):
         add_js(app.config.katex_autorender_path)
         copy_file(app, app.config.katex_autorender_path)
         # Automatic math rendering and custom CSS
-        # https://github.com/Khan/KaTeX/blob/master/contrib/auto-render/README.md
+        # https://github.com/KaTeX/KaTeX/blob/main/contrib/auto-render/README.md
         write_katex_autorenderer_file(app, filename_autorenderer)
         add_js(filename_autorenderer)
     # sphinxcontrib.katex custom CSS
@@ -246,7 +248,7 @@ def katex_rendering_delimiters(app):
 
 
 def katex_rendering_options(app):
-    """Strip katex_options from enclosing {} and append ,"""
+    """Strip katex_options from enclosing {} and append ,."""
     options = trim(app.config.katex_options)
     # Remove surrounding {}
     if options.startswith('{') and options.endswith('}'):
@@ -322,8 +324,7 @@ def get_node_equation_number(writer, node):
 
 @contextmanager
 def socket_timeout(sock, timeout):
-    """Set the timeout on a socket for a context and restore it afterwards"""
-
+    """Set the timeout on a socket for a context and restore it afterwards."""
     original = sock.gettimeout()
     try:
         sock.settimeout(timeout)
@@ -334,6 +335,7 @@ def socket_timeout(sock, timeout):
 
 
 def random_free_port():
+    """Select a random port on local host."""
     with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
         # reuse sockets
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -347,11 +349,12 @@ def random_free_port():
 
 
 class KaTeXError(Exception):
+    """KaTeX Error object."""
     pass
 
 
 class KaTeXServer:
-    """Manages and communicates with an instance of the render server"""
+    """Manages and communicates with an instance of the render server."""
 
     # Message length is 32-bit little-endian integer
     LENGTH_STRUCT = struct.Struct("<i")
@@ -364,11 +367,13 @@ class KaTeXServer:
 
     @classmethod
     def timeout_error(cls, timeout):
+        """KaTeX time out error."""
         message = STARTUP_TIMEOUT_EXPIRED.format(timeout)
         return KaTeXError(message)
 
     @staticmethod
     def build_command(socket=None, port=None):
+        """KaTeX node build command."""
         cmd = [NODEJS_BINARY, SCRIPT_PATH]
 
         if socket is not None:
@@ -384,6 +389,7 @@ class KaTeXServer:
 
     @classmethod
     def start_server_process(cls, rundir, timeout):
+        """Start KaTeX server."""
         socket_path = rundir / "katex.sock"
 
         # Start the server process
@@ -410,6 +416,7 @@ class KaTeXServer:
 
     @classmethod
     def start_network_socket(cls, rundir, timeout):
+        """Start server on random free port."""
         # Start the server on a random free port and connect to it.
         # The port may become unavailable in between the check and usage.
         host = "127.0.0.1"
@@ -447,6 +454,7 @@ class KaTeXServer:
 
     @classmethod
     def start(cls):
+        """Start KaTeX server."""
         rundir = Path(tempfile.mkdtemp(prefix="sphinxcontrib_katex"))
 
         if os.name == "posix":
@@ -466,7 +474,7 @@ class KaTeXServer:
 
     @classmethod
     def get(cls):
-        """Get the current render server or start one"""
+        """Get the current render server or start one."""
         if cls.KATEX_SERVER is None:
             cls.KATEX_SERVER = KaTeXServer.start()
 
@@ -481,7 +489,7 @@ class KaTeXServer:
         self.buffer = bytearray(100 * 1024)
 
     def terminate(self):
-        """Terminate the render server and clean up"""
+        """Terminate the render server and clean up."""
         self.sock.close()
         try:
             self.process.terminate()
@@ -491,6 +499,7 @@ class KaTeXServer:
         shutil.rmtree(self.rundir)
 
     def render(self, request, timeout=None):
+        """Render content."""
         # Configure timeouts
         if timeout is not None:
             start_time = time.monotonic()
@@ -549,7 +558,6 @@ def render_latex(latex, options=None):
     options : optional dict
         KaTeX options such as displayMode
     """
-
     # Combine caller-defined options with the default options
     katex_options = KATEX_DEFAULT_OPTIONS
     if options is not None:
