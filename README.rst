@@ -25,7 +25,7 @@ as a replacement for the built-in extension `sphinx.ext.mathjax`_, which uses
     :target: https://sphinxcontrib-katex.readthedocs.io/
     :alt: sphinxcontrib.katex's documentation on Read the Docs
 .. |license| image:: https://img.shields.io/badge/license-MIT-green.svg
-    :target: https://github.com/hagenw/sphinxcontrib-katex/blob/master/LICENSE
+    :target: https://github.com/hagenw/sphinxcontrib-katex/blob/main/LICENSE
     :alt: sphinxcontrib.katex's MIT license
 .. |python-versions| image:: https://img.shields.io/pypi/pyversions/sphinxcontrib-katex.svg
     :target: https://pypi.org/project/sphinxcontrib-katex/

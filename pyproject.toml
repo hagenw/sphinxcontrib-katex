@@ -1,0 +1,166 @@
+# ===== PROJECT ===========================================================
+#
+[project]
+name = 'sphinxcontrib-katex'
+authors = [
+    {name = 'Hagen Wierstorf', email = 'hagenw@posteo.de'},
+]
+description = 'A Sphinx extension for rendering math in HTML pages'
+readme = 'README.rst'
+license = {file = 'LICENSE'}
+keywords = [
+    'sphinx',
+    'latex',
+    'katex',
+    'math',
+    'documentation',
+]
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Intended Audience :: Science/Research',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Topic :: Scientific/Engineering',
+    'Topic :: Documentation',
+    'Topic :: Utilities',
+]
+dependencies = [
+    'sphinx >=1.6',
+]
+requires-python = '>=3.7'
+# Get version dynamically from git
+# (needs setuptools_scm tools config below)
+dynamic = ['version']
+
+[project.urls]
+repository = 'https://github.com/hagenw/sphinxcontrib-katex/'
+documentation = 'https://sphinxcontrib-katex.readthedocs.io'
+
+
+# ===== BUILD-SYSTEM ======================================================
+#
+# Requirements for building the Python package
+[build-system]
+requires = ['setuptools>=45']
+build-backend = 'setuptools.build_meta'
+
+
+# ===== TOOL ==============================================================
+#
+
+# ----- codespell ---------------------------------------------------------
+[tool.codespell]
+builtin = 'clear,rare,informal,names'
+skip = '*.js,./sphinxcontrib_katex.egg-info,./build'
+
+
+# ----- ruff --------------------------------------------------------------
+#
+[tool.ruff]
+select = [
+    'D',     # pydocstyle
+    'E',     # pycodestyle errors
+    'F',     # Pyflakes
+    'I',     # isort
+    'N',     # pep8-naming
+    'W',     # pycodestyle warnings
+]
+
+extend-ignore = [
+    'D100',  # Missing docstring in public module
+    'D103',  # Missing docstring in public function
+    'D104',  # Missing docstring in public package
+    'D107',  # Missing docstring in `__init__`
+]
+
+line-length = 79
+
+cache-dir = '.cache/ruff'
+
+[tool.ruff.per-file-ignores]
+'__init__.py' = [
+    'F401',  # * imported but unused
+]
+'tests/*' = [
+    'D101',  # Missing docstring in public class
+    'D102',  # Missing docstring in public method
+]
+
+
+# ----- I: isort -----
+#
+# Check correct order/syntax of import statements
+#
+[tool.ruff.isort]
+
+# All from imports have their own line, e.g.
+#
+#   from .utils import util_a
+#   from .utils import util_b
+#
+force-single-line = true
+
+# Sort by module names
+# and not import before from, e.g.
+#
+#     from datetime import date
+#     import os
+#
+force-sort-within-sections = true
+
+# Ensure we have two empty lines
+# after last import
+lines-after-imports = 2
+
+# Group all audEERING packages into a separate section, e.g.
+#
+#     import os
+#
+#     import numpy as np
+#
+#     import audonnx
+#
+section-order = [
+    'future',
+    'standard-library',
+    'third-party',
+    'first-party',
+    'local-folder',
+]
+
+
+# ----- N: pep8-naming -----
+#
+# Check variable/class names follow PEP8 naming convention
+#
+[tool.ruff.pep8-naming]
+ignore-names = [
+    'config',  # allow lowercase class name
+    'test_*',  # allow uppercase name when testing a class
+]
+
+
+# ----- W: pycodestyle -----
+#
+# Check docstrings follow selected convention
+#
+[tool.ruff.pydocstyle]
+convention = 'google'
+
+
+# ----- setuptools --------------------------------------------------------
+#
+# Find all (sub-)modules of the Python package
+[tool.setuptools.packages]
+find = {namespaces = false}  # Disable implicit namespaces
+
+[tool.setuptools.dynamic]
+version = {attr = 'sphinxcontrib.katex.__version__'}
