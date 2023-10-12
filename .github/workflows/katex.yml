@@ -11,8 +11,8 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     env:
-      node-version: 20.0
-      python-version: 3.10
+      node-version: '20.0'
+      python-version: '3.10'
       sphinx-version: '5.*'
       katex-version: '0.16.9'
     strategy:
