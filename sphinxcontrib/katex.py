@@ -33,7 +33,7 @@ from sphinx.locale import _
 from sphinx.util.osutil import copyfile
 
 
-__version__ = '0.9.8'
+__version__ = '0.9.9'
 katex_version = '0.16.9'
 filename_css = 'katex-math.css'
 filename_autorenderer = 'katex_autorenderer.js'

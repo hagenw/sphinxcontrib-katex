@@ -7,6 +7,12 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.9.9 (2023-10-16)
+--------------------------
+
+* Fixed: building of documentation on Read The Docs.
+
+
 Version 0.9.8 (2023-10-12)
 --------------------------
 
