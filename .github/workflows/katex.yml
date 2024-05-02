@@ -14,7 +14,7 @@ jobs:
       node-version: '20.0'
       python-version: '3.10'
       sphinx-version: '5.*'
-      katex-version: '0.16.9'
+      katex-version: '0.16.10'
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macOS-latest ]
