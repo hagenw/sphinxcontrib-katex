@@ -14,7 +14,6 @@ jobs:
       node-version: '20.0'
       python-version: '3.10'
       sphinx-version: '5.*'
-      katex-version: '0.16.10'
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macOS-latest ]
@@ -32,10 +31,6 @@ jobs:
       with:
         python-version: ${{ env.python-version }}
 
-    - name: Prepare KaTeX server
-      run: |
-        npm install --global katex@${{ env.katex-version }}
-
     - name: Set up Sphinx ${{ env.sphinx-version }}
       run: |
         python -V
@@ -45,5 +40,4 @@ jobs:
 
     - name: Tests
       run: |
-        katex -V
         python -m sphinx docs docs/_build/ -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex -D katex_prerender=1
