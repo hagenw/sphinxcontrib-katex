@@ -3,7 +3,7 @@
 [project]
 name = 'sphinxcontrib-katex'
 authors = [
-    {name = 'Hagen Wierstorf', email = 'hagenw@posteo.de'},
+    {name = 'sphinxcontrib-katex Development Team'},
 ]
 description = 'A Sphinx extension for rendering math in HTML pages'
 readme = 'README.rst'

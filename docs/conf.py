@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 import datetime
+import os
 import subprocess
+
+import toml
 
 import sphinxcontrib.katex as katex
 
 
 # -- GENERAL -------------------------------------------------------------
+config = toml.load(os.path.join("..", "pyproject.toml"))
 
-project = 'sphinxcontrib-katex'
-author = 'Hagen Wierstorf'
+project = config["project"]["name"]
+author = ", ".join(author["name"] for author in config["project"]["authors"])
 year = str(datetime.date.today().year)
 copyright = '2017-' + year + ' ' + author
 
@@ -102,7 +106,7 @@ latex_documents = [
     (master_doc,
      'sphinxcontrib-katex.tex',
      'sphinxcontrib-katex',
-     'Hagen Wierstorf',
+     'sphinxcontrib-katex Development Team',
      'manual',
      True),
 ]
