@@ -387,6 +387,8 @@ class KaTeXServer:
         if KATEX_PATH:
             print(f"DEBUG: add {KATEX_PATH=}")
             cmd.extend(["--katex", str(KATEX_PATH)])
+        else:
+            print(f"DEBUG: add {KATEX_PATH=}")
 
         return cmd
 
