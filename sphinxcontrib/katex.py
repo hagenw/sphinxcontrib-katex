@@ -186,6 +186,8 @@ def builder_inited(app):
         # https://github.com/KaTeX/KaTeX/blob/main/contrib/auto-render/README.md
         write_katex_autorenderer_file(app, filename_autorenderer)
         add_js(filename_autorenderer)
+    else:
+        KaTeXServer.KATEX_PATH = app.config.katex_js_path[:-3]  # remove `.js`
     # sphinxcontrib.katex custom CSS
     copy_file(app, filename_css)
     add_css(filename_css)
@@ -383,6 +385,7 @@ class KaTeXServer:
             cmd.extend(["--port", str(port)])
 
         if KATEX_PATH:
+            print(f"DEBUG: add {KATEX_PATH=}")
             cmd.extend(["--katex", str(KATEX_PATH)])
 
         return cmd
