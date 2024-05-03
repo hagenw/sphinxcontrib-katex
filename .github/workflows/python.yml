@@ -28,6 +28,7 @@ jobs:
       run: |
         python -V
         python -m pip install --upgrade pip
+        pip install -r tests/requirements.txt
         pip install "sphinx==${{ env.sphinx-version }}"
         pip install "jinja2<3.1"
 

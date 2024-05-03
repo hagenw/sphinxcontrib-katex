@@ -28,6 +28,7 @@ jobs:
       run: |
         python -V
         python -m pip install --upgrade pip
+        pip install -r tests/requirements.txt
         pip install "sphinx==${{ matrix.sphinx-version }}"
         pip install "docutils<0.17"
         pip install "jinja2<3.1"
