@@ -17,10 +17,10 @@ jobs:
         sphinx-version: [ '1.6.7', '1.8.6', '2.4.5', '3.5.4', '4.5.0' ]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python ${{ env.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.python-version }}
 
