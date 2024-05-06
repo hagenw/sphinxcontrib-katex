@@ -185,7 +185,7 @@ def builder_inited(app):
         write_katex_autorenderer_file(app, filename_autorenderer)
         add_js(filename_autorenderer)
     else:
-        KaTeXServer.KATEX_PATH = app.config.katex_js_path[:-3]  # remove `.js`
+        KaTeXServer.KATEX_PATH = app.config.katex_js_path
     # sphinxcontrib.katex custom CSS
     copy_file(app, filename_css)
     add_css(filename_css)
@@ -386,9 +386,14 @@ class KaTeXServer:
             cmd.extend(["--port", str(port)])
 
         if cls.KATEX_PATH is not None:
+            # KaTeX will be included inside katex-server.js
+            # using `require()`,
+            # which needs the relative path to `katex.min.js`
+            # without `.js` at the end
             print(f"DEBUG: giveb {cls.KATEX_PATH=}")
-            print(f"DEBUG: add {os.path.abspath(str(cls.KATEX_PATH))=}")
-            cmd.extend(["--katex", os.path.abspath(str(cls.KATEX_PATH))])
+            katex_path = os.path.relpath(str(cls.KATEX_PATH))[:-3]  # remove `.js`
+            print(f"DEBUG: add {katex_path=}")
+            cmd.extend(["--katex", katex_path])
         else:
             print(f"DEBUG: add {cls.KATEX_PATH=}")
 
