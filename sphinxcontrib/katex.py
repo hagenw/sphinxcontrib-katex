@@ -387,7 +387,7 @@ class KaTeXServer:
 
         if cls.KATEX_PATH is not None:
             print(f"DEBUG: add {cls.KATEX_PATH=}")
-            cmd.extend(["--katex", os.path.abspath(str(cls.KATEX_PATH)]))
+            cmd.extend(["--katex", os.path.abspath(str(cls.KATEX_PATH))])
         else:
             print(f"DEBUG: add {cls.KATEX_PATH=}")
 
