@@ -56,8 +56,6 @@ KATEX_DEFAULT_OPTIONS = {
     "throwOnError": False
 }
 
-KATEX_PATH = None
-
 # How long to wait for the render server to start in seconds
 STARTUP_TIMEOUT = 5.0
 
@@ -361,6 +359,9 @@ class KaTeXServer:
     # Message length is 32-bit little-endian integer
     LENGTH_STRUCT = struct.Struct("<i")
 
+    # Path to KaTeX javascript file
+    KATEX_PATH = None
+
     # global instance
     KATEX_SERVER = None
 
@@ -373,8 +374,8 @@ class KaTeXServer:
         message = STARTUP_TIMEOUT_EXPIRED.format(timeout)
         return KaTeXError(message)
 
-    @staticmethod
-    def build_command(socket=None, port=None):
+    @classmethod
+    def build_command(cls, socket=None, port=None):
         """KaTeX node build command."""
         cmd = [NODEJS_BINARY, SCRIPT_PATH]
 
@@ -384,11 +385,11 @@ class KaTeXServer:
         if port is not None:
             cmd.extend(["--port", str(port)])
 
-        if KATEX_PATH:
-            print(f"DEBUG: add {KATEX_PATH=}")
-            cmd.extend(["--katex", str(KATEX_PATH)])
+        if cls.KATEX_PATH is not None:
+            print(f"DEBUG: add {cls.KATEX_PATH=}")
+            cmd.extend(["--katex", str(cls.KATEX_PATH)])
         else:
-            print(f"DEBUG: add {KATEX_PATH=}")
+            print(f"DEBUG: add {cls.KATEX_PATH=}")
 
         return cmd
 
