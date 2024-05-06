@@ -391,9 +391,14 @@ class KaTeXServer:
             # which needs the relative path to `katex.min.js`
             # without `.js` at the end.
             # The default is to use `./katex.min.js`
-            katex_path = os.path.relpath(str(cls.katex_path))[:-3]
-            # relative path had to start with `"./"` for `require()`
+            katex_path = os.path.relpath(str(cls.katex_path))
+            # Relative path has to start with `"./"` for `require()`
             katex_path = os.path.join("./", katex_path)
+            if not os.path.exists(katex_path):
+                raise ValueError(
+                    f"KaTeX Javascript library could not be found at {katex_path}."
+                )
+            katex_path = katex_path[:-3]  # remove `.js`
             cmd.extend(["--katex", katex_path])
 
         return cmd
