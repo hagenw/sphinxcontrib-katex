@@ -391,7 +391,9 @@ class KaTeXServer:
             # which needs the relative path to `katex.min.js`
             # without `.js` at the end
             print(f"DEBUG: giveb {cls.KATEX_PATH=}")
-            katex_path = os.path.relpath(str(cls.KATEX_PATH))[:-3]  # remove `.js`
+            katex_path = os.path.relpath(str(cls.KATEX_PATH))[:-3]
+            # relative path had to start with `"./"` for `require()` 
+            katex_path = os.path.join("./", katex_path)
             print(f"DEBUG: add {katex_path=}")
             cmd.extend(["--katex", katex_path])
         else:
