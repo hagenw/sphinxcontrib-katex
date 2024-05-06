@@ -393,7 +393,7 @@ class KaTeXServer:
             # The default is to use `./katex.min.js`
             katex_path = os.path.relpath(str(cls.KATEX_PATH))[:-3]
             # relative path had to start with `"./"` for `require()`
-            katex_path = os.path.join("./sphinxcontrib/", katex_path)
+            katex_path = os.path.join("./", katex_path)
             cmd.extend(["--katex", katex_path])
 
         return cmd
