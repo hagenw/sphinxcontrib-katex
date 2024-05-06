@@ -5,9 +5,11 @@ let value = null;
 let katex_options = {};
 let socket = null;
 let port = null;
-// this is the downloaded katex javascript library.
-// need to keep it updated
-// path to the downloaded katex javascript library `katex.min.js`.
+// Default path to the KaTeX Javascript library
+// without `.js` at the end.
+// The default points to the one bundled with the extension.
+// Otherwise the file provided with the `katex_js_path`
+// config setting is used.
 let katex_path = "./katex.min";
 process.argv.forEach(function(arg) {
     if (value == "katex_path") {

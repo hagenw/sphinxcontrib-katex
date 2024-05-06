@@ -389,15 +389,12 @@ class KaTeXServer:
             # KaTeX will be included inside katex-server.js
             # using `require()`,
             # which needs the relative path to `katex.min.js`
-            # without `.js` at the end
-            print(f"DEBUG: giveb {cls.KATEX_PATH=}")
+            # without `.js` at the end.
+            # The default is to use `./katex.min.js`
             katex_path = os.path.relpath(str(cls.KATEX_PATH))[:-3]
             # relative path had to start with `"./"` for `require()`
-            katex_path = os.path.join("./../sphinxcontrib/", katex_path)
-            print(f"DEBUG: add {katex_path=}")
+            katex_path = os.path.join("./sphinxcontrib/", katex_path)
             cmd.extend(["--katex", katex_path])
-        else:
-            print(f"DEBUG: add {cls.KATEX_PATH=}")
 
         return cmd
 
