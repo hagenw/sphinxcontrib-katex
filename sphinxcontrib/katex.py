@@ -185,7 +185,7 @@ def builder_inited(app):
         write_katex_autorenderer_file(app, filename_autorenderer)
         add_js(filename_autorenderer)
     else:
-        KaTeXServer.KATEX_PATH = app.config.katex_js_path
+        KaTeXServer.katex_path = app.config.katex_js_path
     # sphinxcontrib.katex custom CSS
     copy_file(app, filename_css)
     add_css(filename_css)
@@ -356,17 +356,17 @@ class KaTeXError(Exception):
 class KaTeXServer:
     """Manages and communicates with an instance of the render server."""
 
-    # Message length is 32-bit little-endian integer
-    LENGTH_STRUCT = struct.Struct("<i")
+    length_struct = struct.Struct("<i")
+    """Message length (32-bit little-endian integer)."""
 
-    # Path to KaTeX javascript file
-    KATEX_PATH = None
+    katex_path = None
+    """Path to KaTeX javascript file."""
 
-    # global instance
-    KATEX_SERVER = None
+    katex_server = None
+    """Global instance of KaTeX server."""
 
-    # wait for the server to stop in seconds
-    STOP_TIMEOUT = 0.1
+    stop_timeout = 0.1
+    """Wait time for the server to stop in seconds."""
 
     @classmethod
     def timeout_error(cls, timeout):
@@ -385,13 +385,13 @@ class KaTeXServer:
         if port is not None:
             cmd.extend(["--port", str(port)])
 
-        if cls.KATEX_PATH is not None:
+        if cls.katex_path is not None:
             # KaTeX will be included inside katex-server.js
             # using `require()`,
             # which needs the relative path to `katex.min.js`
             # without `.js` at the end.
             # The default is to use `./katex.min.js`
-            katex_path = os.path.relpath(str(cls.KATEX_PATH))[:-3]
+            katex_path = os.path.relpath(str(cls.katex_path))[:-3]
             # relative path had to start with `"./"` for `require()`
             katex_path = os.path.join("./", katex_path)
             cmd.extend(["--katex", katex_path])
@@ -486,10 +486,10 @@ class KaTeXServer:
     @classmethod
     def get(cls):
         """Get the current render server or start one."""
-        if cls.KATEX_SERVER is None:
-            cls.KATEX_SERVER = KaTeXServer.start()
+        if cls.katex_server is None:
+            cls.katex_server = KaTeXServer.start()
 
-        return cls.KATEX_SERVER
+        return cls.katex_server
 
     def __init__(self, rundir, process, sock):
         self.rundir = rundir
@@ -504,7 +504,7 @@ class KaTeXServer:
         self.sock.close()
         try:
             self.process.terminate()
-            self.process.wait(timeout=self.STOP_TIMEOUT)
+            self.process.wait(timeout=self.stop_timeout)
         except TimeoutExpired:
             self.process.kill()
         shutil.rmtree(self.rundir)
@@ -521,12 +521,12 @@ class KaTeXServer:
         # Send the request
         request_bytes = json.dumps(request).encode("utf-8")
         length = len(request_bytes)
-        self.sock.sendall(self.LENGTH_STRUCT.pack(length))
+        self.sock.sendall(self.length_struct.pack(length))
         self.sock.sendall(request_bytes)
 
         # Read the amount of bytes we are about to receive
-        size = self.sock.recv(self.LENGTH_STRUCT.size)
-        length = self.LENGTH_STRUCT.unpack(size)[0]
+        size = self.sock.recv(self.length_struct.size)
+        length = self.length_struct.unpack(size)[0]
 
         # Ensure that the buffer is large enough
         if len(self.buffer) < length:
