@@ -9,7 +9,7 @@ let port = null;
 // without `.js` at the end.
 // The default points to the one bundled with the extension.
 // Otherwise the file provided with the `katex_js_path`
-// config setting is used.
+// config setting is used. The path must start with "./".
 let katex_path = "./katex.min";
 process.argv.forEach(function(arg) {
     if (value == "katex_path") {
