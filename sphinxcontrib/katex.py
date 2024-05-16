@@ -400,7 +400,8 @@ class KaTeXServer:
             katex_path = os.path.join("./", katex_path)
             if not os.path.exists(os.path.join(SRC_DIR, katex_path)):
                 raise ValueError(
-                    f"KaTeX Javascript library could not be found at {katex_path}."
+                    "KaTeX Javascript library could not be found "
+                    f"at {katex_path}."
                 )
             katex_path = katex_path[:-3]  # remove `.js`
             cmd.extend(["--katex", katex_path])

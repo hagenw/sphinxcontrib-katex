@@ -39,7 +39,7 @@ def test_katex_server_js_path(katex_js_path, expected_require_path):
     specified in the config value ``katex_js_path``.
 
     Args:
-        kates_js_path: path specified for the ``katex_js_path``
+        katex_js_path: path specified for the ``katex_js_path``
             config path variable
         expected_require_path: expected path
             to the KaTeX Javascript library as provided
