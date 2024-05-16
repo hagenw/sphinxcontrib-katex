@@ -356,8 +356,8 @@ class KaTeXError(Exception):
 class KaTeXServer:
     """Manages and communicates with an instance of the render server."""
 
-    length_struct = struct.Struct("<i")
-    """Message length (32-bit little-endian integer)."""
+    LENGTH_STRUCT = struct.Struct("<i")
+    """Message length for 32-bit little-endian integer."""
 
     katex_path = None
     """Path to KaTeX javascript file."""
@@ -365,7 +365,7 @@ class KaTeXServer:
     katex_server = None
     """Global instance of KaTeX server."""
 
-    stop_timeout = 0.1
+    STOP_TIMEOUT = 0.1
     """Wait time for the server to stop in seconds."""
 
     @classmethod
@@ -513,7 +513,7 @@ class KaTeXServer:
         self.sock.close()
         try:
             self.process.terminate()
-            self.process.wait(timeout=self.stop_timeout)
+            self.process.wait(timeout=self.STOP_TIMEOUT)
         except TimeoutExpired:
             self.process.kill()
         shutil.rmtree(self.rundir)
@@ -530,12 +530,12 @@ class KaTeXServer:
         # Send the request
         request_bytes = json.dumps(request).encode("utf-8")
         length = len(request_bytes)
-        self.sock.sendall(self.length_struct.pack(length))
+        self.sock.sendall(self.LENGTH_STRUCT.pack(length))
         self.sock.sendall(request_bytes)
 
         # Read the amount of bytes we are about to receive
-        size = self.sock.recv(self.length_struct.size)
-        length = self.length_struct.unpack(size)[0]
+        size = self.sock.recv(self.LENGTH_STRUCT.size)
+        length = self.LENGTH_STRUCT.unpack(size)[0]
 
         # Ensure that the buffer is large enough
         if len(self.buffer) < length:
