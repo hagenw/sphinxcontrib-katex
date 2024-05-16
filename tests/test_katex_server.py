@@ -16,6 +16,14 @@ CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
             "./katex.min",
         ),
         (
+            "./katex.min.js",
+            "./katex.min",
+        ),
+        (
+            os.path.join(".", "katex.min.js"),
+            "./katex.min",
+        ),
+        (
             os.path.join(CURRENT_DIR, "..", "sphinxcontrib", "katex.min.js"),
             "./katex.min",
         ),
@@ -45,4 +53,14 @@ def test_katex_server_js_path(katex_js_path, expected_require_path):
     KaTeXServer.katex_path = katex_js_path
     cmd = KaTeXServer.build_command()
     assert cmd[-1] == expected_require_path
-    assert False
+
+
+def test_katex_server_js_path_error():
+    katex_js_path = "non-existing.js"
+    error_msg = (
+        "KaTeX Javascript library could not be found at "
+        f"{os.path.join('.', katex_js_path)}."
+    )
+    with pytest.raises(ValueError, match=error_msg):
+        KaTeXServer.katex_path = katex_js_path
+        KaTeXServer.build_command()
