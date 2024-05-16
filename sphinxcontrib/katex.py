@@ -56,8 +56,6 @@ KATEX_DEFAULT_OPTIONS = {
     "throwOnError": False
 }
 
-KATEX_PATH = None
-
 # How long to wait for the render server to start in seconds
 STARTUP_TIMEOUT = 5.0
 
@@ -186,6 +184,8 @@ def builder_inited(app):
         # https://github.com/KaTeX/KaTeX/blob/main/contrib/auto-render/README.md
         write_katex_autorenderer_file(app, filename_autorenderer)
         add_js(filename_autorenderer)
+    else:
+        KaTeXServer.katex_path = app.config.katex_js_path
     # sphinxcontrib.katex custom CSS
     copy_file(app, filename_css)
     add_css(filename_css)
@@ -356,14 +356,17 @@ class KaTeXError(Exception):
 class KaTeXServer:
     """Manages and communicates with an instance of the render server."""
 
-    # Message length is 32-bit little-endian integer
     LENGTH_STRUCT = struct.Struct("<i")
+    """Message length for 32-bit little-endian integer."""
 
-    # global instance
-    KATEX_SERVER = None
+    katex_path = None
+    """Path to KaTeX javascript file."""
 
-    # wait for the server to stop in seconds
+    katex_server = None
+    """Global instance of KaTeX server."""
+
     STOP_TIMEOUT = 0.1
+    """Wait time for the server to stop in seconds."""
 
     @classmethod
     def timeout_error(cls, timeout):
@@ -371,8 +374,8 @@ class KaTeXServer:
         message = STARTUP_TIMEOUT_EXPIRED.format(timeout)
         return KaTeXError(message)
 
-    @staticmethod
-    def build_command(socket=None, port=None):
+    @classmethod
+    def build_command(cls, socket=None, port=None):
         """KaTeX node build command."""
         cmd = [NODEJS_BINARY, SCRIPT_PATH]
 
@@ -382,8 +385,26 @@ class KaTeXServer:
         if port is not None:
             cmd.extend(["--port", str(port)])
 
-        if KATEX_PATH:
-            cmd.extend(["--katex", str(KATEX_PATH)])
+        if cls.katex_path is not None:
+            # KaTeX will be included inside katex-server.js
+            # using `require()`,
+            # which needs the relative path to `katex.min.js`
+            # without `.js` at the end.
+            # The default is to use `./katex.min.js`
+            katex_path = str(cls.katex_path)
+            if not os.path.isabs(katex_path):
+                katex_path = os.path.abspath(os.path.join(SRC_DIR, katex_path))
+            katex_path = os.path.relpath(katex_path, start=SRC_DIR)
+
+            # Relative path has to start with `"./"` for `require()`
+            katex_path = os.path.join("./", katex_path)
+            if not os.path.exists(os.path.join(SRC_DIR, katex_path)):
+                raise ValueError(
+                    "KaTeX Javascript library could not be found "
+                    f"at {katex_path}."
+                )
+            katex_path = katex_path[:-3]  # remove `.js`
+            cmd.extend(["--katex", katex_path])
 
         return cmd
 
@@ -475,10 +496,10 @@ class KaTeXServer:
     @classmethod
     def get(cls):
         """Get the current render server or start one."""
-        if cls.KATEX_SERVER is None:
-            cls.KATEX_SERVER = KaTeXServer.start()
+        if cls.katex_server is None:
+            cls.katex_server = KaTeXServer.start()
 
-        return cls.KATEX_SERVER
+        return cls.katex_server
 
     def __init__(self, rundir, process, sock):
         self.rundir = rundir
