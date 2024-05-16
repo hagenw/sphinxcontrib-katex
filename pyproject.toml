@@ -62,6 +62,16 @@ builtin = 'clear,rare,informal,names'
 skip = '*.js,./sphinxcontrib_katex.egg-info,./build'
 
 
+# ----- pytest ------------------------------------------------------------
+#
+[tool.pytest.ini_options]
+cache_dir = '.cache/pytest'
+xfail_strict = true
+addopts = '''
+    --ignore=docs/
+'''
+
+
 # ----- ruff --------------------------------------------------------------
 #
 [tool.ruff]
