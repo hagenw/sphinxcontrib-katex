@@ -56,6 +56,7 @@ def test_katex_server_js_path(katex_js_path, expected_require_path):
 
 
 def test_katex_server_js_path_error():
+    """Test errors for configured KaTeX Javascript library path."""
     katex_js_path = "non-existing.js"
     error_msg = (
         "KaTeX Javascript library could not be found at "
