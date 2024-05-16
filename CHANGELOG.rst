@@ -7,6 +7,15 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.9.10 (2024-05-16)
+---------------------------
+
+* Changed: use KaTeX 0.16.10
+* Fixed: consider config value ``katex_js_path``
+  as path to KaTeX javascript file
+  when pre-rendering is selected
+
+
 Version 0.9.9 (2023-10-16)
 --------------------------
 
