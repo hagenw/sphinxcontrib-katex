@@ -34,7 +34,7 @@ classifiers = [
 dependencies = [
     'sphinx >=1.6',
 ]
-requires-python = '>=3.7'
+requires-python = '>=3.9'
 # Get version dynamically from git
 # (needs setuptools_scm tools config below)
 dynamic = ['version']
