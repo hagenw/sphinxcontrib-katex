@@ -32,6 +32,13 @@ jobs:
         pip install "sphinx==${{ matrix.sphinx-version }}"
         pip install "docutils<0.17"
         pip install "jinja2<3.1"
+        # Ensure extensions required by sphinx are still compatible
+        # (https://github.com/sphinx-doc/sphinx/issues/11890)
+        pip install "sphinxcontrib-applehelp<=1.0.4"
+        pip install "sphinxcontrib-devhelp<=1.0.2"
+        pip install "sphinxcontrib-htmlhelp<=2.0.1"
+        pip install "sphinxcontrib-qthelp<=1.0.3"
+        pip install "sphinxcontrib-serializinghtml<=1.1.5"
 
     - name: Tests
       run: |
