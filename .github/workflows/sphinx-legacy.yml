@@ -39,6 +39,8 @@ jobs:
         pip install "sphinxcontrib-htmlhelp<=2.0.1"
         pip install "sphinxcontrib-qthelp<=1.0.3"
         pip install "sphinxcontrib-serializinghtml<=1.1.5"
+        # Ensure alabaster theme is still compatible
+        pip install "alabaster<=0.7.13"
 
     - name: Tests
       run: |
