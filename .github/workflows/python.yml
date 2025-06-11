@@ -11,10 +11,10 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      sphinx-version: '5.*'
+      sphinx-version: '7.4.7'
     strategy:
       matrix:
-        python-version: [ '3.9', '3.10', '3.11', '3.12' ]
+        python-version: [ '3.9', '3.10', '3.11', '3.12', '3.13' ]
 
     steps:
     - uses: actions/checkout@v4
@@ -30,7 +30,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r tests/requirements.txt
         pip install "sphinx==${{ env.sphinx-version }}"
-        pip install "jinja2<3.1"
 
     - name: Tests
       run: |
