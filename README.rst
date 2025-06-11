@@ -41,12 +41,6 @@ To install ``sphinxcontrib.katex`` into your Python virtual environment run:
 
     $ pip install sphinxcontrib-katex
 
-Or using uv:
-
-.. code-block:: bash
-
-    $ uv add sphinxcontrib-katex
-
 If you want to pre-render the math
 by running Javascript on your server
 instead of running it in the browsers of the users,
