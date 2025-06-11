@@ -1,3 +1,0 @@
-insipid-sphinx-theme
-sphinx
-toml

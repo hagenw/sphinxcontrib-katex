@@ -25,15 +25,17 @@ jobs:
       with:
         python-version: ${{ env.python-version }}
 
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+
     - name: Set up Sphinx ${{ env.sphinx-version }}
       run: |
         python -V
-        python -m pip install --upgrade pip
-        pip install -r tests/requirements.txt
-        pip install "sphinx==${{ env.sphinx-version }}"
-        pip install "jinja2<3.1"
+        uv add "sphinx==${{ env.sphinx-version }}"
+        uv add "jinja2<3.1"
+        uv sync
 
     - name: Tests
       run: |
-        python -m sphinx docs docs/_build/ -b html -W -C
-        python -m sphinx docs docs/_build/ -b latex -W
+        uv run python -m sphinx docs docs/_build/ -b html -W -C
+        uv run python -m sphinx docs docs/_build/ -b latex -W

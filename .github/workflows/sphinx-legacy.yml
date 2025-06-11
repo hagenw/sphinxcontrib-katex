@@ -24,25 +24,27 @@ jobs:
       with:
         python-version: ${{ env.python-version }}
 
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+
     - name: Set up Sphinx ${{ matrix.sphinx-version }}
       run: |
         python -V
-        python -m pip install --upgrade pip
-        pip install -r tests/requirements.txt
-        pip install "sphinx==${{ matrix.sphinx-version }}"
-        pip install "docutils<0.17"
-        pip install "jinja2<3.1"
+        uv add "sphinx==${{ matrix.sphinx-version }}"
+        uv add "docutils<0.17"
+        uv add "jinja2<3.1"
         # Ensure extensions required by sphinx are still compatible
         # (https://github.com/sphinx-doc/sphinx/issues/11890)
-        pip install "sphinxcontrib-applehelp<=1.0.4"
-        pip install "sphinxcontrib-devhelp<=1.0.2"
-        pip install "sphinxcontrib-htmlhelp<=2.0.1"
-        pip install "sphinxcontrib-qthelp<=1.0.3"
-        pip install "sphinxcontrib-serializinghtml<=1.1.5"
+        uv add "sphinxcontrib-applehelp<=1.0.4"
+        uv add "sphinxcontrib-devhelp<=1.0.2"
+        uv add "sphinxcontrib-htmlhelp<=2.0.1"
+        uv add "sphinxcontrib-qthelp<=1.0.3"
+        uv add "sphinxcontrib-serializinghtml<=1.1.5"
         # Ensure alabaster theme is still compatible
-        pip install "alabaster<=0.7.13"
+        uv add "alabaster<=0.7.13"
+        uv sync
 
     - name: Tests
       run: |
-        python -m sphinx tests tests/_build/ -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex
-        python -m sphinx tests tests/_build/ -c docs/ -b latex -W
+        uv run python -m sphinx tests tests/_build/ -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex
+        uv run python -m sphinx tests tests/_build/ -c docs/ -b latex -W

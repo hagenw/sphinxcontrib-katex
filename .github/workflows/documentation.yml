@@ -21,14 +21,13 @@ jobs:
       with:
         python-version: ${{ env.python-version }}
 
-    - name: Install requirements
-      run: |
-        python -V
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install -r docs/requirements.txt
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+
+    - name: Sync Python environment
+      run: uv sync
 
     - name: Tests
       run: |
-        python -m sphinx docs docs/_build/ -b html -W
-        python -m sphinx docs docs/_build/ -b latex -W
+        uv run python -m sphinx docs docs/_build/ -b html -W
+        uv run python -m sphinx docs docs/_build/ -b latex -W
