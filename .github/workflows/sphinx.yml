@@ -36,3 +36,9 @@ jobs:
       run: |
         uv run --no-project --with "sphinx==${{ matrix.sphinx-version }}" \
           python -m sphinx tests tests/_build/ -b latex -W -C -D master_doc=index -D extensions=sphinxcontrib.katex
+
+    - name: Verify sphinx version
+      run: |
+        installed=$(uv pip show sphinx | grep "Version:" | cut -d' ' -f2)
+        expected=${{ matrix.sphinx-version }}
+        [ "$installed" == "$expected" ] || (echo "Installed sphinx version $installed does not match $expected" && exit 1)
