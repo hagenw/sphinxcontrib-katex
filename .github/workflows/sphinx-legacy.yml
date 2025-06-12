@@ -42,7 +42,7 @@ jobs:
         uv add "sphinxcontrib-serializinghtml<=1.1.5"
         # Ensure alabaster theme is still compatible
         uv add "alabaster<=0.7.13"
-        uv sync
+        uv sync --no-dev
 
     - name: Tests
       run: |
