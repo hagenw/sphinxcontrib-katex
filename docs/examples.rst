@@ -29,7 +29,8 @@ You can define macros directly in your math directive.
         \def \w {\omega}
         \def \d {\operatorname{d}\!}
 
-        P(\x,\w) = \oint_{\partial V} D(\x_0,\w) G(\x-\x_0,\w) \d A(\x_0)
+        P(\x,\w) =
+            \oint_{\partial V} D(\x_0,\w) G(\x-\x_0,\w) \d A(\x_0)
 
 .. math::
 
@@ -37,7 +38,8 @@ You can define macros directly in your math directive.
     \def \w {\omega}
     \def \d {\operatorname{d}\!}
 
-    P(\x,\w) = \oint_{\partial V} D(\x_0,\w) G(\x-\x_0,\w) \d A(\x_0)
+    P(\x,\w) =
+        \oint_{\partial V} D(\x_0,\w) G(\x-\x_0,\w) \d A(\x_0)
 
 If you want to use them in the whole document, the best is to define them in
 :file:`conf.py` as part of the ``katex_options``, see :ref:`macros`.
@@ -73,14 +75,16 @@ Array environment
     .. math::
 
         \begin{array}{c:c:c:c:c:c}
-            \Gamma & \Delta & \Theta & \Lambda & \Xi & \Pi \\ \hdashline
+            \Gamma & \Delta & \Theta & \Lambda & \Xi & \Pi \\
+            \hdashline
             \gamma & \delta & \theta & \lambda & \xi & \pi
         \end{array}
 
 .. math::
 
     \begin{array}{c:c:c:c:c:c}
-        \Gamma & \Delta & \Theta & \Lambda & \Xi & \Pi \\ \hdashline
+        \Gamma & \Delta & \Theta & \Lambda & \Xi & \Pi \\
+        \hdashline
         \gamma & \delta & \theta & \lambda & \xi & \pi
     \end{array}
 
@@ -115,16 +119,16 @@ A simple matrix defined with the ``pmatrix`` environment:
     .. math::
 
         \begin{pmatrix}
-            a_{11} & a_{12} & a_{13}\\
-            a_{21} & a_{22} & a_{23}\\
+            a_{11} & a_{12} & a_{13} \\
+            a_{21} & a_{22} & a_{23} \\
             a_{31} & a_{32} & a_{33}
         \end{pmatrix}
 
 .. math::
 
     \begin{pmatrix}
-        a_{11} & a_{12} & a_{13}\\
-        a_{21} & a_{22} & a_{23}\\
+        a_{11} & a_{12} & a_{13} \\
+        a_{21} & a_{22} & a_{23} \\
         a_{31} & a_{32} & a_{33}
     \end{pmatrix}
 
@@ -140,9 +144,9 @@ environment for more complex matrices:
         \def \psum {\phantom{-}\textstyle\sum}
         I_{ik} = \left(
         \begin{array}{lll}
-            \psum m (y^2+z^2) & \msum m x y       & \msum m x z         \\
-            \msum m y x       & \psum m (x^2+z^2) & \msum m y z         \\
-            \msum m z x       & \msum m z y       & \psum m (x^2 + y^2)
+            \psum (y^2+z^2) & \msum x y       & \msum x z      \\
+            \msum y x       & \psum (x^2+z^2) & \msum y z      \\
+            \msum z x       & \msum z y       & \psum (x^2 + y^2)
         \end{array}
         \right)
 
@@ -152,9 +156,9 @@ environment for more complex matrices:
     \def \psum {\phantom{-}\textstyle\sum}
     I_{ik} = \left(
     \begin{array}{lll}
-        \psum m (y^2+z^2) & \msum m x y       & \msum m x z         \\
-        \msum m y x       & \psum m (x^2+z^2) & \msum m y z         \\
-        \msum m z x       & \msum m z y       & \psum m (x^2 + y^2)
+        \psum (y^2+z^2) & \msum x y       & \msum x z      \\
+        \msum y x       & \psum (x^2+z^2) & \msum y z      \\
+        \msum z x       & \msum z y       & \psum (x^2 + y^2)
     \end{array}
     \right)
 
@@ -182,7 +186,8 @@ and :eq:`maxwell-faraday-equation`.
     .. math::
         :label: maxwell-faraday-equation
 
-        \nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}
+        \nabla \times \mathbf{E} =
+            -\frac{\partial \mathbf{B}}{\partial t}
 
 .. math::
     :label: gauss-law
@@ -197,7 +202,8 @@ and :eq:`maxwell-faraday-equation`.
 .. math::
     :label: maxwell-faraday-equation
 
-    \nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}
+    \nabla \times \mathbf{E} =
+        -\frac{\partial \mathbf{B}}{\partial t}
 
 
 Fraction
@@ -207,16 +213,20 @@ Fraction
 
     .. math::
 
-        1 - 2 \phi_{i,j} = \frac{4 N^{AA,aa}_{i,j}
-                                 + N^{Aa}_{i}
-                                 + N^{Aa}_{j}
-                                 - 2 N^{Aa,Aa}_{i,j}}
-                                {\sum_{s \in S_{i,j}} 4 p_s (1 - p_s)}
+        1 - 2 \phi_{i,j} =
+            \frac{
+                4 N^{AA,aa}_{i,j}
+                + N^{Aa}_{i}
+                + N^{Aa}_{j}
+                - 2 N^{Aa,Aa}_{i,j}
+            }{\sum_{s \in S_{i,j}} 4 p_s (1 - p_s)}
 
 .. math::
 
-    1 - 2 \phi_{i,j} = \frac{4 N^{AA,aa}_{i,j}
-                             + N^{Aa}_{i}
-                             + N^{Aa}_{j}
-                             - 2 N^{Aa,Aa}_{i,j}}
-                            {\sum_{s \in S_{i,j}} 4 p_s (1 - p_s)}
+    1 - 2 \phi_{i,j} =
+        \frac{
+            4 N^{AA,aa}_{i,j}
+            + N^{Aa}_{i}
+            + N^{Aa}_{j}
+            - 2 N^{Aa,Aa}_{i,j}
+        }{\sum_{s \in S_{i,j}} 4 p_s (1 - p_s)}
