@@ -15,7 +15,7 @@ newest development version from Github_::
 
     $ git clone https://github.com/hagenw/sphinxcontrib-katex.git
     $ cd sphinxcontrib-katex
-    $ uv sync --group doc
+    $ uv sync
 
 .. _Github: https://github.com/hagenw/sphinxcontrib-katex/
 
@@ -66,13 +66,13 @@ Building the Documentation
 If you make changes to the documentation, you can re-create the HTML pages
 using Sphinx_::
 
-    $ uv run --group doc python -m sphinx docs/ build/sphinx/ -b html
+    $ uv run python -m sphinx docs/ build/sphinx/ -b html
 
 The generated files will be available in the directory ``build/sphinx/``.
 
 It is also possible to automatically check if all links are still valid::
 
-    $ uv run --group doc python -m sphinx docs/ build/sphinx/ -b linkcheck
+    $ uv run python -m sphinx docs/ build/sphinx/ -b linkcheck
 
 .. _Sphinx: http://sphinx-doc.org/
 
