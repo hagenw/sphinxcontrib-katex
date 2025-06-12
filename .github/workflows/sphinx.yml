@@ -11,10 +11,10 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      python-version: '3.10'
+      python-version: '3.11'
     strategy:
       matrix:
-        sphinx-version: [ '5.3.0', '6.2.1', '7.4.7', '8.*' ]
+        sphinx-version: [ '5.3.0', '6.2.1', '7.4.7', '8.2.3' ]
 
     steps:
     - uses: actions/checkout@v4
@@ -24,14 +24,15 @@ jobs:
       with:
         python-version: ${{ env.python-version }}
 
-    - name: Set up Sphinx ${{ matrix.sphinx-version }}
-      run: |
-        python -V
-        python -m pip install --upgrade pip
-        pip install -r tests/requirements.txt
-        pip install "sphinx==${{ matrix.sphinx-version }}"
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
 
-    - name: Tests
+    - name: Test HTML builder with sphinx ${{ matrix.sphinx-version }}
       run: |
-        python -m sphinx tests tests/_build/ -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex
-        python -m sphinx tests tests/_build/ -c docs/ -b latex -W
+        uv run --no-project --with "sphinx==${{ matrix.sphinx-version }}" \
+          python -m sphinx tests tests/_build/ -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex
+
+    - name: Test LaTeX builder with sphinx ${{ matrix.sphinx-version }}
+      run: |
+        uv run --no-project --with "sphinx==${{ matrix.sphinx-version }}" \
+          python -m sphinx tests tests/_build/ -b latex -W -C -D master_doc=index -D extensions=sphinxcontrib.katex

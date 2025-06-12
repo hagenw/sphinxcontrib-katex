@@ -45,6 +45,15 @@ repository = 'https://github.com/hagenw/sphinxcontrib-katex/'
 documentation = 'https://sphinxcontrib-katex.readthedocs.io'
 
 
+# ===== Dependency groups =================================================
+[dependency-groups]
+dev = [
+    'insipid-sphinx-theme',
+    'pytest',
+    'toml',
+]
+
+
 # ===== BUILD-SYSTEM ======================================================
 #
 # Requirements for building the Python package
