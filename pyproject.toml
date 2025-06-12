@@ -50,7 +50,6 @@ documentation = 'https://sphinxcontrib-katex.readthedocs.io'
 dev = [
     'insipid-sphinx-theme',
     'pytest',
-    'sphinx',
     'toml',
 ]
 
