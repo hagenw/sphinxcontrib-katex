@@ -46,5 +46,5 @@ jobs:
 
     - name: Tests
       run: |
-        uv run python -m sphinx tests tests/_build/ -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex
-        uv run python -m sphinx tests tests/_build/ -c docs/ -b latex -W
+        uv run --no-dev python -m sphinx tests tests/_build/ -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex
+        uv run --no-dev python -m sphinx tests tests/_build/ -c docs/ -b latex -W
