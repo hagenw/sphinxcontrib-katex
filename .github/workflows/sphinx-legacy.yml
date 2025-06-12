@@ -42,9 +42,9 @@ jobs:
         uv add "sphinxcontrib-serializinghtml<=1.1.5"
         # Ensure alabaster theme is still compatible
         uv add "alabaster<=0.7.13"
-        uv sync --no-dev
+        uv sync
 
     - name: Tests
       run: |
-        uv run --no-dev python -m sphinx tests tests/_build/ -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex
-        uv run --no-dev python -m sphinx tests tests/_build/ -c docs/ -b latex -W
+        uv run python -m sphinx tests tests/_build/ -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex
+        uv run python -m sphinx tests tests/_build/ -c docs/ -b latex -W

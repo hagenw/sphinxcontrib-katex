@@ -25,7 +25,7 @@ jobs:
       uses: astral-sh/setup-uv@v5
 
     - name: Sync Python environment
-      run: uv sync
+      run: uv sync --group doc
 
     - name: Tests
       run: |

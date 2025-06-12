@@ -13,9 +13,9 @@ Development Installation
 Instead of pip-installing the latest release from PyPI, you should get the
 newest development version from Github_::
 
-   git clone https://github.com/hagenw/sphinxcontrib-katex.git
-   cd sphinxcontrib-katex
-   uv sync
+    $ git clone https://github.com/hagenw/sphinxcontrib-katex.git
+    $ cd sphinxcontrib-katex
+    $ uv sync --group doc
 
 .. _Github: https://github.com/hagenw/sphinxcontrib-katex/
 
@@ -36,8 +36,8 @@ are defined in :file:`pyproject.toml`.
 The checks are executed in the CI using `pre-commit`_.
 You can enable those checks locally by executing::
 
-    uvx pre-commit install
-    uvx pre-commit run --all-files
+    $ uvx pre-commit install
+    $ uvx pre-commit run --all-files
 
 Afterwards ruff_ and codespell_ are executed
 every time you create a commit.
@@ -45,13 +45,13 @@ every time you create a commit.
 You can also install ruff_ and codespell_
 and call it directly::
 
-    uvx ruff check .
-    uvx codespell
+    $ uvx ruff check .
+    $ uvx codespell
 
 It can be restricted to specific files::
 
-    uvx ruff check sphinxcontrib/katex.py
-    uvx codespell sphinxcontrib/katex.py
+    $ uvx ruff check sphinxcontrib/katex.py
+    $ uvx codespell sphinxcontrib/katex.py
 
 
 .. _codespell: https://github.com/codespell-project/codespell/
@@ -66,13 +66,13 @@ Building the Documentation
 If you make changes to the documentation, you can re-create the HTML pages
 using Sphinx_::
 
-   uv run python -m sphinx docs/ build/sphinx/ -b html
+    $ uv run --group doc python -m sphinx docs/ build/sphinx/ -b html
 
 The generated files will be available in the directory ``build/sphinx/``.
 
 It is also possible to automatically check if all links are still valid::
 
-   uv run python -m sphinx docs/ build/sphinx/ -b linkcheck
+    $ uv run --group doc python -m sphinx docs/ build/sphinx/ -b linkcheck
 
 .. _Sphinx: http://sphinx-doc.org/
 
@@ -89,8 +89,8 @@ To test that everything works as expected, please execute:
 
 .. code-block:: bash
 
-   uv run python -m sphinx tests/ tests/_build/ -c docs/ -b html -W
-   uv run python -m sphinx tests/ tests/_build/ -c docs/ -b latex -W
+    $ uv run python -m sphinx tests/ tests/_build/ -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex
+    $ uv run python -m sphinx tests/ tests/_build/ -c docs/ -b latex -W
 
 The same tests are automatically performed once you create a pull
 request on Github_.
@@ -105,7 +105,7 @@ execute:
 
 .. code-block:: bash
 
-    bash update-katex-version.sh
+    $ bash update-katex-version.sh
 
 and commit the resulting changes.
 

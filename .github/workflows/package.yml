@@ -24,5 +24,4 @@ jobs:
 
     # PyPI package
     - name: Build
-      run: |
-        uv build
+      run: uv build
