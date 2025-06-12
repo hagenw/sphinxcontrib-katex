@@ -30,8 +30,9 @@ jobs:
     - name: Set up Sphinx ${{ matrix.sphinx-version }}
       run: |
         python -V
-        uv add "sphinx==${{ matrix.sphinx-version }}"
-        uv sync
+        uv lock
+        uv add --frozen "sphinx==${{ matrix.sphinx-version }}"
+        uv sync --frozen
 
     - name: Tests
       run: |

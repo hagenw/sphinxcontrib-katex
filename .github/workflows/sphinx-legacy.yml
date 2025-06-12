@@ -30,19 +30,20 @@ jobs:
     - name: Set up Sphinx ${{ matrix.sphinx-version }}
       run: |
         python -V
-        uv add "sphinx==${{ matrix.sphinx-version }}"
-        uv add "docutils<0.17"
-        uv add "jinja2<3.1"
+        uv lock
+        uv add --frozen "sphinx==${{ matrix.sphinx-version }}"
+        uv add --frozen "docutils<0.17"
+        uv add --frozen "jinja2<3.1"
         # Ensure extensions required by sphinx are still compatible
         # (https://github.com/sphinx-doc/sphinx/issues/11890)
-        uv add "sphinxcontrib-applehelp<=1.0.4"
-        uv add "sphinxcontrib-devhelp<=1.0.2"
-        uv add "sphinxcontrib-htmlhelp<=2.0.1"
-        uv add "sphinxcontrib-qthelp<=1.0.3"
-        uv add "sphinxcontrib-serializinghtml<=1.1.5"
+        uv add --frozen "sphinxcontrib-applehelp<=1.0.4"
+        uv add --frozen "sphinxcontrib-devhelp<=1.0.2"
+        uv add --frozen "sphinxcontrib-htmlhelp<=2.0.1"
+        uv add --frozen "sphinxcontrib-qthelp<=1.0.3"
+        uv add --frozen "sphinxcontrib-serializinghtml<=1.1.5"
         # Ensure alabaster theme is still compatible
-        uv add "alabaster<=0.7.13"
-        uv sync
+        uv add --frozen "alabaster<=0.7.13"
+        uv sync --frozen
 
     - name: Tests
       run: |
