@@ -27,14 +27,12 @@ jobs:
     - name: Install uv
       uses: astral-sh/setup-uv@v5
 
-    - name: Set up Sphinx ${{ matrix.sphinx-version }}
+    - name: Test HTML builder
       run: |
-        python -V
-        uv lock
-        uv add --frozen "sphinx==${{ matrix.sphinx-version }}"
-        uv sync --frozen
+        uv run --no-project --with "sphinx==${{ matrix.sphinx-version }}" \
+          python -m sphinx tests tests/_build/ -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex
 
-    - name: Tests
+    - name: Test LaTeX builder
       run: |
-        uv run --frozen python -m sphinx tests tests/_build/ -b html -W -C -D master_doc=index -D extensions=sphinxcontrib.katex
-        uv run --frozen python -m sphinx tests tests/_build/ -c docs/ -b latex -W
+        uv run --no-project --with "sphinx==${{ matrix.sphinx-version }}" \
+          python -m sphinx tests tests/_build/ -c docs/ -b latex -W
