@@ -35,4 +35,4 @@ jobs:
     - name: Test LaTeX builder
       run: |
         uv run --no-project --with "sphinx==${{ matrix.sphinx-version }}" \
-          python -m sphinx tests tests/_build/ -c docs/ -b latex -W
+          python -m sphinx tests tests/_build/ -b latex -W -C -D master_doc=index -D extensions=sphinxcontrib.katex
