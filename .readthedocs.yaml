@@ -10,17 +10,10 @@ build:
   tools:
     python: "3.12"
     nodejs: "20"
-  jobs:
-    create_environment:
-      - asdf plugin add uv
-      - asdf install uv latest
-      - asdf global uv latest
-      - UV_PROJECT_ENVIRONMENT=$READTHEDOCS_VIRTUALENV_PATH uv sync
-    install:
-      - "true"
   commands:
     - npm install --global "katex@0.16.22"
-    - python -m sphinx docs $READTHEDOCS_OUTPUT/html -b html -W -D master_doc=index -D extensions=sphinxcontrib.katex -D katex_prerender=1
+    - pip install uv
+    - uv run python -m sphinx docs $READTHEDOCS_OUTPUT/html -b html -W -D master_doc=index -D extensions=sphinxcontrib.katex -D katex_prerender=1
 
 sphinx:
   configuration: docs/conf.py
