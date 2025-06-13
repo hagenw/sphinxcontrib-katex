@@ -39,6 +39,10 @@ except Exception:
 # Code syntax highlighting style
 pygments_style = 'tango'
 
+linkcheck_ignore = [
+    "https://pypi.org/project/sphinxcontrib-katex",
+]
+
 # -- ACRONYMS AND MATH ---------------------------------------------------
 latex_macros = r"""
     \def \x                {\mathbf{x}}

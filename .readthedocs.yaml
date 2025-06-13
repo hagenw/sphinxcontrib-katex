@@ -6,15 +6,14 @@ version: 2
 
 # Set the OS, Python version and other tools you might need
 build:
-  os: ubuntu-22.04
+  os: "ubuntu-24.04"
   tools:
-    python: "3.10"
+    python: "3.12"
     nodejs: "20"
   commands:
     - npm install --global "katex@0.16.22"
-    - pip install .
-    - pip install -r docs/requirements.txt
-    - python -m sphinx docs $READTHEDOCS_OUTPUT/html -b html -W -D master_doc=index -D extensions=sphinxcontrib.katex -D katex_prerender=1
+    - pip install uv
+    - uv run python -m sphinx docs $READTHEDOCS_OUTPUT/html -b html -W -D master_doc=index -D extensions=sphinxcontrib.katex -D katex_prerender=1
 
 sphinx:
   configuration: docs/conf.py

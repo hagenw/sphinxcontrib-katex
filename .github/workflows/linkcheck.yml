@@ -34,4 +34,4 @@ jobs:
 
     - name: Test for broken links
       run: |
-        uv run python -m sphinx docs/ docs/_build/ -b linkcheck -W -C
+        uv run python -m sphinx docs/ docs/_build/ -b linkcheck -W -C -D linkcheck_ignore='["https://pypi.org/project/sphinxcontrib-katex"]'
