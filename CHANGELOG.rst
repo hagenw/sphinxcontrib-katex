@@ -7,6 +7,15 @@ The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
 
+Version 0.9.11 (2025-06-27)
+---------------------------
+
+* Added: support for Python 3.13
+* Changed: use KaTeX 0.16.22
+* Removed: support for Python 3.8
+* Fixed: equation centering in ``pydata-sphinx-theme``
+
+
 Version 0.9.10 (2024-05-16)
 ---------------------------
 
