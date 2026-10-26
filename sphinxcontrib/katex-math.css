@@ -13,8 +13,20 @@
     padding-top: 3px;
 }
 /* Increase margin around equations */
-.katex-display {
-    margin: 1.2em 0;
+/* additional rules to avoid clashes within admonitions */
+span.katex-display {
+    margin-top: 0em;
+    margin-bottom: 1.15rem;
+    margin-left: 0em;
+    margin-right: 0em;
+}
+.admonition .katex-display:last-child,
+div.admonition .katex-display:last-child {
+    margin-bottom: 1.15rem;
+}
+.admonition div.math:last-child .katex-display:last-child,
+div.admonition div.math:last-child .katex-display:last-child {
+    margin-bottom: 0em;
 }
 /* Equation number floats to the right and shows permalink for mouse hover
    on the right side of equation number. */
@@ -53,4 +65,11 @@ div.math span:last-child {
     display: inline-block;
     visibility: visible;
     margin-right: -1.05em;
+}
+
+/* Core instruction applied to text tokens */
+span.katex span.mord.text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 83%;
 }
