@@ -45,7 +45,7 @@ div.math span:last-child {
     position: absolute;
     right: 0;
     padding-left: 5px;
-    padding-bottom: 5px;
+    padding-bottom: 1.15rem;
     padding-right: 1px;
 }
 .eqno:before {
@@ -56,15 +56,13 @@ div.math span:last-child {
     content: "";
 }
 .eqno .headerlink {
-    display: none;
+    display: inline-block;
     visibility: hidden;
     font-size: 14px;
     padding-left: .3em;
 }
 .eqno:hover .headerlink {
-    display: inline-block;
     visibility: visible;
-    margin-right: -1.05em;
 }
 
 /* Core instruction applied to text tokens */

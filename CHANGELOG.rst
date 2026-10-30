@@ -18,6 +18,7 @@ Version 0.9.12.dev
   don't clash with the surrounding spacing.
 * Removed: 
 * Fixed: too long math did not receive a horizontal scrollbar.
+* Fixed: reserve space for equation header links and show them on hover without shifting the equation number.
 
 Version 0.9.11 (2025-06-27)
 ---------------------------
