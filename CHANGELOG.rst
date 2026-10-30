@@ -17,8 +17,7 @@ Version 0.9.12.dev
 * Changed: adjust ``.katex-display`` margins so equations in admonitions
   don't clash with the surrounding spacing.
 * Removed: 
-* Fixed:
-
+* Fixed: too long math did not receive a horizontal scrollbar.
 
 Version 0.9.11 (2025-06-27)
 ---------------------------

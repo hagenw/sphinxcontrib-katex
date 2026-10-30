@@ -73,3 +73,8 @@ span.katex span.mord.text {
     font-weight: 400;
     font-size: 83%;
 }
+
+/* make sure overflow works horizontally */
+div.math {
+    overflow-x: auto !important;
+}
