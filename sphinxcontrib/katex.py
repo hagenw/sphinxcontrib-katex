@@ -152,7 +152,7 @@ def html_visit_displaymath(self, node):
         self.body.append('</div>')
     else:
         self.body.append(self.builder.config.katex_display[0])
-        self.body.append(get_latex(node))
+        self.body.append(self.encode(get_latex(node)))
         self.body.append(self.builder.config.katex_display[1])
         self.body.append('</div>\n')
 
