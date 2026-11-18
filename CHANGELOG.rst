@@ -18,7 +18,10 @@ Version 0.9.12.dev
   don't clash with the surrounding spacing.
 * Removed: 
 * Fixed: too long math did not receive a horizontal scrollbar.
-* Fixed: reserve space for equation header links and show them on hover without shifting the equation number.
+* Fixed: reserve space for equation header links and show them on hover without
+  shifting the equation number.
+* Fixed: display math containing ``<``, ``>`` or ``&`` without surrounding spaces
+  was not rendered, because the LaTeX was not HTML-escaped.
 
 Version 0.9.11 (2025-06-27)
 ---------------------------
