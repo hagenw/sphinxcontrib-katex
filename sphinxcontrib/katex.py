@@ -118,7 +118,7 @@ def html_visit_math(self, node):
     self.body.append(self.starttag(node, 'span', '', CLASS='math'))
 
     if self.builder.config.katex_prerender:
-        options = get_katex_options_from_config(self.builder)
+        options = self.builder._katex_config_options
         options['displayMode'] = False
         self.body.append(render_latex(get_latex(node), options))
     else:
@@ -143,7 +143,7 @@ def html_visit_displaymath(self, node):
         self.body.append('</span>')
 
     if self.builder.config.katex_prerender:
-        options = get_katex_options_from_config(self.builder)
+        options = self.builder._katex_config_options
         options["displayMode"] = True
         self.body.append(render_latex(get_latex(node), options))
         self.body.append('</div>')
@@ -191,6 +191,7 @@ def builder_inited(app):
         add_js(filename_autorenderer)
     else:
         KaTeXServer.katex_path = app.config.katex_js_path
+        app.builder._katex_config_options = get_katex_options_from_config(app)
     # sphinxcontrib.katex custom CSS
     copy_file(app, filename_css)
     add_css(filename_css)
