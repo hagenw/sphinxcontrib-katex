@@ -617,6 +617,7 @@ def render_latex(latex, options=None):
     except socket.timeout:
         raise KaTeXError(TIMEOUT_EXPIRED_TEMPLATE.format(latex))
 
+
 def get_katex_options_from_config(app):
     """Parse katex_options from config and return as dict."""
     if not app.config.katex_options:
