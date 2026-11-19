@@ -16,7 +16,6 @@ Version 0.9.12.dev
   Options are parsed from a dict or a JSON5 string, which adds the ``json5`` dependency.
 * Changed: adjust ``.katex-display`` margins so equations in admonitions
   don't clash with the surrounding spacing.
-* Removed: 
 * Fixed: too long math did not receive a horizontal scrollbar.
 * Fixed: reserve space for equation header links and show them on hover without
   shifting the equation number.
