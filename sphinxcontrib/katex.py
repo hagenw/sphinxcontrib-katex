@@ -623,11 +623,11 @@ def get_katex_options_from_config(app):
         return app.config.katex_options.copy()
 
     # If it's a string, try to parse it as JSON/dict
-    options_str = app.config.katex_options.strip()
-    if options_str.startswith('{') and options_str.endswith('}'):
-        try:
-            new_dict = json5.parse(options_str)[0]
-            return new_dict
-        except Exception:
-            return {}
+    options_str = trim(app.config.katex_options)
+    if not (options_str.startswith('{') and options_str.endswith('}')):
+        options_str = '{' + options_str + '}'
+    try:
+        return json5.loads(options_str)
+    except ValueError:
+        return {}
     return {}
