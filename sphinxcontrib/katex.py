@@ -34,7 +34,7 @@ from sphinx.util.osutil import copyfile
 
 
 __version__ = '0.9.11'
-katex_version = '0.16.22'
+katex_version = '0.19.1'
 filename_css = 'katex-math.css'
 filename_autorenderer = 'katex_autorenderer.js'
 SRC_DIR = Path(__file__).parent

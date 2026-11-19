@@ -11,7 +11,7 @@ build:
     python: "3.12"
     nodejs: "20"
   commands:
-    - npm install --global "katex@0.16.22"
+    - npm install --global "katex@0.19.1"
     - pip install uv
     - uv run python -m sphinx docs $READTHEDOCS_OUTPUT/html -b html -W -D master_doc=index -D extensions=sphinxcontrib.katex -D katex_prerender=1
 
