@@ -28,12 +28,13 @@ from textwrap import dedent
 import time
 
 from docutils import nodes
+import json5
 from sphinx.errors import ExtensionError
 from sphinx.locale import _
 from sphinx.util.osutil import copyfile
 
 
-__version__ = '0.9.11'
+__version__ = '0.9.12.dev'
 katex_version = '0.19.1'
 filename_css = 'katex-math.css'
 filename_autorenderer = 'katex_autorenderer.js'
@@ -117,7 +118,9 @@ def html_visit_math(self, node):
     self.body.append(self.starttag(node, 'span', '', CLASS='math'))
 
     if self.builder.config.katex_prerender:
-        self.body.append(render_latex(get_latex(node)))
+        options = self.builder._katex_config_options
+        options['displayMode'] = False
+        self.body.append(render_latex(get_latex(node), options))
     else:
         self.body.append(
             self.builder.config.katex_inline[0]
@@ -140,15 +143,16 @@ def html_visit_displaymath(self, node):
         self.body.append('</span>')
 
     if self.builder.config.katex_prerender:
-        # NB: nowrap is always "on" when using prerendering
-        self.body.append(render_latex(get_latex(node), {"displayMode": True}))
+        options = self.builder._katex_config_options
+        options["displayMode"] = True
+        self.body.append(render_latex(get_latex(node), options))
         self.body.append('</div>')
     elif node['nowrap']:
         self.body.append(self.encode(get_latex(node)))
         self.body.append('</div>')
     else:
         self.body.append(self.builder.config.katex_display[0])
-        self.body.append(get_latex(node))
+        self.body.append(self.encode(get_latex(node)))
         self.body.append(self.builder.config.katex_display[1])
         self.body.append('</div>\n')
 
@@ -160,6 +164,7 @@ def builder_inited(app):
             app.config.katex_js_path
             and app.config.katex_css_path
             and app.config.katex_autorender_path
+            and app.config.katex_inherit_font_path
     ):
         raise ExtensionError('KaTeX paths not set')
     # Sphinx 1.8 renamed `add_stylesheet` to `add_css_file`
@@ -186,9 +191,17 @@ def builder_inited(app):
         add_js(filename_autorenderer)
     else:
         KaTeXServer.katex_path = app.config.katex_js_path
+        app.builder._katex_config_options = get_katex_options_from_config(app)
     # sphinxcontrib.katex custom CSS
-    copy_file(app, filename_css)
-    add_css(filename_css)
+    if not app.config.katex_custom_css:
+        copy_file(app, filename_css)
+        add_css(filename_css)
+    else:
+        add_css(app.config.katex_custom_css)
+    # KaTeX text inherit font from body
+    if app.config.katex_inherit_font:
+        add_js(app.config.katex_inherit_font_path)
+        copy_file(app, app.config.katex_inherit_font_path)
 
 
 def builder_finished(app, exception):
@@ -249,7 +262,11 @@ def katex_rendering_delimiters(app):
 
 def katex_rendering_options(app):
     """Strip katex_options from enclosing {} and append ,."""
-    options = trim(app.config.katex_options)
+    options = app.config.katex_options
+    # Serialize dict options to a JS object literal
+    if isinstance(options, dict):
+        options = json.dumps(options)
+    options = trim(options)
     # Remove surrounding {}
     if options.startswith('{') and options.endswith('}'):
         options = trim(options[1:-1])
@@ -294,10 +311,15 @@ def setup(app):
     )
     app.add_config_value('katex_js_path', 'katex.min.js', False)
     app.add_config_value('katex_autorender_path', 'auto-render.min.js', False)
+    app.add_config_value(
+        'katex_inherit_font_path', 'text-inherit-body-font.js', False
+    )
     app.add_config_value('katex_inline', [r'\(', r'\)'], 'html')
     app.add_config_value('katex_display', [r'\[', r'\]'], 'html')
-    app.add_config_value('katex_options', '', 'html')
+    app.add_config_value('katex_options', '', 'html', types=(str, dict))
     app.add_config_value('katex_prerender', False, 'html')
+    app.add_config_value('katex_inherit_font', False, 'html')
+    app.add_config_value('katex_custom_css', '', 'env')
     app.connect('builder-inited', builder_inited)
     app.connect('build-finished', builder_finished)
 
@@ -599,3 +621,23 @@ def render_latex(latex, options=None):
             raise KaTeXError("Unknown response from KaTeX renderer")
     except socket.timeout:
         raise KaTeXError(TIMEOUT_EXPIRED_TEMPLATE.format(latex))
+
+
+def get_katex_options_from_config(app):
+    """Parse katex_options from config and return as dict."""
+    if not app.config.katex_options:
+        return {}
+
+    # If it's already a dict, return it
+    if isinstance(app.config.katex_options, dict):
+        return app.config.katex_options.copy()
+
+    # If it's a string, try to parse it as JSON/dict
+    options_str = trim(app.config.katex_options)
+    if not (options_str.startswith('{') and options_str.endswith('}')):
+        options_str = '{' + options_str + '}'
+    try:
+        return json5.loads(options_str)
+    except ValueError:
+        return {}
+    return {}

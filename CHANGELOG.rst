@@ -6,6 +6,18 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog`_,
 and this project adheres to `Semantic Versioning`_.
 
+Version 0.9.12.dev
+---------------------------
+
+* Added: opt-in ``katex_inherit_font`` config (with ``katex_inherit_font_path``)
+  that injects a JS file so KaTeX text tokens use the page body font.
+  Text tokens also get normal style, weight and a reduced size in CSS.
+* Added: pass ``katex_options`` through to the prerenderer for inline and display math.
+  Options are parsed from a dict or a JSON5 string, which adds the ``json5`` dependency.
+* Added: opt-in ``katex_custom_css`` config that allows injection of users
+  custom CSS for KaTeX, instead of the default CSS provided by this extension.
+* Fixed: display math containing ``<``, ``>`` or ``&`` without surrounding spaces
+  was not rendered, because the LaTeX was not HTML-escaped.
 
 Version 0.9.11 (2025-06-27)
 ---------------------------

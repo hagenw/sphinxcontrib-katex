@@ -87,6 +87,7 @@ all configuration entries are listed and their default values are shown.
     katex_inline = [r'\(', r'\)']
     katex_display = [r'\[', r'\]']
     katex_prerender = False
+    katex_inherit_font = False
     katex_options = ''
 
 The specific delimiters written to HTML when math mode is encountered are
@@ -96,6 +97,9 @@ If ``katex_prerender`` is set to ``True`` the equations will be pre-rendered on
 the server and loading of the page in the browser will be faster.
 On your server you must have a ``katex`` executable installed and in your PATH
 as described in the Installation section.
+
+If ``katex_inherit_font`` is set to ``True``, text inside math inherits the font
+of the surrounding html body (similar to the option `mtextInheritFont` from MathJax).
 
 The string variable ``katex_options`` allows you to change all available
 official `KaTeX rendering options`_, e.g.
