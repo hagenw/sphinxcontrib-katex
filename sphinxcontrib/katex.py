@@ -312,7 +312,7 @@ def setup(app):
     )
     app.add_config_value('katex_inline', [r'\(', r'\)'], 'html')
     app.add_config_value('katex_display', [r'\[', r'\]'], 'html')
-    app.add_config_value('katex_options', '', 'html')
+    app.add_config_value('katex_options', '', 'html',types=(str, dict))
     app.add_config_value('katex_prerender', False, 'html')
     app.add_config_value('katex_inherit_font',False,'html')
     app.connect('builder-inited', builder_inited)
