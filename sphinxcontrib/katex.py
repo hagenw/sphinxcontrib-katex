@@ -258,7 +258,11 @@ def katex_rendering_delimiters(app):
 
 def katex_rendering_options(app):
     """Strip katex_options from enclosing {} and append ,."""
-    options = trim(app.config.katex_options)
+    options = app.config.katex_options
+    # Serialize dict options to a JS object literal
+    if isinstance(options, dict):
+        options = json.dumps(options)
+    options = trim(options)
     # Remove surrounding {}
     if options.startswith('{') and options.endswith('}'):
         options = trim(options[1:-1])
