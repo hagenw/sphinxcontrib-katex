@@ -118,8 +118,9 @@ def html_visit_math(self, node):
     self.body.append(self.starttag(node, 'span', '', CLASS='math'))
 
     if self.builder.config.katex_prerender:
-        config_options = get_katex_options_from_config(self.builder)
-        self.body.append(render_latex(get_latex(node), config_options))
+        options = get_katex_options_from_config(self.builder)
+        options['displayMode'] = False
+        self.body.append(render_latex(get_latex(node), options))
     else:
         self.body.append(
             self.builder.config.katex_inline[0]
@@ -142,9 +143,8 @@ def html_visit_displaymath(self, node):
         self.body.append('</span>')
 
     if self.builder.config.katex_prerender:
-        config_options = get_katex_options_from_config(self.builder)
-        options = {"displayMode": True}
-        options.update(config_options)  # config options take precedence
+        options = get_katex_options_from_config(self.builder)
+        options["displayMode"] = True
         self.body.append(render_latex(get_latex(node), options))
         self.body.append('</div>')
     elif node['nowrap']:
