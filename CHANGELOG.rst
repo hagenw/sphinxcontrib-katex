@@ -14,11 +14,8 @@ Version 0.9.12.dev
   Text tokens also get normal style, weight and a reduced size in CSS.
 * Added: pass ``katex_options`` through to the prerenderer for inline and display math.
   Options are parsed from a dict or a JSON5 string, which adds the ``json5`` dependency.
-* Changed: adjust ``.katex-display`` margins so equations in admonitions
-  don't clash with the surrounding spacing.
-* Fixed: too long math did not receive a horizontal scrollbar.
-* Fixed: reserve space for equation header links and show them on hover without
-  shifting the equation number.
+* Added: opt-in ``katex_custom_css`` config that allows injection of users
+  custom CSS for KaTeX, instead of the default CSS provided by this extension.
 * Fixed: display math containing ``<``, ``>`` or ``&`` without surrounding spaces
   was not rendered, because the LaTeX was not HTML-escaped.
 

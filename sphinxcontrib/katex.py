@@ -193,8 +193,11 @@ def builder_inited(app):
         KaTeXServer.katex_path = app.config.katex_js_path
         app.builder._katex_config_options = get_katex_options_from_config(app)
     # sphinxcontrib.katex custom CSS
-    copy_file(app, filename_css)
-    add_css(filename_css)
+    if not app.config.katex_custom_css:
+        copy_file(app, filename_css)
+        add_css(filename_css)
+    else:
+        add_css(app.config.katex_custom_css)
     # KaTeX text inherit font from body
     if app.config.katex_inherit_font:
         add_js(app.config.katex_inherit_font_path)
@@ -316,6 +319,7 @@ def setup(app):
     app.add_config_value('katex_options', '', 'html', types=(str, dict))
     app.add_config_value('katex_prerender', False, 'html')
     app.add_config_value('katex_inherit_font', False, 'html')
+    app.add_config_value('katex_custom_css', '', 'env')
     app.connect('builder-inited', builder_inited)
     app.connect('build-finished', builder_finished)
 
